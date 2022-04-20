@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">BA2_Info</string>
+    <string name="titre_de_l_application">Titre de l\'application</string>
+    <string name="rules">Règles</string>
+    <string name="commencer_partie">Commencer partie</string>
+    <string name="bienvenue_joueur_se">Bienvenue joueur.se !</string>
+    <string name="inventaire">Inventaire</string>
+</resources>

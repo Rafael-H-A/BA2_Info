@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/wallpaper_trendy2"
+    tools:context=".Rules">
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="274dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="100dp"
+        android:gravity="center"
+        android:text="Règles du jeu"
+        android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_goal"
+        android:layout_width="247dp"
+        android:layout_height="46dp"
+        android:layout_marginBottom="256dp"
+        android:backgroundTint="#ffeef1"
+        android:text="But du jeu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.42"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_tutorial"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="312dp"
+        android:backgroundTint="#ffeef1 "
+        android:text="Tutoriel"
+        app:layout_constraintBottom_toTopOf="@+id/button_goal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/button_vocabulary"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="312dp"
+        android:layout_marginEnd="36dp"
+        android:backgroundTint="#ffeef1 "
+        android:text="Vocabulaire"
+        app:layout_constraintBottom_toTopOf="@+id/button_goal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/imgTUTO"
+        android:layout_width="208dp"
+        android:layout_height="204dp"
+        android:layout_marginBottom="36dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/rules0tutoriel"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/imgGOAL"
+        android:layout_width="208dp"
+        android:layout_height="204dp"
+        android:layout_marginBottom="36dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/rules0goal"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/imgVOC"
+        android:layout_width="208dp"
+        android:layout_height="204dp"
+        android:layout_marginBottom="36dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/rules0voc"
+        tools:ignore="MissingConstraints" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

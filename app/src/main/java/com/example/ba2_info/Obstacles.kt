@@ -13,7 +13,9 @@ open class Obstacle (var obstacleDistance: Float, var obstacleDebut: Float, var 
     )
     val obstaclePaint = Paint()
     lateinit var context: Context
-
+    //Il faudrait changer le constructeur de la plateforme pr que ce soit plus logique pour nous
+    //Pcq pour l'instant les plateformes c'est des plateformes verticales et pas horizontales
+    //+vérifier que ça fonctionne bien par rapport aux cibles
     //Position de la plateforme
     //var x : Float = 0.0f
     //var y : Float = 0.0f

@@ -8,6 +8,7 @@ Marion aka big boss des applications
 Rafaël aka mister crêpes & toast
 ```
 ### Règles du jeu
+Le.a joueur.se doit combattre un ennemi puissant. Pour gagner en puissance, le.a joueur.se doit parcourir chacun des niveaux et y récolter un maximum d'accessoires, qu'iel pourra équiper au fur et à mesure de son avancement. Mais attention ! Iel devra sauter de plateforme en plateforme en évitant les pièges posés sur son chemin. Une fois la porte finale atteinte, le.a joueur.se devra affronter l'ennemi dans un combat final épique. 
 
 ### Où se trouve le dossier Android Studio ? 
 En haut à droite de ce doc, vous pouvez accéder aux différentes "branch" du projet. Le dossier avec le code se trouve dans la branch appelée master

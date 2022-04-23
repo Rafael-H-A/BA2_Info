@@ -28,3 +28,6 @@ https://devstory.net/11007/android
 
 --> Liste de plein de petits tutos expliqués en français avec des codes de démo
 
+https://youtube.com/playlist?list=PL_QPQmz5C6WUF-pOQDsbsKbaBZqXj4qSq
+
+--> Petites vidéos en java sur la création de jeux en 2D avec plein de "petits" objectifs, du style gérer les collisions, etc.

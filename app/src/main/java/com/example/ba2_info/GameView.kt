@@ -22,8 +22,8 @@ class GameView @JvmOverloads constructor (context: Context,
     private var screenHeight = 0f
     private var drawing = true
     // On initialise les variables qui vont correspondre à tous nos objets
-    var player = Personnage("Force Rouge le Chaperon Rouge", 100, 1)
-
+    var player = Personnage("Force Rouge le Chaperon Rouge", 1, 1)
+    var plateforme1 = Obstacle(0f,0f,0f,0f,0f,this)
 
     init {
         backgroundPaint.color = ContextCompat.getColor(context, R.color.SteelBlue)
@@ -63,7 +63,6 @@ class GameView @JvmOverloads constructor (context: Context,
 
         //On appelle toutes les fonctions qui permettent d'updater les éléments de la GameView sur celle-ci
         player.update(interval)
-
     }
 
 
@@ -75,9 +74,17 @@ class GameView @JvmOverloads constructor (context: Context,
 
         //On redéfinit les dimensions des éléments par rapport à la taille de l'écran
         player.x = w / 50f
-        player.y = h * 11 / 12f
         player.diametre = h / 24f
+        player.y = screenHeight - 100f - player.diametre
         player.setRect()
+
+        plateforme1.obstacleDistance = 0f
+        plateforme1.obstacleDebut = screenHeight - 100f
+        plateforme1.obstacleFin = screenHeight
+        plateforme1.width = screenWidth
+        plateforme1.initialObstacleVitesse= 0f
+        plateforme1.setRect()
+
     }
 
 
@@ -88,7 +95,7 @@ class GameView @JvmOverloads constructor (context: Context,
 
             //On fait apparaître tous les objets (personnages, plateformes, etc.)
             player.draw(canvas)
-
+            plateforme1.draw(canvas)
             holder.unlockCanvasAndPost(canvas)
         }
     }
@@ -98,16 +105,21 @@ class GameView @JvmOverloads constructor (context: Context,
         val action = e.action
         if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_MOVE) {
             //On définit ce qu'on veut faire lors d'une ACION_DOWN = quand on touche l'écran
-            if (e.rawX > screenWidth/2) {
+            if (e.rawX > screenWidth / 2) {
                 player.dx = 50f
-                player.move()}
-            else {
+                player.move()
+            } else {
                 player.dx = -50f
-                player.move()}
+                player.move()
+            }
         }
         return true
     }
 
+    fun jump() {
+        player.dy = -1/1000f
+        player.jump()
+    }
 
     //Fonctions qui permettent de gérer le multithreading
     override fun surfaceChanged(holder: SurfaceHolder, format: Int,

@@ -6,8 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 
-class Personnage (var name : String, power : Int, life : Int=1) {
-
+class Personnage (var name : String, var power : Int, var life : Int=1) {
     //Position du personnage
     var x : Float = 0.0f
     var y : Float = 0.0f
@@ -20,9 +19,13 @@ class Personnage (var name : String, power : Int, life : Int=1) {
     val personnage = r
     //Vitesse de déplacement
     var dx = 1f
-    var dy = 0f
+    var dy = 3f
     //Le joueur est-il sur l'écran ?
     var playeronscreen = true
+    //Le joueur est-il en train de sauter?
+    var isjumping = true
+    //Équipement sur le personnage
+    var equipment = mutableListOf<String>(" "," "," "," ")
 
 
     fun draw(canvas: Canvas?) {
@@ -51,11 +54,23 @@ class Personnage (var name : String, power : Int, life : Int=1) {
 
 
     fun move() {
-        r.offset(dx, dy)
+        r.offset(dx, 0f)
     }
 
 
     fun jump() {
+        val timeStep = System.currentTimeMillis()
+        while(System.currentTimeMillis() - timeStep < 8000/60) {
+            r.offset(0f,dy/2.986f)
+        }
+        val timeStep2 = System.currentTimeMillis()
+        while(System.currentTimeMillis() - timeStep2 < 4000/60) {
+            r.offset(0f,0f)
+        }
+        val timeStep3 = System.currentTimeMillis()
+        while(System.currentTimeMillis() - timeStep3 < 8000/60) {
+            r.offset(0f,-dy/3)
+        }
     }
 
 

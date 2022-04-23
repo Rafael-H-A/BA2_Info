@@ -24,7 +24,6 @@ class GameView @JvmOverloads constructor (context: Context,
     // On initialise les variables qui vont correspondre à tous nos objets
     var player = Personnage("Force Rouge le Chaperon Rouge", 1, 1)
     var plateforme1 = Obstacle(0f,0f,0f,0f,0f,this)
-    var accessoire1 = Accessoires("Coucoucestuntest",1,0)
 
     init {
         backgroundPaint.color = ContextCompat.getColor(context, R.color.SteelBlue)

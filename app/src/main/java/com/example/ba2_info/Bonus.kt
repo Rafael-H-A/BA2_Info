@@ -9,5 +9,4 @@ class Bonus(val bonus : Int =0) {
                 bonus == 4 -> { perso.power += 2}
             }
     }
-
 }

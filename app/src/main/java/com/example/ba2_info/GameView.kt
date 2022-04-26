@@ -2,6 +2,7 @@ package com.example.ba2_info
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.MotionEvent
@@ -18,12 +19,14 @@ class GameView @JvmOverloads constructor (context: Context,
     lateinit var canvas: Canvas
     private val backgroundPaint = Paint()
     lateinit var thread: Thread
-    private var screenWidth = 0f
-    private var screenHeight = 0f
     private var drawing = true
+    //On initialise la hauteur et la largeur de l'écran qu'on modifie dans onSizeChanged
+    var screenWidth = 0f
+    var screenHeight = 0f
     // On initialise les variables qui vont correspondre à tous nos objets
-    var player = Personnage("Force Rouge le Chaperon Rouge", 1, 1)
+    var player = Personnage(this,"Force Rouge le Chaperon Rouge", 1, 1)
     var plateforme1 = Obstacle(0f,0f,0f,0f,0f,this)
+    var porte = Porte()
 
     init {
         backgroundPaint.color = ContextCompat.getColor(context, R.color.SteelBlue)
@@ -44,25 +47,17 @@ class GameView @JvmOverloads constructor (context: Context,
 
 
     override fun run() {
-        var previousFrameTime = System.currentTimeMillis()
         while (drawing) {
-            val currentTime = System.currentTimeMillis()
-            val elapsedTimeMS = (currentTime-previousFrameTime).toDouble()
-
-            //A chaque itération, on dessine puis on update
             draw()
-            updatePositions(elapsedTimeMS)
-
-            previousFrameTime = currentTime
+            //updatePositions()
         }
     }
 
 
-    fun updatePositions(elapsedTimeMS: Double) {
-        val interval = elapsedTimeMS / 1000.0
+    fun updatePositions(gauche : Boolean) {
 
         //On appelle toutes les fonctions qui permettent d'updater les éléments de la GameView sur celle-ci
-        player.update(interval)
+        player.update(gauche)
     }
 
 
@@ -71,13 +66,6 @@ class GameView @JvmOverloads constructor (context: Context,
         screenWidth = w.toFloat()
         screenHeight = h.toFloat()
 
-
-        //On redéfinit les dimensions des éléments par rapport à la taille de l'écran
-        player.x = w / 50f
-        player.diametre = h / 24f
-        player.y = screenHeight - 100f - player.diametre
-        player.setRect()
-
         plateforme1.obstacleDistance = 0f
         plateforme1.obstacleDebut = screenHeight - 100f
         plateforme1.obstacleFin = screenHeight
@@ -85,8 +73,20 @@ class GameView @JvmOverloads constructor (context: Context,
         plateforme1.initialObstacleVitesse= 0f
         plateforme1.setRect()
 
-    }
+        //On redéfinit les dimensions des éléments par rapport à la taille de l'écran
+        player.paint.color = Color.MAGENTA
+        player.x = screenWidth / 20f
+        player.diametre = screenHeight / 24f
+        player.y = plateforme1.obstacleDebut - player.diametre
+        player.setRect()
 
+
+
+        porte.x = screenWidth - 60f
+        porte.y = screenHeight - porte.height - (screenHeight - plateforme1.obstacleDebut)
+        porte.setRect()
+
+    }
 
     fun draw() {
         if (holder.surface.isValid) {
@@ -96,28 +96,34 @@ class GameView @JvmOverloads constructor (context: Context,
             //On fait apparaître tous les objets (personnages, plateformes, etc.)
             player.draw(canvas)
             plateforme1.draw(canvas)
+            porte.draw(canvas)
             holder.unlockCanvasAndPost(canvas)
         }
     }
 
-
+/*
     override fun onTouchEvent(e: MotionEvent): Boolean {
         val action = e.action
-        if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_MOVE) {
+        var gauche : Boolean = true
+        if (action == MotionEvent.ACTION_DOWN) {
+
             //On définit ce qu'on veut faire lors d'une ACION_DOWN = quand on touche l'écran
             if (e.rawX > screenWidth / 2) {
-                player.dx = 50f
-                player.move()
+                player.x += player.dx
+                //player.r.offset(player.dx,0f)
+                gauche = false
             } else {
-                player.dx = -50f
-                player.move()
+                player.x -= player.dx
+                //player.r.offset(-player.dx,0f)
+                //gauche = true
             }
+            updatePositions(gauche)
         }
         return true
     }
+ */
 
     fun jump() {
-        player.dy = -1/1000f
         player.jump()
     }
 

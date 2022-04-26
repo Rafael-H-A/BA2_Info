@@ -46,16 +46,39 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
         r.set(x, y, x + diametre, y + diametre)
     }
 
-    fun update(gauche : Boolean) {
+
+    fun update(gauche: Boolean) {
+        var s = 1
+        if (gauche) {s = -1}
+
+        if (x < 0f + diametre + dx/6) {
+            playerinlimits = false
+            paint.color = Color.BLUE
+        }
+        else if (x > view.screenWidth - diametre - dx/6) {
+            playerinlimits = false
+            paint.color = Color.BLUE
+        }
+        else {playerinlimits = true
+            paint.color = Color.YELLOW
+        }
+
+        if (playeronscreen && playerinlimits) {
+            r.offset(s*dx, 0f)
+            x += s*dx                               //Meme en mettant un offset, pas oublier de changer la coordonnee
+        }
+        else {
+            r.offset(0f,0f)
+
+        }
+    }
+
+
+    fun update_(gauche : Boolean) {
         var s : Int = 1
         if (gauche) {s = -1}
 
-        if ((x < 0f + diametre + dx/6 && gauche) || (x > view.screenWidth - diametre - dx/6 && !gauche)) {
-            playerinlimits = false
-        }
-        else {
-            playerinlimits = true
-        }
+        playerinlimits = !((x < 0f + diametre + dx/6 && gauche) || (x > view.screenWidth - diametre - dx/6 && !gauche))
         if (playeronscreen && playerinlimits) {
             x = x + s * dx
             //y =  y + s * dy

@@ -80,19 +80,24 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
 
 
     fun jump() {
-        for (i in 0..25){
+        dy = 100f
+        Timer().schedule(500){
+        r.offset(0f,dy)}
+        r.offset(0f,-dy)
+
+        /*
+        for (i in 0..25) {
                 y = (y - hauteursaut * i / 50)
-            Timer().schedule(600) {
-                setRect()}
+            Timer().schedule(300) {setRect()}
         }
-        Timer().schedule(100) {
-            for (i in 0..25){
-                y = (y + hauteursaut * i / 50)
-                setRect()
+        Timer().schedule(300) {
+            for (i in 0..25) {
+                    y = (y + hauteursaut * i / 50)
+                    setRect()
             }
         }
+         */
     }
-
 
     fun getDown() {
     }

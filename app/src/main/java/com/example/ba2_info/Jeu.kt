@@ -11,10 +11,11 @@ class Jeu : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_jeu)
         gameView = findViewById(R.id.gameView)
-        Toast.makeText(applicationContext,"${gameView.player.name} est prêt pour la bataille !", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(applicationContext,"${gameView.player.name} est prêt pour la bataille !", Toast.LENGTH_SHORT).show()
         val jumpbtn = findViewById<Button>(R.id.jumpbutton)
         jumpbtn.setOnClickListener {gameView.jump()
-            Toast.makeText(applicationContext,"Vers l'infini et l'au-delàààààààà !", Toast.LENGTH_SHORT).show()}
+            //Toast.makeText(applicationContext,"Vers l'infini et l'au-delàààààààà !", Toast.LENGTH_SHORT).show()
+            }
         val gauchebtn = findViewById<Button>(R.id.button_gauche)
         gauchebtn.setOnClickListener {gameView.updatePositions(gauche = true)}
         val droitebtn = findViewById<Button>(R.id.button_droite)

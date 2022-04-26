@@ -5,10 +5,10 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
-import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import androidx.core.content.ContextCompat
+
 
 class GameView @JvmOverloads constructor (context: Context,
                                           attributes: AttributeSet? = null,
@@ -45,14 +45,12 @@ class GameView @JvmOverloads constructor (context: Context,
         thread.start()
     }
 
-
     override fun run() {
         while (drawing) {
             draw()
             //updatePositions()
         }
     }
-
 
     fun updatePositions(gauche : Boolean) {
 
@@ -79,8 +77,6 @@ class GameView @JvmOverloads constructor (context: Context,
         player.diametre = screenHeight / 24f
         player.y = plateforme1.obstacleDebut - player.diametre
         player.setRect()
-
-
 
         porte.x = screenWidth - 60f
         porte.y = screenHeight - porte.height - (screenHeight - plateforme1.obstacleDebut)

@@ -7,6 +7,7 @@ import android.widget.Toast
 
 class Jeu : AppCompatActivity() {
     lateinit var gameView: GameView
+    lateinit var porte : Porte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_jeu)

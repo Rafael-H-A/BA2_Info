@@ -19,15 +19,16 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
     var diametre = 50f
     val r = RectF(x, y, x + diametre, y + diametre)
     //Step de déplacement
-    var dx = 50f
+    var dx = 3f
     var dy = 3f
     //Le joueur est-il sur l'écran ?
     var playeronscreen = true
     var playerinlimits = true
+    var playerinobstacle = false
     //Le joueur est-il en train de sauter?
     var isjumping = true
     //Équipement sur le personnage
-    var equipment = mutableListOf<String>(" "," "," "," ")
+    var equipment = mutableListOf<String>(" "," "," "," ") //Changer en accessoires
     lateinit var obstacle: Obstacle
     var hauteursaut = 100f
 
@@ -47,7 +48,7 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
     }
 
 
-    fun update(gauche: Boolean) {
+    fun update(elapsedTimeMS : Double, gauche: Boolean) {
         var s = 1
         if (gauche) {s = -1}
 
@@ -63,14 +64,16 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
             paint.color = Color.YELLOW
         }
 
-        if (playeronscreen && playerinlimits) {
-            r.offset(s*dx, 0f)
-            x += s*dx                               //Meme en mettant un offset, pas oublier de changer la coordonnee
+        if (playeronscreen && playerinlimits && !playerinobstacle) {
+            val incr = s*(elapsedTimeMS * dx).toFloat()
+            x += incr
+            r.offset(incr,0f)
+            //Meme en mettant un offset, pas oublier de changer la coordonnee
         }
         else {
             r.offset(0f,0f)
-
         }
+        dx = 0f
     }
 
 
@@ -92,6 +95,42 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
         }
     }
 
+    fun blockPerso(obstacle: Obstacle) {
+        when {
+            /*
+            (perso.r.left + perso.diametre/2 < r.right && perso.r.bottom > r.top && perso.r.top < r.bottom) -> {
+                perso.playerinobstacle = true
+                perso.r.offset(perso.dx, 0f)
+            }
+             */
+
+            (r.right > obstacle.r.left && r.bottom > obstacle.r.top && r.top < obstacle.r.bottom) -> {
+                playerinobstacle = true
+                r.offset(-1*dx, 0f)
+            }
+
+            /*
+            (r.bottom < obstacle.r.top && r.left < obstacle.r.right && r.right > obstacle.r.left) -> {
+                playerinobstacle = true
+                r.offset(0f, -dy)
+            }
+
+             */
+
+            (r.top > obstacle.r.bottom
+                    && r.bottom < obstacle.r.top
+                    && r.left < obstacle.r.right
+                    && r.right > obstacle.r.left) -> {
+                playerinobstacle = true
+                r.offset(0f,dy)
+                playerinobstacle = false
+            }
+            else -> {
+                playerinobstacle = false
+            }
+        }
+    }
+
 
     fun action() {
     }
@@ -103,10 +142,31 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
 
 
     fun jump() {
-        dy = 100f
+        dy = 10f
+        if(!playerinobstacle) {
+
+            loop@ for (i in 1..10) {
+                if (!playerinobstacle) {
+                    r.offset(0f, -dy)
+                }
+                else {
+                    r.offset(0f,i*dy)
+                    break@loop
+                }
+            }
+
         Timer().schedule(500){
-        r.offset(0f,dy)}
-        r.offset(0f,-dy)
+            loop@for (i in 1..10) {
+                if (!playerinobstacle) {
+                    r.offset(0f, dy)
+                }
+                else {
+                    r.offset(0f,-i*dy)
+                    break@loop
+                }
+            }
+        }
+        }
 
         /*
         for (i in 0..25) {

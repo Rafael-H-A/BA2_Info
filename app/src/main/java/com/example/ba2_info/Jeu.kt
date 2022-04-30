@@ -18,9 +18,13 @@ class Jeu : AppCompatActivity() {
             //Toast.makeText(applicationContext,"Vers l'infini et l'au-delàààààààà !", Toast.LENGTH_SHORT).show()
             }
         val gauchebtn = findViewById<Button>(R.id.button_gauche)
-        gauchebtn.setOnClickListener {gameView.updatePositions(gauche = true)}
+        gauchebtn.setOnClickListener {
+            gameView.buttonpressed = true
+            gameView.gauche = true}
         val droitebtn = findViewById<Button>(R.id.button_droite)
-        droitebtn.setOnClickListener {gameView.updatePositions(gauche= false)}
+        droitebtn.setOnClickListener {
+            gameView.buttonpressed = true
+            gameView.gauche = false}
     }
 
 

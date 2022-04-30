@@ -25,13 +25,16 @@ class GameView @JvmOverloads constructor (context: Context,
     var screenHeight = 0f
     // On initialise les variables qui vont correspondre à tous nos objets
     var player = Personnage(this,"Force Rouge le Chaperon Rouge", 1, 1)
-    var plateforme1 = Obstacle(0f,0f,0f,0f,0f,this)
+    var plateforme1 = Obstacle(0f,0f,0f,0f,this)
+    var plateforme2 = Obstacle(0f,0f,0f,0f,this)
     var porte = Porte()
+
+    var buttonpressed = false
+    var gauche : Boolean = true
 
     init {
         backgroundPaint.color = ContextCompat.getColor(context, R.color.SteelBlue)
     }
-
 
     fun pause() {
         drawing = false
@@ -45,44 +48,28 @@ class GameView @JvmOverloads constructor (context: Context,
         thread.start()
     }
 
+
     override fun run() {
+        var previousFrameTime = System.currentTimeMillis()
         while (drawing) {
+            val currentTime = System.currentTimeMillis()
+            val elapsedTimeMS = (currentTime-previousFrameTime).toDouble()
+            if (buttonpressed) {
+            updatePositions(elapsedTimeMS, gauche)}
             draw()
-            //updatePositions()
+            previousFrameTime = currentTime
         }
     }
 
-    fun updatePositions(gauche : Boolean) {
 
+    fun updatePositions(elapsedTimeMS : Double, gauche : Boolean) {
+        val interval = elapsedTimeMS / 1000.0
         //On appelle toutes les fonctions qui permettent d'updater les éléments de la GameView sur celle-ci
-        player.update(gauche)
+        player.update(interval, gauche)
+        //plateforme2.blockPerso(player)
+        //player.blockPerso(plateforme2)
     }
 
-
-    override fun onSizeChanged(w:Int, h:Int, oldw:Int, oldh:Int) {
-        super.onSizeChanged(w, h, oldw, oldh)
-        screenWidth = w.toFloat()
-        screenHeight = h.toFloat()
-
-        plateforme1.obstacleDistance = 0f
-        plateforme1.obstacleDebut = screenHeight - 100f
-        plateforme1.obstacleFin = screenHeight
-        plateforme1.width = screenWidth
-        plateforme1.initialObstacleVitesse= 0f
-        plateforme1.setRect()
-
-        //On redéfinit les dimensions des éléments par rapport à la taille de l'écran
-        player.paint.color = Color.MAGENTA
-        player.x = screenWidth / 20f
-        player.diametre = screenHeight / 24f
-        player.y = plateforme1.obstacleDebut - player.diametre
-        player.setRect()
-
-        porte.x = screenWidth - 60f
-        porte.y = screenHeight - porte.height - (screenHeight - plateforme1.obstacleDebut)
-        porte.setRect()
-
-    }
 
     fun draw() {
         if (holder.surface.isValid) {
@@ -92,9 +79,43 @@ class GameView @JvmOverloads constructor (context: Context,
             //On fait apparaître tous les objets (personnages, plateformes, etc.)
             player.draw(canvas)
             plateforme1.draw(canvas)
+            plateforme2.draw(canvas)
             porte.draw(canvas)
             holder.unlockCanvasAndPost(canvas)
         }
+    }
+
+
+    override fun onSizeChanged(w:Int, h:Int, oldw:Int, oldh:Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        screenWidth = w.toFloat()
+        screenHeight = h.toFloat()
+
+        //On redéfinit les dimensions des éléments par rapport à la taille de l'écran
+        //Faire gaffe à définir TOUTES les carac géométriques des objets
+        plateforme1.obstacleBeginX = 0f
+        plateforme1.obstacleLength = screenWidth
+        plateforme1.obstacleHeigth = 150f
+        plateforme1.obstacleBeginY = screenHeight - plateforme1.obstacleHeigth
+        plateforme1.setRect()
+
+        player.paint.color = Color.MAGENTA
+        player.x = screenWidth / 20f
+        player.diametre = screenHeight / 24f
+        player.y = plateforme1.obstacleBeginY - player.diametre
+        player.setRect()
+
+
+        plateforme2.obstacleBeginX = screenWidth/2
+        plateforme2.obstacleLength = screenWidth/2 + 50f
+        plateforme2.obstacleBeginY = plateforme1.obstacleBeginY
+        plateforme2.obstacleHeigth = 200f
+        plateforme2.setRect()
+
+        porte.x = screenWidth - 60f
+        porte.y = screenHeight - porte.height - plateforme1.obstacleHeigth
+        porte.setRect()
+
     }
 
 /*

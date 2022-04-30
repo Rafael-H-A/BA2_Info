@@ -3,10 +3,10 @@ package com.example.ba2_info
 import android.content.Context
 import android.graphics.*
 
-open class Obstacle (var obstacleDistance: Float, var obstacleDebut: Float, var obstacleFin: Float, var initialObstacleVitesse: Float, var width: Float, var view: GameView, var plain : Boolean = true) {
+open class Obstacle (var obstacleBeginX: Float, var obstacleBeginY: Float, var obstacleLength: Float, var obstacleHeigth: Float, var view: GameView, var plain : Boolean = true) {
     val r = RectF(
-        obstacleDistance, obstacleDebut,
-        obstacleDistance + width, obstacleFin
+        obstacleBeginX,obstacleBeginY + obstacleHeigth ,
+        obstacleBeginX + obstacleLength, obstacleBeginY
     )
     val obstaclePaint = Paint()
     lateinit var context: Context
@@ -19,21 +19,40 @@ open class Obstacle (var obstacleDistance: Float, var obstacleDebut: Float, var 
 
     fun setRect() { //redimensionne l'animation
         r.set(
-            obstacleDistance, obstacleDebut,
-            obstacleDistance + width, obstacleFin
+            obstacleBeginX, obstacleBeginY,
+            obstacleBeginX + obstacleLength, obstacleBeginY + obstacleHeigth
         )
     }
 
     fun draw(canvas: Canvas) {
-        obstaclePaint.color = Color.GREEN
+        obstaclePaint.color = Color.parseColor("#8FBC8F")
         canvas.drawRect(r, obstaclePaint)
     }
 
+
     fun blockPerso(perso: Personnage) {
-        if (RectF.intersects(r, perso.r) && plain) {
-                perso.dy= 0f
+        when {
+                /*
+            (perso.r.left + perso.diametre/2 < r.right && perso.r.bottom > r.top && perso.r.top < r.bottom) -> {
+                perso.playerinobstacle = true
+                perso.r.offset(perso.dx, 0f)
             }
-            // autre cas ? else if () {}
+            (perso.r.right > r.left && perso.r.bottom > r.top && perso.r.top < r.bottom) -> {
+                perso.playerinobstacle = true
+                perso.r.offset(-1*perso.dx, 0f)
+            }
+            (perso.r.bottom < r.top && perso.r.left < r.right && perso.r.right > r.left) -> {
+                perso.playerinobstacle = true
+                perso.r.offset(0f, perso.dy)
+            }
+                 */
+            (perso.r.top > r.bottom && perso.r.left < r.right && perso.r.right > r.left) -> {
+                perso.playerinobstacle = true
+            }
+            else -> {
+                perso.playerinobstacle = false
+            }
+            }
         }
     }
 

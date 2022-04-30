@@ -4,43 +4,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/Theme.BA2_Info.NoActionBar.FullScreen"
     tools:context=".Jeu">
+
 
     <com.example.ba2_info.GameView
         android:id="@+id/gameView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/jumpbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="616dp"
-        android:layout_marginBottom="88dp"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
         android:text="Jump"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/button_droite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="156dp"
-        android:text=" Drwat"
-        app:layout_constraintBottom_toBottomOf="@+id/jumpbutton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/jumpbutton" />
+        app:layout_constraintTop_toTopOf="@+id/button_gauche"
+        />
 
     <Button
         android:id="@+id/button_gauche"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
         android:text="Gosh"
-        app:layout_constraintBaseline_toBaselineOf="@+id/button_droite"
-        app:layout_constraintEnd_toStartOf="@+id/button_droite" />
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <Button
+        android:id="@+id/button_droite"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:text="Drwat"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toEndOf="@+id/button_gauche"
+        app:layout_constraintTop_toTopOf="@+id/button_gauche"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

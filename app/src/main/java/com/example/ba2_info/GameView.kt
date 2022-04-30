@@ -24,9 +24,10 @@ class GameView @JvmOverloads constructor (context: Context,
     var screenWidth = 0f
     var screenHeight = 0f
     // On initialise les variables qui vont correspondre à tous nos objets
-    var player = Personnage(this,"Force Rouge le Chaperon Rouge", 1, 1)
+
     var plateforme1 = Obstacle(0f,0f,0f,0f,this)
     var plateforme2 = Obstacle(0f,0f,0f,0f,this)
+    var player = Personnage(this,"Force Rouge le Chaperon Rouge", 1, 1, plateforme1)
     var porte = Porte()
 
     var buttonpressed = false
@@ -50,22 +51,18 @@ class GameView @JvmOverloads constructor (context: Context,
 
 
     override fun run() {
-        var previousFrameTime = System.currentTimeMillis()
         while (drawing) {
-            val currentTime = System.currentTimeMillis()
-            val elapsedTimeMS = (currentTime-previousFrameTime).toDouble()
-            if (buttonpressed) {
-            updatePositions(elapsedTimeMS, gauche)}
+            updatePositions(gauche)
             draw()
-            previousFrameTime = currentTime
+            sleep()
         }
     }
 
 
-    fun updatePositions(elapsedTimeMS : Double, gauche : Boolean) {
-        val interval = elapsedTimeMS / 1000.0
+    fun updatePositions(gauche : Boolean) {
         //On appelle toutes les fonctions qui permettent d'updater les éléments de la GameView sur celle-ci
-        player.update(interval, gauche)
+        if (buttonpressed) {
+        player.update(gauche)}
         //plateforme2.blockPerso(player)
         //player.blockPerso(plateforme2)
     }
@@ -85,6 +82,10 @@ class GameView @JvmOverloads constructor (context: Context,
         }
     }
 
+
+    fun sleep() {
+        Thread.sleep((1000/60))
+    }
 
     override fun onSizeChanged(w:Int, h:Int, oldw:Int, oldh:Int) {
         super.onSizeChanged(w, h, oldw, oldh)

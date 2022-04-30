@@ -8,7 +8,7 @@ import java.util.logging.Handler
 import kotlin.concurrent.schedule
 import kotlin.math.*
 
-class Personnage (var view : GameView, var name : String, var power : Int, var life : Int=1) {
+class Personnage (var view : GameView, var name : String, var power : Int, var life : Int=1, val obstacle1: Obstacle) {
     //Position du personnage
     var x : Float = 0.0f
     var y : Float = 0.0f
@@ -19,8 +19,8 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
     var diametre = 50f
     val r = RectF(x, y, x + diametre, y + diametre)
     //Step de déplacement
-    var dx = 3f
-    var dy = 3f
+    var dx = 1f
+    var dy = 1f
     //Le joueur est-il sur l'écran ?
     var playeronscreen = true
     var playerinlimits = true
@@ -29,8 +29,7 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
     var isjumping = true
     //Équipement sur le personnage
     var equipment = mutableListOf<String>(" "," "," "," ") //Changer en accessoires
-    lateinit var obstacle: Obstacle
-    var hauteursaut = 100f
+    lateinit var obstacle : Obstacle
 
     init {
         paint.color = Color.BLACK
@@ -48,74 +47,66 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
     }
 
 
-    fun update(elapsedTimeMS : Double, gauche: Boolean) {
-        var s = 1
+    fun update(gauche: Boolean) {
+        val interval = 1000/60
+
+        var s= 1
         if (gauche) {s = -1}
 
-        if (x < 0f + diametre + dx/6) {
-            playerinlimits = false
-            paint.color = Color.BLUE
-        }
-        else if (x > view.screenWidth - diametre - dx/6) {
-            playerinlimits = false
-            paint.color = Color.BLUE
-        }
-        else {playerinlimits = true
-            paint.color = Color.YELLOW
-        }
+        //Vérification que le personnage ne dépasse pas les limites du niveau
+        if (x < 0f + diametre && gauche) {playerinlimits = false}
+        else if (x > view.screenWidth - diametre && !gauche) {playerinlimits = false}
+        else {playerinlimits = true}
+        //Vérification que le personnage n'entre pas dans un obstacle
+        blockPerso(obstacle1)
 
         if (playeronscreen && playerinlimits && !playerinobstacle) {
-            val incr = s*(elapsedTimeMS * dx).toFloat()
+            val incr = s*(interval * dx)
+            //Meme en mettant un offset, pas oublier de changer la coordonnee
             x += incr
             r.offset(incr,0f)
-            //Meme en mettant un offset, pas oublier de changer la coordonnee
         }
-        else {
-            r.offset(0f,0f)
-        }
-        dx = 0f
+        else {r.offset(0f,0f)}
     }
 
-
+/*
     fun update_(gauche : Boolean) {
         var s : Int = 1
         if (gauche) {s = -1}
 
         playerinlimits = !((x < 0f + diametre + dx/6 && gauche) || (x > view.screenWidth - diametre - dx/6 && !gauche))
         if (playeronscreen && playerinlimits) {
-            x = x + s * dx
+            x += s * dx
             //y =  y + s * dy
             paint.color = Color.BLUE
             setRect()
         }
         else {
             paint.color = Color.YELLOW
-            x = x - s * dx
+            x -= s * dx
             //y =  y - s * dy
         }
     }
+*/
 
-    fun blockPerso(obstacle: Obstacle) {
+/*
+    fun blockPerso_old(obstacle: Obstacle) {
         when {
-            /*
-            (perso.r.left + perso.diametre/2 < r.right && perso.r.bottom > r.top && perso.r.top < r.bottom) -> {
-                perso.playerinobstacle = true
-                perso.r.offset(perso.dx, 0f)
+            (r.left + diametre/2 < obstacle.r.right && r.bottom > obstacle.r.top && r.top < obstacle.r.bottom) -> {
+                playerinobstacle = true
+                r.offset(dx, 0f)
             }
-             */
 
             (r.right > obstacle.r.left && r.bottom > obstacle.r.top && r.top < obstacle.r.bottom) -> {
                 playerinobstacle = true
                 r.offset(-1*dx, 0f)
             }
 
-            /*
+
             (r.bottom < obstacle.r.top && r.left < obstacle.r.right && r.right > obstacle.r.left) -> {
                 playerinobstacle = true
-                r.offset(0f, -dy)
+                r.set(x,obstacle.r.top,x + diametre, obstacle.r.top + diametre)
             }
-
-             */
 
             (r.top > obstacle.r.bottom
                     && r.bottom < obstacle.r.top
@@ -130,7 +121,32 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
             }
         }
     }
+ */
 
+
+    fun blockPerso(obstacle: Obstacle) {
+        when {
+            //Le perso entre dans l'obstacle en voulant aller vers le bas
+            (r.bottom > obstacle.r.top) -> {
+                paint.color = Color.RED
+                r.set(x,obstacle.obstacleBeginY - diametre, x + diametre, obstacle.obstacleBeginY)}
+            //Le perso entre dans l'obstacle en voulant aller à gauche
+            (r.left + diametre/2 < obstacle.r.right) -> {
+
+            }
+            //Le perso entre dans l'obstacle en voulant aller vers le haut
+            (r.top < obstacle.r.bottom) -> {
+
+            }
+            //Le perso entre dans l'obstacle en voulant aller à droite
+            (r.right + diametre/2 > obstacle.r.left && r.bottom > obstacle.r.top && r.top < obstacle.r.bottom) -> {
+                paint.color = Color.YELLOW
+
+
+            }
+            else -> {}
+            }
+    }
 
     fun action() {
     }
@@ -142,6 +158,26 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
 
 
     fun jump() {
+        for (i in 1..75) {
+            val w = i/150f
+            dy = 10*(3*(w.toDouble().pow(2).toFloat()) - 3*w + 0.75f)
+            if (!playerinobstacle) {
+                r.offset(0f, -dy)
+            }
+            Thread.sleep(2)
+        }
+        for (i in 76..149) {
+            val w = i/150f
+            dy = 10*(3*(w.toDouble().pow(2).toFloat()) - 3*w + 0.75f)
+            if (!playerinobstacle) {
+                r.offset(0f, dy)
+            }
+            Thread.sleep(2)
+        }
+    }
+
+
+    fun jump_old() {
         dy = 10f
         if(!playerinobstacle) {
 

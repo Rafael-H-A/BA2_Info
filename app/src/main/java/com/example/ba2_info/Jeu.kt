@@ -1,13 +1,20 @@
 package com.example.ba2_info
 
-import androidx.appcompat.app.AppCompatActivity
+import android.R.attr.button
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.MotionEvent
 import android.widget.Button
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import java.util.*
+import kotlin.concurrent.schedule
+
 
 class Jeu : AppCompatActivity() {
     lateinit var gameView: GameView
     lateinit var porte : Porte
+    @SuppressLint("ClickableViewAccessibility")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_jeu)
@@ -17,16 +24,46 @@ class Jeu : AppCompatActivity() {
         jumpbtn.setOnClickListener {gameView.jump()
             //Toast.makeText(applicationContext,"Vers l'infini et l'au-delàààààààà !", Toast.LENGTH_SHORT).show()
             }
+
+        //On détecte qd on commence à appuyer pour désactiver le dx = 0, puis dès qu'on relève
+        // on remet à 0
+
         val gauchebtn = findViewById<Button>(R.id.button_gauche)
         gauchebtn.setOnClickListener {
+            gameView.gauche = true
             gameView.buttonpressed = true
-            gameView.gauche = true}
+            Timer().schedule(200){gameView.buttonpressed=false}
+        }
+        /*
+        gauchebtn.setOnTouchListener{ v, event ->
+            gameView.gauche = true
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                gameView.buttonpressed = true
+            } else if (event.action == MotionEvent.ACTION_UP) {
+                gameView.buttonpressed = false
+            }
+            true
+        }
+         */
         val droitebtn = findViewById<Button>(R.id.button_droite)
         droitebtn.setOnClickListener {
+            gameView.gauche = false
             gameView.buttonpressed = true
-            gameView.gauche = false}
-    }
+            Timer().schedule(200){gameView.buttonpressed=false}
+        }
 
+        /*
+        droitebtn.setOnTouchListener{ v, event ->
+            gameView.gauche = false
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                gameView.buttonpressed = true
+            } else if (event.action == MotionEvent.ACTION_UP) {
+                gameView.buttonpressed = false
+            }
+            true
+        }
+         */
+    }
 
     override fun onPause() {
         super.onPause()

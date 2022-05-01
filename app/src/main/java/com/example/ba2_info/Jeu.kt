@@ -29,30 +29,33 @@ class Jeu : AppCompatActivity() {
         // on remet à 0
 
         val gauchebtn = findViewById<Button>(R.id.button_gauche)
+        val droitebtn = findViewById<Button>(R.id.button_droite)
+
+
+        //Mode EMULATEUR
+        /*
         gauchebtn.setOnClickListener {
             gameView.gauche = true
             gameView.buttonpressed = true
             Timer().schedule(200){gameView.buttonpressed=false}
         }
-        /*
-        gauchebtn.setOnTouchListener{ v, event ->
-            gameView.gauche = true
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                gameView.buttonpressed = true
-            } else if (event.action == MotionEvent.ACTION_UP) {
-                gameView.buttonpressed = false
-            }
-            true
-        }
-         */
-        val droitebtn = findViewById<Button>(R.id.button_droite)
         droitebtn.setOnClickListener {
             gameView.gauche = false
             gameView.buttonpressed = true
             Timer().schedule(200){gameView.buttonpressed=false}
-        }
+        } */
 
-        /*
+
+        //Mode TELEPHONE
+        gauchebtn.setOnTouchListener{ v, event ->
+        gameView.gauche = true
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            gameView.buttonpressed = true
+        } else if (event.action == MotionEvent.ACTION_UP) {
+            gameView.buttonpressed = false
+        }
+        true
+        }
         droitebtn.setOnTouchListener{ v, event ->
             gameView.gauche = false
             if (event.action == MotionEvent.ACTION_DOWN) {
@@ -62,14 +65,12 @@ class Jeu : AppCompatActivity() {
             }
             true
         }
-         */
     }
 
     override fun onPause() {
         super.onPause()
         gameView.pause()
     }
-
 
     override fun onResume() {
         super.onResume()

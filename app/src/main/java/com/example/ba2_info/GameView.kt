@@ -27,8 +27,11 @@ class GameView @JvmOverloads constructor (context: Context,
 
     var plateforme1 = Obstacle(0f,0f,0f,0f,this)
     var plateforme2 = Obstacle(0f,0f,0f,0f,this)
-    var player = Personnage(this,"Force Rouge le Chaperon Rouge", 1, 1, plateforme1)
+    var player = Personnage(this,"Force Rouge le Chaperon Rouge", 1, 1, plateforme1, plateforme2)
     var porte = Porte()
+    var trap = Trap(-1, 0f, 0f, 0f, 0f, this)
+    var hole = Hole(0f, 0f, 0f, 0f, this)
+
 
     var buttonpressed = false
     var gauche : Boolean = true
@@ -78,13 +81,16 @@ class GameView @JvmOverloads constructor (context: Context,
             plateforme1.draw(canvas)
             plateforme2.draw(canvas)
             porte.draw(canvas)
+            hole.draw(canvas)
+            trap.draw(canvas)
+
             holder.unlockCanvasAndPost(canvas)
         }
     }
 
 
     fun sleep() {
-        Thread.sleep((1000/60))
+        Thread.sleep((1000/60).toLong())
     }
 
     override fun onSizeChanged(w:Int, h:Int, oldw:Int, oldh:Int) {
@@ -94,28 +100,42 @@ class GameView @JvmOverloads constructor (context: Context,
 
         //On redéfinit les dimensions des éléments par rapport à la taille de l'écran
         //Faire gaffe à définir TOUTES les carac géométriques des objets
+
+        //Caractéristiques du sol
         plateforme1.obstacleBeginX = 0f
         plateforme1.obstacleLength = screenWidth
         plateforme1.obstacleHeigth = 150f
         plateforme1.obstacleBeginY = screenHeight - plateforme1.obstacleHeigth
         plateforme1.setRect()
 
+        //Caractéristiques du joueur
         player.paint.color = Color.MAGENTA
         player.x = screenWidth / 20f
         player.diametre = screenHeight / 24f
         player.y = plateforme1.obstacleBeginY - player.diametre
         player.setRect()
 
-
-        plateforme2.obstacleBeginX = screenWidth/2
-        plateforme2.obstacleLength = screenWidth/2 + 50f
-        plateforme2.obstacleBeginY = plateforme1.obstacleBeginY
-        plateforme2.obstacleHeigth = 200f
-        plateforme2.setRect()
-
         porte.x = screenWidth - 60f
         porte.y = screenHeight - porte.height - plateforme1.obstacleHeigth
         porte.setRect()
+
+        plateforme2.obstacleBeginX = screenWidth/3
+        plateforme2.obstacleLength = screenWidth/3
+        plateforme2.obstacleBeginY = screenHeight*3/4
+        plateforme2.obstacleHeigth = 50f
+        plateforme2.setRect()
+
+        hole.obstacleBeginX = screenWidth/3 + screenWidth/3
+        hole.obstacleLength = screenWidth/8
+        hole.obstacleBeginY = screenHeight*3/4
+        hole.obstacleHeigth = 50f
+        hole.setRect()
+
+        trap.obstacleBeginX = screenWidth/3 - screenWidth/8
+        trap.obstacleLength = screenWidth/8
+        trap.obstacleBeginY = screenHeight*3/4
+        trap.obstacleHeigth = 50f
+        trap.setRect()
 
     }
 

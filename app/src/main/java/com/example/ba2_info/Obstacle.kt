@@ -25,7 +25,7 @@ open class Obstacle (var obstacleBeginX: Float, var obstacleBeginY: Float, var o
         )
     }
 
-    fun draw(canvas: Canvas) {
+    open fun draw(canvas: Canvas) {
         obstaclePaint.color = Color.parseColor("#8FBC8F")
         canvas.drawRect(r, obstaclePaint)
     }

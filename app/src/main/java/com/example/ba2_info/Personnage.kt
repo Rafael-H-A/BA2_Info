@@ -8,7 +8,7 @@ import java.util.logging.Handler
 import kotlin.concurrent.schedule
 import kotlin.math.*
 
-class Personnage (var view : GameView, var name : String, var power : Int, var life : Int=1, val obstacle1: Obstacle) {
+class Personnage (var view : GameView, var name : String, var power : Int, var life : Int=1, val obstacle1: Obstacle, val obstacle2 : Obstacle) {
     //Position du personnage
     var x : Float = 0.0f
     var y : Float = 0.0f
@@ -49,7 +49,6 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
 
     fun update(gauche: Boolean) {
         val interval = 1000/60
-
         var s= 1
         if (gauche) {s = -1}
 
@@ -57,8 +56,10 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
         if (x < 0f + diametre && gauche) {playerinlimits = false}
         else if (x > view.screenWidth - diametre && !gauche) {playerinlimits = false}
         else {playerinlimits = true}
+
         //Vérification que le personnage n'entre pas dans un obstacle
         blockPerso(obstacle1)
+        blockPerso(obstacle2)
 
         if (playeronscreen && playerinlimits && !playerinobstacle) {
             val incr = s*(interval * dx)
@@ -132,17 +133,17 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
                 r.set(x,obstacle.obstacleBeginY - diametre, x + diametre, obstacle.obstacleBeginY)}
             //Le perso entre dans l'obstacle en voulant aller à gauche
             (r.left + diametre/2 < obstacle.r.right) -> {
-
+                paint.color = Color.CYAN
+                r.set(obstacle.r.left, y, obstacle.r.left + diametre, y + diametre)
             }
             //Le perso entre dans l'obstacle en voulant aller vers le haut
             (r.top < obstacle.r.bottom) -> {
-
+                paint.color = Color.BLUE
             }
             //Le perso entre dans l'obstacle en voulant aller à droite
             (r.right + diametre/2 > obstacle.r.left && r.bottom > obstacle.r.top && r.top < obstacle.r.bottom) -> {
                 paint.color = Color.YELLOW
-
-
+                r.set(obstacle.r.left - diametre, y, obstacle.r.left, y + diametre)
             }
             else -> {}
             }

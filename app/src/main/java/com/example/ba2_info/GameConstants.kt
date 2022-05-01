@@ -2,7 +2,6 @@ package com.example.ba2_info
 
 object GameConstants {
         //Stock de tous les accessoires
-
         val accessoires1 = Accessoires("Pantalon de paysan", 1, 0)
         val accessoires2 = Accessoires("Chemise de paysan", 1, 1)
         val accessoires3 = Accessoires("Chapeau de paille", 1, 2)

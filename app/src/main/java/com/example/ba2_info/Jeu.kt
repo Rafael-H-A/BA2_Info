@@ -1,6 +1,5 @@
 package com.example.ba2_info
 
-import android.R.attr.button
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.MotionEvent
@@ -25,14 +24,13 @@ class Jeu : AppCompatActivity() {
             //Toast.makeText(applicationContext,"Vers l'infini et l'au-delàààààààà !", Toast.LENGTH_SHORT).show()
             }
 
-        //On détecte qd on commence à appuyer pour désactiver le dx = 0, puis dès qu'on relève
-        // on remet à 0
-
         val gauchebtn = findViewById<Button>(R.id.button_gauche)
         val droitebtn = findViewById<Button>(R.id.button_droite)
 
 
+
         //Mode EMULATEUR
+        //On force le joueur à avancer pendant un certain nombre de millisecondes
         /*
         gauchebtn.setOnClickListener {
             gameView.gauche = true
@@ -43,10 +41,12 @@ class Jeu : AppCompatActivity() {
             gameView.gauche = false
             gameView.buttonpressed = true
             Timer().schedule(200){gameView.buttonpressed=false}
-        } */
-
+        }
+         */
 
         //Mode TELEPHONE
+        //On détecte qd on commence à appuyer pour désactiver le dx = 0, puis dès qu'on relève
+        //on remet à 0
         gauchebtn.setOnTouchListener{ v, event ->
         gameView.gauche = true
         if (event.action == MotionEvent.ACTION_DOWN) {

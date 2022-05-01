@@ -29,41 +29,5 @@ open class Obstacle (var obstacleBeginX: Float, var obstacleBeginY: Float, var o
         obstaclePaint.color = Color.parseColor("#8FBC8F")
         canvas.drawRect(r, obstaclePaint)
     }
-
-
-    fun blockPerso() {
-        when {
-            /*
-            (perso.r.left + perso.diametre/2 < r.right && perso.r.bottom > r.top && perso.r.top < r.bottom) -> {
-                perso.playerinobstacle = true
-                perso.r.offset(perso.dx, 0f)
-            }
-
-            (perso.r.right > r.left && perso.r.bottom > r.top && perso.r.top < r.bottom) -> {
-                perso.playerinobstacle = true
-                perso.r.offset(-1 * perso.dx, 0f)
-            }
-             */
-
-            (perso.r.bottom < r.top && perso.r.left < r.right && perso.r.right > r.left) -> {
-                perso.playerinobstacle = true
-                perso.r.set(perso.x, r.top, perso.x + perso.diametre, r.top + perso.diametre)
-            }
-
-            /*
-            (perso.r.top > r.bottom
-                    && perso.r.bottom < r.top
-                    && perso.r.left < r.right
-                    && perso.r.right > r.left) -> {
-                perso.playerinobstacle = true
-                perso.r.offset(0f, perso.dy)
-                perso.playerinobstacle = false
-            }
-             */
-            else -> {
-                perso.playerinobstacle = false
-            }
-        }
-    }
 }
 

@@ -23,10 +23,8 @@ class Jeu : AppCompatActivity() {
         jumpbtn.setOnClickListener {gameView.jump()
             //Toast.makeText(applicationContext,"Vers l'infini et l'au-delàààààààà !", Toast.LENGTH_SHORT).show()
             }
-
         val gauchebtn = findViewById<Button>(R.id.button_gauche)
         val droitebtn = findViewById<Button>(R.id.button_droite)
-
 
 
         //Mode EMULATEUR
@@ -42,7 +40,7 @@ class Jeu : AppCompatActivity() {
             gameView.buttonpressed = true
             Timer().schedule(200){gameView.buttonpressed=false}
         }
-         */
+        */
 
         //Mode TELEPHONE
         //On détecte qd on commence à appuyer pour désactiver le dx = 0, puis dès qu'on relève

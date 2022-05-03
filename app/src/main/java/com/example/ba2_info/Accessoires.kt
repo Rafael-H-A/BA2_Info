@@ -4,13 +4,13 @@ class Accessoires(var name: String="NoName", var power: Int=0, val endroit: Int 
 
 
     fun dress(name: String, perso: Personnage){
-        perso.equipment[endroit] = name                        /* Doit changer la puissance du perso */
+        perso.equipment[endroit] =    GameConstants.accessoires1                     /* Doit changer la puissance du perso */ // Attention à changer
         perso.power += power                       /* On change dans le dico/ le mec la valeur */
 
 
     }/* Problème de type*/
     fun undress(name : String, perso : Personnage){
-        perso.equipment[endroit] = " "
+        perso.equipment[endroit] = GameConstants.accessoires1
         perso.power -= power
     }
 }

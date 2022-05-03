@@ -8,6 +8,16 @@ open class Obstacle (var obstacleBeginX: Float, var obstacleBeginY: Float, var o
         obstacleBeginX, obstacleBeginY + obstacleHeigth,
         obstacleBeginX + obstacleLength, obstacleBeginY
     )
+    //Lignes mises en rectangles pour détecter les intersections
+    val rleft = RectF(obstacleBeginX, obstacleBeginY + obstacleHeigth,
+        obstacleBeginX + 1f, obstacleBeginY)
+    val rright = RectF(obstacleBeginX + obstacleLength, obstacleBeginY + obstacleHeigth,
+        obstacleBeginX + obstacleLength + 1f, obstacleBeginY)
+    val rup = RectF(obstacleBeginX, obstacleBeginY + obstacleHeigth,
+        obstacleBeginX + obstacleLength, obstacleBeginY + obstacleHeigth + 1f)
+    val rdown = RectF(obstacleBeginX, obstacleBeginY,
+        obstacleBeginX + obstacleLength, obstacleBeginY + 1f)
+
     val obstaclePaint = Paint()
     lateinit var perso: Personnage
     lateinit var context: Context

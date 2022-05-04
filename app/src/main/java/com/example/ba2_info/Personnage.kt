@@ -4,198 +4,120 @@ import android.content.Context
 import android.graphics.*
 import kotlin.math.*
 
-class Personnage (var view : GameView,var name : String,var power : Int,var life : Int=1,var obstacles : List<Obstacle>) {
-    //Position du personnage
-    var x : Float = 0.0f
-    var y : Float = 0.0f
-    //Step de déplacement
-    var dx = 1f
-    var dy = 1f
-    //Infos graphiques du personnage et contexte
-    val paint = Paint()
+class Personnage (var view : GameView, var name : String, var power : Int, var life : Int=1,
+                  var obstacles : List<Obstacle>) {
+    var x : Float = 0f                                                                              //Position du personnage et step de déplacement
+    var y : Float = 0f
+    var dy = 0f
+    val paint = Paint()                                                                             //Infos graphiques du personnage et contexte
     lateinit var context : Context
-    //Représentation du personnage dans un carré r
-    var diametre = 50f
+    var diametre = 50f                                                                              //Représentation du personnage (A changer par après en Bitmap)
     val r = RectF(x, y, x + diametre, y + diametre)
-    //Le joueur est-il sur l'écran ?
-    var playerinlimits = true
-    //Le joueur entre-t-il en contact avec un obstacle ?
-    var playerinobstaclex = false
-    var playerinobstacley = false
-    //Quel.s mouvement.s le joueur est-il autorisé à faire ?
-    var playermoveLeft = true
-    var playermoveRight = true
-    var playermoveUp = true
-    var playermoveDown = true
-    //Équipement sur le personnage
-    var equipment = mutableListOf<Accessoires>() //Changer en accessoires
+    var playerinlimits = true                                                                       //Le joueur est-il sur l'écran ?
+    var playerMoveUp = true                                                                         //Mouvements possibles
+    var playerMoveDown = true
+    var playerMoveRight = true
+    var playerMoveLeft = true
+    var equipment = mutableListOf<Accessoires>()                                                    //Équipement sur le personnage
 
-
-    init {
+    init {                                                                                          /*QUE SE PASSE-T-IL LORS DE LA CREATION D'UN OBJET PERSONNAGE ?*/
         paint.color = Color.BLACK
     }
 
-    fun draw(canvas: Canvas?) {
-        //On dessine le joueur sur l'écran
+    fun draw(canvas: Canvas?) {                                                                     /*DESSIN DU PERSONNAGE SUR LE CANVAS DE LA GAMEVIEW*/
         canvas?.drawOval(r, paint)
     }
 
-
-    fun setRect() {
-        //Permet de modifier la taille du carré si la taille de l'écran change
+    fun setRect() {                                                                                 /*CREATION DU RECTANGLE CONTENANT LE PERSONNAGE LORS D'UN CHANGEMENT DE TAILLE D'ECRAN*/
         r.set(x, y, x + diametre, y + diametre)
     }
 
-
-    fun update(gauche: Boolean) {
-        val interval = (1000/60).toFloat()
-        var s = 1f
-        if (gauche) {s = -1f}
-
+    fun update(gauche: Boolean) {                                                                   /*GESTION DE TOUS LES MOUVEMENTS EN X*/
+        var dx = 8f
         //Vérification que le personnage ne dépasse pas les limites du niveau
-        playerinlimits = if (x < 0f + diametre && gauche) {false} else !(x > view.screenWidth - diametre && !gauche)
-
-        //Vérification que le personnage n'entre pas dans un obstacle
-        for (ob in obstacles) {blockPersoX(ob)
-        // Si le joueur est dans l'écran, dans les limites données et pas dans un obstacle, on bouge
-        if (playerinlimits && !playerinobstaclex) {  // Agit seulement sur le x
-            val incr = s*(interval * dx) /obstacles.size
-            //Meme en mettant un offset, pas oublier de changer la coordonnee
-            x += incr
-            r.offset(incr,0f)
-        }
-        else {r.offset(0f,0f)}
-    }}
-
-
-    fun blockPersoX(obstacle: Obstacle) {
-        if(obstacle.plain && RectF.intersects(obstacle.rleft, r)) {
-            paint.color = Color.GREEN
-            playerinobstaclex = true
-        }
-        else if(obstacle.plain && RectF.intersects(obstacle.rright, r)) {
-            paint.color = Color.RED
-            playerinobstaclex = true
-        }
-    }
-
-
-    fun blockPersoY(obstacle: Obstacle) {
-        if(obstacle.plain && RectF.intersects(obstacle.r,r) && (r.bottom <= obstacle.r.top  + 3f
-                    && r.bottom >= obstacle.r.top - 3f)) {
-            playerinobstacley = true
-            playermoveUp = true
-            playermoveDown = false
-            paint.color = Color.YELLOW
-
-        }
-        else if(obstacle.plain && RectF.intersects(obstacle.r,r) && (r.top >= obstacle.r.bottom -4f && r.top <= obstacle.r.bottom +4f)){
-            playerinobstacley = true
-            playermoveUp = false
-            playermoveDown = true
-            paint.color = Color.BLUE
-        }
-        else {
-            playerinobstacley = false
-            playermoveUp = true
-            playermoveDown = true
-            //paint.color = Color.DKGRAY
-        }
-    }
-
-
-    fun blockPerso(obstacle: Obstacle) {
-        if(obstacle.plain && RectF.intersects(obstacle.r, r)) {
-            playerinobstaclex = true
+        playerinlimits = if (x < 0 && gauche) {false}
+                         else !(x > view.screenWidth - diametre && !gauche)
+        //Vérification de la direction du mouvement (gauche ou droite)
+        var s = 0f
+        blockPersoX()
+        //Vérification des conditions de déplacement et déplacement
+        if(playerinlimits) {
             when {
-                //On est sous un obstacle
-                r.top >= obstacle.r.bottom - 3f
-                        && r.top <= obstacle.r.bottom + 3f
-                -> {paint.color = Color.YELLOW
-                    playermoveUp = false
-                    //playermoveRight = true
-                    playermoveDown = true
-                    //playermoveLeft = true
+                !playerMoveRight -> {
+                    s = if (gauche) {-1f} else {0f}
                 }
-                /*
-                //On est à gauche d'un obstacle
-                r.right >= obstacle.r.left - 6f
-                        && r.right <= obstacle.r.left + 6f
-                -> {paint.color = Color.BLUE
-                    playermoveUp = true
-                    playermoveRight = false
-                    playermoveDown = true
-                    playermoveLeft = true
-                } */
-                //On est sur un obstacle
-                r.bottom <= obstacle.r.top  + 3f
-                        && r.bottom >= obstacle.r.top - 3f
-                -> {paint.color = Color.RED
-                    playermoveUp = true
-                    //playermoveRight = true
-                    playermoveDown = false
-                    //playermoveLeft = true
+                !playerMoveLeft -> {
+                    s = if (gauche) {0f} else {1f}
                 }
-                /*
-                //On est à droite d'un obstacle
-                r.left <= obstacle.r.right + 6f
-                        && r.left >= obstacle.r.right - 6f
-                -> {paint.color = Color.GREEN
-                    playermoveUp = true
-                    playermoveRight = true
-                    playermoveDown = true
-                    playermoveLeft = false
-                }*/
+                else -> {
+                    s = if (gauche) {-1f} else {1f}
+                }
             }
+            println(s)
+            val incr = abs(dx)*s
+            dx = incr
+            x += incr
+            r.offset(dx,0f)}
         }
-        /*
-        else {
-            paint.color = Color.MAGENTA
-            playerinobstacle = false
-            playermoveUp = true
-            playermoveRight = true
-            playermoveDown = true
-            playermoveLeft = true
-            p=0
-        }*/
-    }
 
-    fun jump() {
+    fun jump() {                                                                                    /*GESTION DE TOUS LES MOUVEMENTS EN Y*/
         loop@for (i in 1..75) {
             val w = i/150f
-            dy = 10*(3*(w.toDouble().pow(2).toFloat()) - 3*w + 0.75f) / obstacles.size
-            for (ob in obstacles) {
-                blockPersoY(ob)
-                if (!(playerinobstacley) && playermoveUp) {
-                    r.offset(0f, -dy)
-                }
-                else {
-                    break@loop
-                }
-            }
-
+            dy = 10*(3*(w.toDouble().pow(2).toFloat()) - 3*w + 0.75f)
+            if (blockPersoY() && !playerMoveUp) {dy = 0f}
+            r.offset(0f, -dy)
             Thread.sleep(2)
         }
-        loop@for (i in 76..170) {
+        loop@for (i in 76..200) {
             val w = i / 150f
-            dy = 10 * (3 * (w.toDouble().pow(2).toFloat()) - 3 * w + 0.75f) / obstacles.size
-            for (ob in obstacles) {
-                blockPersoY(ob)
-                if (!playerinobstacley && playermoveDown) {
-                    r.offset(0f, dy)
-                }
-                else {
-                    break@loop
-                }
-            }
+            dy = 10 * (3 * (w.toDouble().pow(2).toFloat()) - 3 * w + 0.75f)
+            if (blockPersoY() && !playerMoveDown) {dy = 0f}
+            r.offset(0f, dy)
             Thread.sleep(2)
         }
-        playerinobstacley = false
     }
 
 
-    fun getDown() {
+    fun blockPersoX() : Boolean {                                                                   /*BLOQUE LES MOUVEMENTS EN X SI NECESSAIRE*/
+        var res = false
+        playerMoveRight = true
+        playerMoveLeft = true
+        for (ob in obstacles) {
+            if (ob.plain) {
+                if (r.intersects(ob.r.left, ob.r.top +3f, ob.r.left, ob.r.bottom-3f)
+                    && (r.top >= ob.r.top || r.bottom <= ob.r.bottom)) {
+                    paint.color = Color.GREEN
+                    res = true
+                    playerMoveRight = false
+                }
+                else if (r.intersects(ob.r.right, ob.r.top +3f, ob.r.right, ob.r.bottom -3f)) {
+                    paint.color = Color.RED
+                    res = true
+                    playerMoveLeft = false
+                }
+            }
+        }
+        return res
     }
 
-
+    fun blockPersoY() : Boolean {                                                                   /*BLOQUE LES MOUVEMENTS EN Y SI NECESSAIRE*/
+        var res = false
+        playerMoveUp = true
+        playerMoveDown = true
+        for (ob in obstacles) {
+            if (ob.plain) {
+                if (r.intersects(ob.r.left, ob.r.top, ob.r.right, ob.r.top)) {
+                    paint.color = Color.YELLOW
+                    res = true
+                    playerMoveDown = false
+                }
+                else if (r.intersects(ob.r.left, ob.r.bottom, ob.r.right, ob.r.bottom)) {
+                    paint.color = Color.BLUE
+                    res = true
+                    playerMoveUp = false
+                }
+            }
+        }
+        return res
+    }
 }

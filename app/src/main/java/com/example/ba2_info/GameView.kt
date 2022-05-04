@@ -111,8 +111,7 @@ class GameView @JvmOverloads constructor (context: Context,
         plateforme1.setRect()
 
         //Caractéristiques du joueur
-        player.paint.color = Color.MAGENTA
-        player.x = screenWidth *19/ 20f
+        player.x = screenWidth / 20f
         player.diametre = screenHeight / 24f
         player.y = plateforme1.obstacleBeginY - player.diametre
         player.setRect()

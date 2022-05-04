@@ -1,5 +1,8 @@
 package com.example.ba2_info
 
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.RectF
 import android.graphics.drawable.BitmapDrawable
 
 interface Pouf {
@@ -8,7 +11,5 @@ interface Pouf {
 
     }
 
-    fun disappear(){
-
-    }
+    fun disappear(rect: RectF, sprite: BitmapDrawable, canvas: Canvas, paint: Paint)
 }

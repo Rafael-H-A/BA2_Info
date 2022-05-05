@@ -4,7 +4,7 @@ Petit Github des familles pour qu'on stocke tous nos codes !
 ### Auteurs
 ```
 Aurélie aka fille du soleil 
-Marion aka big boss des applications
+Marion aka big boss des Bitmap
 Rafaël aka mister crêpes & toast
 ```
 ### Règles du jeu

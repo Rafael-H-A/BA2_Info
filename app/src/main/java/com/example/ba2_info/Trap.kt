@@ -10,10 +10,13 @@ import android.graphics.RectF
 // fait perdre une vie au joueur; si life = 0 : game over,
 // couleur rose
 
-class Trap(damage : Int, obstacleBeginX: Float, obstacleBeginY: Float, obstacleLength: Float,
-           obstacleHeigth: Float, view: GameView, plain: Boolean = true)
+class Trap(
+    private val damage : Int, obstacleBeginX: Float, obstacleBeginY: Float, obstacleLength: Float,
+    obstacleHeigth: Float, view: GameView, plain: Boolean = true)
     : Obstacle(obstacleBeginX, obstacleBeginY, obstacleLength, obstacleHeigth, view, plain)
 {
+    var lifehasbeenshorten = false
+
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
         obstaclePaint.color = Color.parseColor("#FF8CA7")
@@ -28,11 +31,13 @@ class Trap(damage : Int, obstacleBeginX: Float, obstacleBeginY: Float, obstacleL
     }*/
 
     fun shortenLife(perso: Personnage) { // à mettre avec la fonction intersection !
-        if (RectF.intersects(this.r, perso.r)) {
-            perso.life -= 1
+        if (r.intersect(perso.r)) {
+            perso.life -= damage
             if (perso.life == 0) {
+                perso.paint.color = Color.RED
+                println(perso.life)
                 //game over
-            }
+                }
         }
     }
 }

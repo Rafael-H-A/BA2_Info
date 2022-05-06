@@ -32,37 +32,10 @@ class GameView @JvmOverloads constructor (context: Context,
     var trap = Trap(-1, 0f, 0f, 0f, 0f, this)
     var hole = Hole(0f, 0f, 0f, 0f, this)
 
-    val accessoireA = Accessoires("rien dans les guiboles", 0, 2, this, 0f, 0f, 0f, 0f)
-    val accessoireB = Accessoires("tout nu et tout bronzé", 0, 1, this, 0f, 0f, 0f, 0f)
-    val accessoireC = Accessoires("rien dans le crâne", 0, 0, this,0f, 0f, 0f, 0f)
-    val accessoireD = Accessoires("Yannick Noah", 0, 3, this,0f, 0f, 0f, 0f)
-
-    val accessoire1 = Accessoires("Pantalon de paysan", 1, 2, this, 0f, 0f, 0f, 0f)
-    val accessoire2 = Accessoires("Chemise de paysan", 1, 1, this, 0f, 0f, 0f, 0f)
-    //val accessoire3 = Accessoires("Chapeau de paille", 1, 0, RectF(1f,2f,3f,4f), this)
-    //val accessoire4 = Accessoires("Chaussures trouées", 1, 3, RectF(1f,2f,3f,4f), this)
-
-    val accessoire5 = Accessoires("Pantalon renforcé ", 2, 2, this, 0f, 0f, 0f, 0f)
-    //val accessoire6 = Accessoires("Cotte de maille ", 2, 1, RectF(1f,2f,3f,4f), this)
-    //val accessoire7 = Accessoires("Casque de vélo", 2, 0, RectF(1f,2f,3f,4f), this)
-    //val accessoire8 = Accessoires("Nouvelles sandales", 2, 3, RectF(1f,2f,3f,4f), this)
-
-    //val accessoire9 = Accessoires("Grèves en acier",3,2, RectF(1f,2f,3f,4f), this)
-    //val accessoire10 = Accessoires("Plastron en acier",3,1, RectF(1f,2f,3f,4f), this)
-    //val accessoire11 = Accessoires("Heaume de chevalier",3,0, RectF(1f,2f,3f,4f), this)
-    //val accessoire12 = Accessoires("Solerets renforcés",3,3, RectF(1f,2f,3f,4f), this)
-    var listeaccess = listOf<Accessoires>(accessoireA, accessoireB, accessoireC, accessoireD,
-        accessoire1, accessoire2, accessoire5)
-    //accessoire2, accessoire3,
-    //    accessoire4, accessoire5, accessoire6,
-    //    accessoire7, accessoire8, accessoire9,
-    //    accessoire10, accessoire11, accessoire12)
-
     // Création de la liste des obstacles (obstacles, traps & holes)
     var obstacles = listOf<Obstacle>(plateforme1, plateforme2, trap, hole)
     var porte = Porte()
-    var player = Personnage(this,"Force Rouge le Chaperon Rouge", 0, 1, obstacles, listeaccess, porte)
-
+    var player = Personnage(this,"Force Rouge le Chaperon Rouge", 0, 1, obstacles, GameConstants.listeaccess, porte)
 
     var buttonpressed = false
     var gauche : Boolean = true
@@ -93,11 +66,11 @@ class GameView @JvmOverloads constructor (context: Context,
         }
     }
 
-    fun fall() {
+    private fun fall() {
         player.fall()
     }
 
-    fun updatePositions(gauche : Boolean) {
+    private fun updatePositions(gauche : Boolean) {
         //On appelle toutes les fonctions qui permettent d'updater les éléments de la GameView sur celle-ci
         if (buttonpressed) {
         player.update(gauche)
@@ -105,7 +78,7 @@ class GameView @JvmOverloads constructor (context: Context,
     }
 
 
-    fun draw() {
+    private fun draw() {
         if (holder.surface.isValid) {
             canvas = holder.lockCanvas()
             canvas.drawRect(0f, 0f, canvas.width.toFloat(), canvas.height.toFloat(), backgroundPaint)
@@ -116,7 +89,7 @@ class GameView @JvmOverloads constructor (context: Context,
             porte.draw(canvas)
             hole.draw(canvas)
             trap.draw(canvas)
-            accessoire1.draw(canvas)
+            GameConstants.accessoire1.draw(canvas)
             player.draw(canvas)
 
             holder.unlockCanvasAndPost(canvas)
@@ -124,7 +97,7 @@ class GameView @JvmOverloads constructor (context: Context,
     }
 
 
-    fun sleep() {
+    private fun sleep() {
         Thread.sleep((1000/60).toLong())
     }
 
@@ -171,11 +144,11 @@ class GameView @JvmOverloads constructor (context: Context,
         trap.obstacleHeigth = 30f
         trap.setRect()
 
-        accessoire1.xpos = screenWidth /2
-        accessoire1.ypos = plateforme2.r.top -4f
-        accessoire1.length = 50f
-        accessoire1.width = -50f
-        accessoire1.setRect()
+        GameConstants.accessoire1.xpos = screenWidth /2
+        GameConstants.accessoire1.ypos = plateforme2.r.top -4f
+        GameConstants.accessoire1.length = 50f
+        GameConstants.accessoire1.width = -50f
+        GameConstants.accessoire1.setRect()
     }
 
     fun jump() {

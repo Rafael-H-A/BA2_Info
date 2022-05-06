@@ -18,8 +18,9 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
     var playerMoveDown = true
     var playerMoveRight = true
     var playerMoveLeft = true
-    var equipment = mutableListOf<Accessoires>(view.accessoireC,
-        view.accessoireB,view.accessoireA,view.accessoireD)                                                    //Équipement sur le personnage
+    var equipment = mutableListOf<Accessoires>(GameConstants.accessoireC,
+        GameConstants.accessoireB,GameConstants.accessoireA,GameConstants.accessoireD)              //Équipement sur le personnage
+    val epsilon = 3f
 
     init {                                                                                          /*QUE SE PASSE-T-IL LORS DE LA CREATION D'UN OBJET PERSONNAGE ?*/
         paint.color = Color.BLACK
@@ -71,27 +72,29 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
         }
     }
 
-    fun blockPersoX() : Boolean {                                                                   /*BLOQUE LES MOUVEMENTS EN X SI NECESSAIRE*/
+    private fun blockPersoX() : Boolean {                                                                   /*BLOQUE LES MOUVEMENTS EN X SI NECESSAIRE*/
         var res = false
         playerMoveRight = true
         playerMoveLeft = true
         for (ob in obstacles) {
             if (ob.plain) {
-                if (r.intersects(ob.r.left, ob.r.top +3f, ob.r.left, ob.r.bottom-3f)     //Si jms on a plusieurs plateformes collées
+                if (r.intersects(ob.r.left, ob.r.top +epsilon, ob.r.left, ob.r.bottom-epsilon)     //Si jms on a plusieurs plateformes collées
                     && (r.top >= ob.r.top || r.bottom <= ob.r.bottom)) {                            //On veut pas que ça bloque le personnage
                     res = true
                     playerMoveRight = false
+                    if (ob is Trap) {ob.shortenLife(this)}
                 }
-                else if (r.intersects(ob.r.right, ob.r.top +3f, ob.r.right, ob.r.bottom -3f)) {
+                else if (r.intersects(ob.r.right, ob.r.top +epsilon, ob.r.right, ob.r.bottom -epsilon)) {
                     res = true
                     playerMoveLeft = false
+                    if (ob is Trap) {ob.shortenLife(this)}
                 }
             }
         }
         return res
     }
 
-    fun blockPersoY() : Boolean {                                                                   /*BLOQUE LES MOUVEMENTS EN Y SI NECESSAIRE*/
+    private fun blockPersoY() : Boolean {                                                                   /*BLOQUE LES MOUVEMENTS EN Y SI NECESSAIRE*/
         var res = false
         playerMoveUp = true
         playerMoveDown = true
@@ -110,26 +113,24 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
         return res
     }
 
-    fun updateaccessoires () {
+    private fun updateaccessoires () {
         for (i in 1 until (accessoires.size)) { // la len de la liste d'objets pour parourir toute la liste
             //println(" Condition " + RectF.intersects(r, accessoires[i].rectobjet))
             //println("ATTENTION " + (r.left - accessoires[i].rectobjet.right))
-            println("ATTENTION 222 " + equipment[2].name)
-            println(power)
+            //println("ATTENTION 222 " + equipment[2].name)
+            //println(power)
             if (abs(r.centerX() - accessoires[i].rectobjet.centerX()) < (diametre/2 + accessoires[i].length/2)) {     // prendre le rectangle de chaque objet, a mettre dans le constructeur ?
                 paint.color = Color.YELLOW
-                println("Les accessoires en ours : " + equipment[2].name)
-                println(power)
+                //println("Les accessoires en ours : " + equipment[2].name)
+                //println(power)
                 accessoires[i].undress(this)
                 accessoires[i].disappear(accessoires[i].rectobjet, view.canvas)            // utiliser l'interface Pouf
                 accessoires[i].dress(this)
             }
-            else{  paint.color = Color.MAGENTA
-            }
         }
     }
 
-    fun updateporte() {
+    private fun updateporte() {
         if (abs(r.centerX() - porte.r.centerX()) < (diametre/2 + porte.length/2)) {
             paint.color = Color.LTGRAY
         }

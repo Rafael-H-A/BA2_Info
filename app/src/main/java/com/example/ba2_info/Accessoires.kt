@@ -4,7 +4,7 @@ import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import java.lang.NullPointerException
 
-class Accessoires(var name: String="NoName", var power: Int, val endroit: Int = 0, val view : GameView,
+class Accessoires(var name: String="NoName", var power: Int, val endroit: Int = 0,
                     var xpos : Float, var ypos : Float, var length : Float, var width : Float) : Pouf {
 
     var couleuraccess : Paint = Paint()
@@ -13,7 +13,7 @@ class Accessoires(var name: String="NoName", var power: Int, val endroit: Int = 
 
 
     //var rectobjet : RectF = RectF(xpos,ypos,xpos + length, ypos + width)
-    var objetactuel : Accessoires = view.accessoire1  // A changer attention
+    var objetactuel : Accessoires = GameConstants.accessoire1 // A changer attention
 
 
     fun draw(canvas: Canvas?) {
@@ -28,16 +28,13 @@ class Accessoires(var name: String="NoName", var power: Int, val endroit: Int = 
     }
 
     fun dress(perso: Personnage){
-        couleuraccess.color = Color.YELLOW
-        perso.equipment[endroit] = view.listeaccess[view.listeaccess.indexOf(this)]                   /* Doit changer la puissance du perso */
+        perso.equipment[endroit] = this                   /* Doit changer la puissance du perso */
         perso.power += power                       /* On change dans le dico/ le mec la valeur */
-
 
     }/* Problème de type*/
     fun undress(perso : Personnage){
-        couleuraccess.color = Color.DKGRAY
-        perso.equipment[0] = view.listeaccess[0]
-        perso.power -= power
+        objetactuel = perso.equipment[endroit]
+        perso.power -= objetactuel.power
     }
 
     override fun disappear(rect: RectF, canvas: Canvas) {

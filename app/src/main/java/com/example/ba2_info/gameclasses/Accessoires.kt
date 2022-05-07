@@ -1,11 +1,12 @@
-package com.example.ba2_info
+package com.example.ba2_info.gameclasses
 
 import android.graphics.*
-import android.graphics.drawable.BitmapDrawable
-import java.lang.NullPointerException
+import com.example.ba2_info.gameutilities.GameConstants
+import com.example.ba2_info.gameutilities.Pouf
 
 class Accessoires(var name: String="NoName", var power: Int, val endroit: Int = 0,
-                    var xpos : Float, var ypos : Float, var length : Float, var width : Float) : Pouf {
+                    var xpos : Float, var ypos : Float, var length : Float, var width : Float) :
+    Pouf {
 
     var couleuraccess : Paint = Paint()
     var rectobjet: RectF = RectF(xpos, ypos,xpos + length,ypos + width)

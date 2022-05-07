@@ -1,4 +1,4 @@
-package com.example.ba2_info
+package com.example.ba2_info.activities
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -6,6 +6,8 @@ import android.view.MotionEvent
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.ba2_info.GameView
+import com.example.ba2_info.R
 
 
 class Jeu : AppCompatActivity() {
@@ -25,8 +27,8 @@ class Jeu : AppCompatActivity() {
         val gauchebtn = findViewById<Button>(R.id.button_gauche)
         val droitebtn = findViewById<Button>(R.id.button_droite)
 
-        lifeCountTextView = findViewById(R.id.lifeCountTextView)
-        lifeCountTextView.text = "Nombre de vies : " + gameView.player.life.toString()
+        //lifeCountTextView = findViewById(R.id.lifeCountTextView)
+        //lifeCountTextView.text = "Nombre de vies : " + gameView.player.life.toString()
         //lifeCountTextView.invalidate()
 
 

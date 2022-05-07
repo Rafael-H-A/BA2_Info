@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/Theme.BA2_Info.NoActionBar.FullScreen"
-    tools:context=".Jeu">
+    tools:context=".activities.Jeu">
 
 
     <com.example.ba2_info.GameView
@@ -45,29 +44,6 @@
         app:layout_constraintStart_toEndOf="@+id/button_gauche"
         app:layout_constraintTop_toTopOf="@+id/button_gauche" />
 
-
-    <TextView
-        android:id="@+id/lifeCountTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="8dp"
-        android:foregroundGravity="left"
-        android:text="Vies"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/lifeCountTextView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:foregroundGravity="left"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="8dp"
-        android:text="Power"
-        app:layout_constraintEnd_toStartOf="@+id/lifeCountTextView"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/lifeCountTextView3"

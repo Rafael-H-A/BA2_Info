@@ -1,9 +1,10 @@
-package com.example.ba2_info
+package com.example.ba2_info.activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.example.ba2_info.R
 
 class MenuPrincipal : AppCompatActivity() {                 /* Mettre toutes les activités */
 
@@ -25,10 +26,10 @@ class MenuPrincipal : AppCompatActivity() {                 /* Mettre toutes les
         startActivity(switch_activity_intent)}
 
     fun open_inventory() {
-        val switch_activity_intent= Intent(this,Inventory::class.java)
+        val switch_activity_intent= Intent(this, Inventory::class.java)
         startActivity(switch_activity_intent)}
     fun open_rules() {
-        val switch_activity_intent= Intent(this,Rules::class.java)
+        val switch_activity_intent= Intent(this, Rules::class.java)
         startActivity(switch_activity_intent)}
 
 }

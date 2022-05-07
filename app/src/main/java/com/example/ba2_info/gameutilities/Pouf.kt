@@ -1,4 +1,4 @@
-package com.example.ba2_info
+package com.example.ba2_info.gameutilities
 
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable

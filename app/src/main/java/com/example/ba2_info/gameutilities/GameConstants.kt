@@ -1,4 +1,10 @@
-package com.example.ba2_info
+package com.example.ba2_info.gameutilities
+
+import com.example.ba2_info.gameclasses.Accessoires
+import com.example.ba2_info.gameclasses.Porte
+import com.example.ba2_info.gameclasses.platforms.Hole
+import com.example.ba2_info.gameclasses.platforms.Obstacle
+import com.example.ba2_info.gameclasses.platforms.Trap
 
 object GameConstants {
         //Stock de tous les accessoires
@@ -23,10 +29,10 @@ object GameConstants {
         val accessoire12 = Accessoires("Solerets renforcés",     3, 3, 0f, 0f, 0f, 0f)
 
         var listeaccess = listOf(
-                accessoireA,accessoireB,accessoireC,accessoireD,
-                accessoire1,accessoire2,accessoire3,accessoire4,
-                accessoire5,accessoire6,accessoire7,accessoire8,
-                accessoire9,accessoire10,accessoire11,accessoire12
+                accessoireA, accessoireB, accessoireC, accessoireD,
+                accessoire1, accessoire2, accessoire3, accessoire4,
+                accessoire5, accessoire6, accessoire7, accessoire8,
+                accessoire9, accessoire10, accessoire11, accessoire12
         )
 
         var sol =               Obstacle(0f,0f,0f,0f)
@@ -36,14 +42,20 @@ object GameConstants {
         var plateforme4 =       Obstacle(0f,0f,0f,0f)
 
         var trap1 =             Trap(1,0f, 0f, 0f, 0f)
-        var trapVerti =         Trap(2,0f, 0f, 0f, 0f)
+        var trapVerti =         Trap(1,0f, 0f, 0f, 0f)
         var trap2 =             Trap(1,0f, 0f, 0f, 0f)
         var trap3 =             Trap(1,0f, 0f, 0f, 0f)
         var hole =              Hole(0f, 0f, 0f, 0f)
 
-        var obstacles = listOf(sol, plateforme2, plateforme3, plateformeDebut, plateforme4, trap1,
-                               trapVerti, trap2, trap3, hole)
-
+        var obstacles = listOf(
+                sol, plateforme2, plateforme3, plateformeDebut, plateforme4, trap1,
+                               trapVerti, trap2, trap3, hole
+        )
         var porte = Porte()
 
+        var levelSetup = listOf(
+                accessoire1, accessoire2, sol, plateforme2, plateforme3,
+                                plateformeDebut, plateforme4, trap1, trapVerti, trap2,
+                                trap3, hole
+        )
 }

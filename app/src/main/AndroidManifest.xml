@@ -10,25 +10,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BA2_Info.NoActionBar" >
         <activity
-            android:name=".Victory"
+            android:name=".activities.Victory"
             android:exported="false" />
         <activity
-            android:name=".Rules"
+            android:name=".activities.Rules"
             android:exported="false"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.BA2_Info.NoActionBar" />
         <activity
-            android:name=".Inventory"
+            android:name=".activities.Inventory"
             android:exported="false"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.BA2_Info.NoActionBar" />
         <activity
-            android:name=".Jeu"
+            android:name=".activities.Jeu"
             android:exported="false"
-            android:screenOrientation="sensorLandscape"
-            android:theme="@style/Theme.BA2_Info.NoActionBar.FullScreen" />
+            android:theme="@style/Theme.BA2_Info.NoActionBar.FullScreen"
+            android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".MenuPrincipal"
+            android:name=".activities.MenuPrincipal"
             android:exported="true"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.BA2_Info.NoActionBar" >

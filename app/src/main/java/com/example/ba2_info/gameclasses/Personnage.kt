@@ -1,16 +1,21 @@
-package com.example.ba2_info
+package com.example.ba2_info.gameclasses
 
-import android.content.Context
 import android.graphics.*
+import androidx.core.content.ContextCompat
+import com.example.ba2_info.gameutilities.GameConstants
+import com.example.ba2_info.GameView
+import com.example.ba2_info.R
+import com.example.ba2_info.gameclasses.platforms.Obstacle
+import com.example.ba2_info.gameclasses.platforms.Trap
 import kotlin.math.*
 
 class Personnage (var view : GameView, var name : String, var power : Int, var life : Int=1,
-                  var obstacles : List<Obstacle>, var accessoires : List<Accessoires>, var porte : Porte) {
+                  var obstacles : List<Obstacle>, var accessoires : List<Accessoires>, var porte : Porte
+) {
     var x : Float = 0f                                                                              //Position du personnage et step de déplacement
     var y : Float = 0f
     var dy = 0f
     val paint = Paint()                                                                             //Infos graphiques du personnage et contexte
-    lateinit var context : Context
     var diametre = 50f                                                                              //Représentation du personnage (A changer par après en Bitmap)
     val r = RectF(x, y, x + diametre, y + diametre)
     var playerinlimits = true                                                                       //Le joueur est-il sur l'écran ?
@@ -18,12 +23,14 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
     var playerMoveDown = true
     var playerMoveRight = true
     var playerMoveLeft = true
-    var equipment = mutableListOf<Accessoires>(GameConstants.accessoireC,
-        GameConstants.accessoireB,GameConstants.accessoireA,GameConstants.accessoireD)              //Équipement sur le personnage
+    var equipment = mutableListOf<Accessoires>(
+        GameConstants.accessoireC,
+        GameConstants.accessoireB, GameConstants.accessoireA, GameConstants.accessoireD
+    )              //Équipement sur le personnage
     val epsilon = 3f
-    var checkTrap = false
-    var hastofall = false
+    var notOnTrap = false
     val topobstacles = mutableListOf<RectF>()
+    var knockback = 60f
 
     init {                                                                                          /*QUE SE PASSE-T-IL LORS DE LA CREATION D'UN OBJET PERSONNAGE ?*/
         paint.color = Color.BLACK
@@ -78,41 +85,38 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
             r.offset(0f, dy)
             Thread.sleep(2)
         }
-        checkTrap = false
+        notOnTrap = false
     }
 
-    private fun blockPersoX() : Boolean {                                                                   /*BLOQUE LES MOUVEMENTS EN X SI NECESSAIRE*/
-        var res = false
+    private fun blockPersoX() {                                                                   /*BLOQUE LES MOUVEMENTS EN X SI NECESSAIRE*/
         playerMoveRight = true
         playerMoveLeft = true
         for (ob in obstacles) {
             if (ob.plain) {
-                if (r.intersects(ob.r.left, ob.r.top +epsilon, ob.r.left, ob.r.bottom-epsilon)     //Si jms on a plusieurs plateformes collées
+                if (r.intersects(ob.r.left, ob.r.top + epsilon, ob.r.left, ob.r.bottom-epsilon)     //Si jms on a plusieurs plateformes collées
                     && (r.top >= ob.r.top || r.bottom <= ob.r.bottom)) {                            //On veut pas que ça bloque le personnage
-                    res = true
                     playerMoveRight = false
-                    if (ob is Trap && !checkTrap) {
-                        ob.shortenLife(this)
-                        paint.color = Color.MAGENTA
-                        checkTrap = true
-                        ob.traphasbeentouched = true
+                    if (ob is Trap) {
+                        println("VIE INIT " + life)
+                        life = ob.shortenLife(this)
+                        r.offset(-1*knockback, 0f)
+                        x -= knockback
+                        println("VIE FIN " + life)
                     }
                 }
-                else if (r.intersects(ob.r.right, ob.r.top +epsilon, ob.r.right, ob.r.bottom -epsilon)) {
-                    res = true
+                else if (r.intersects(ob.r.right, ob.r.top + epsilon, ob.r.right, ob.r.bottom -epsilon)) {
                     playerMoveLeft = false
-                    if (ob is Trap && !checkTrap) {
-                        ob.shortenLife(this)
-                        checkTrap = true
+                    if (ob is Trap) {
+                        println("VIE INIT " + life)
+                        life = ob.shortenLife(this)
+                        println("VIE FIN " + life)
                         ob.traphasbeentouched = true
+                        r.offset(knockback, 0f)
+                        x += knockback
                     }
                 }
-                else {
-                    paint.color = Color.RED
-                    checkTrap = false}
             }
         }
-        return res
     }
 
     private fun blockPersoY() : Boolean {                                                                   /*BLOQUE LES MOUVEMENTS EN Y SI NECESSAIRE*/
@@ -124,18 +128,18 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
                 if (r.intersects(ob.r.left, ob.r.top, ob.r.right, ob.r.top)) {
                     res = true
                     playerMoveDown = false
-                    if (ob is Trap && !checkTrap) {
-                        ob.shortenLife(this)
-                        checkTrap = true
+                    if (ob is Trap && !notOnTrap) {
+                        life = ob.shortenLife(this)
+                        notOnTrap = true
                     }
                 }
                 else if (r.intersects(ob.r.left, ob.r.bottom, ob.r.right, ob.r.bottom)) {
-                    res = true
-                    playerMoveUp = false
-                    if (ob is Trap && !checkTrap) {
-                        ob.shortenLife(this)
-                        checkTrap = true
-                    }
+                        res = true
+                        playerMoveUp = false
+                        if (ob is Trap && !notOnTrap) {
+                            life = ob.shortenLife(this)
+                            notOnTrap = true
+                        }
                 }
             }
         }
@@ -162,10 +166,29 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
 
     private fun updateporte() {
         if (abs(r.centerX() - porte.r.centerX()) < (diametre/2 + porte.length/2)) {
-            paint.color = Color.LTGRAY
+            paint.color = ContextCompat.getColor(view.context, R.color.IndianRed)
         }
     }
 
+    /*
+    fun shortenLife(trap : Trap) { // à mettre avec la fonction intersection !
+        var lifeCount = life
+        if (lifeCount !=0 && lifeCount - trap.damage >= 0) {
+            lifeCount -= trap.damage
+        }
+        else if (lifeCount - trap.damage < 0) {
+            println("coucou")
+            lifeCount = 0}
+
+        if (lifeCount == 0){
+            paint.color = Color.RED
+            println("SI ON EST MORT " + lifeCount)
+            //game over
+        }
+        life = lifeCount
+        println(life)
+    }
+    */
     fun fall() {
     }
 }

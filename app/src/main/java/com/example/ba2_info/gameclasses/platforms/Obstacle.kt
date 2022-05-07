@@ -1,6 +1,7 @@
-package com.example.ba2_info
+package com.example.ba2_info.gameclasses.platforms
 
 import android.graphics.*
+import com.example.ba2_info.gameclasses.Personnage
 
 open class Obstacle (var obstacleBeginX: Float, var obstacleBeginY: Float, var obstacleLength: Float, var obstacleHeigth: Float, var plain : Boolean = true) {
     val r = RectF(

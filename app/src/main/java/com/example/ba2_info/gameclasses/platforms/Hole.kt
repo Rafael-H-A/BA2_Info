@@ -1,8 +1,7 @@
-package com.example.ba2_info
+package com.example.ba2_info.gameclasses.platforms
 
 import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.RectF
 
 // si on va dans le trou, pas de collision OU le jeu recommence si trou dans
 // la plateforme du bas, couleur vert foncé

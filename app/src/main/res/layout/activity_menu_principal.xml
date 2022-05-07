@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/SteelBlue"
-    tools:context=".MenuPrincipal">
+    tools:context=".activities.MenuPrincipal">
     <!--Raf:j'ai test de changer les couleurs de fond etc.
     si vous voulez mettre des couleurs spécifiques hézitez
     po à changer :) -->

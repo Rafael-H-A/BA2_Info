@@ -1,13 +1,13 @@
 package com.example.ba2_info
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
+import android.graphics.*
 import android.util.AttributeSet
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import androidx.core.content.ContextCompat
+import com.example.ba2_info.gameclasses.Personnage
+import com.example.ba2_info.gameutilities.GameConstants
 
 
 class GameView @JvmOverloads constructor (context: Context,
@@ -19,20 +19,29 @@ class GameView @JvmOverloads constructor (context: Context,
     lateinit var canvas : Canvas
     private val backgroundPaint = Paint()
     lateinit var thread: Thread
+    lateinit var thread2 : Thread
     private var drawing = true
     var screenWidth = 0f
     var screenHeight = 0f
     var buttonpressed = false
     var gauche : Boolean = true
     var player = Personnage(this,"Force Rouge le Chaperon Rouge", 0,3,
-                            GameConstants.obstacles, GameConstants.listeaccess,GameConstants.porte)
-    val textlifePaint = Paint()
-    val textpowerPaint = Paint()
+                            GameConstants.obstacles, GameConstants.listeaccess, GameConstants.porte)
+    val textLifePaint = Paint()
+    val textPowerPaint = Paint()
+    val textMessagesPaint = Paint()
+
+    //val bitmap : Bitmap = BitmapFactory.decodeResource(resources, R.drawable.wallpaperorange)
+    //val bitmapfinale : Bitmap = Bitmap.createScaledBitmap(bitmap, screenWidth.toInt(), screenHeight.toInt(), true)
 
     init {
         backgroundPaint.color = ContextCompat.getColor(context, R.color.SteelBlue)
-        textlifePaint.textSize= screenWidth * 19/20
-        textlifePaint.color = Color.BLACK
+        textLifePaint.textSize= screenWidth/40
+        textLifePaint.color = Color.BLACK
+        textPowerPaint.textSize = screenWidth/40
+        textPowerPaint.color = Color.BLACK
+        textMessagesPaint.textSize = screenWidth/60
+        textMessagesPaint.color = Color.BLACK
     }
 
     fun pause() {
@@ -66,7 +75,6 @@ class GameView @JvmOverloads constructor (context: Context,
         if (buttonpressed) {
         player.update(gauche)
         }
-        //if (player.life <= 0) drawing = false
     }
 
 
@@ -74,21 +82,21 @@ class GameView @JvmOverloads constructor (context: Context,
         if (holder.surface.isValid) {
             canvas = holder.lockCanvas()
             canvas.drawRect(0f, 0f, canvas.width.toFloat(), canvas.height.toFloat(), backgroundPaint)
+            //canvas.drawBitmap(bitmapfinale, 0f, 0f, backgroundPaint)
+
+            //Affichage life / power / time
+            canvas.drawText("Il reste ${player.life} vies",screenWidth - 350f, 80f, textLifePaint)
+            canvas.drawText("Force ${player.power}",screenWidth - 600f, 80f, textPowerPaint)
+            canvas.drawText("${player.name} est prêt pour la bataille !", 800f, screenHeight - 50f, textMessagesPaint)
 
             //On fait apparaître tous les objets (personnages, plateformes, etc.)
-            GameConstants.sol.draw(canvas)
-            GameConstants.plateforme2.draw(canvas)
-            GameConstants.plateforme3.draw(canvas)
-            GameConstants.plateformeDebut.draw(canvas)
-            GameConstants.plateforme4.draw(canvas)
+            for (i in 0 until GameConstants.obstacles.size) {
+                GameConstants.obstacles[i].draw(canvas)
+            }
             GameConstants.porte.draw(canvas)
-            GameConstants.hole.draw(canvas)
-            GameConstants.trap1.draw(canvas)
-            GameConstants.trapVerti.draw(canvas)
-            GameConstants.trap2.draw(canvas)
-            GameConstants.trap3.draw(canvas)
             GameConstants.accessoire1.draw(canvas)
             GameConstants.accessoire2.draw(canvas)
+
             player.draw(canvas)
 
             holder.unlockCanvasAndPost(canvas)
@@ -98,6 +106,7 @@ class GameView @JvmOverloads constructor (context: Context,
 
     private fun sleep() {
         Thread.sleep((1000/120).toLong())
+
     }
 
     override fun onSizeChanged(w:Int, h:Int, oldw:Int, oldh:Int) {
@@ -105,8 +114,12 @@ class GameView @JvmOverloads constructor (context: Context,
         screenWidth = w.toFloat()
         screenHeight = h.toFloat()
 
-        textlifePaint.setTextSize(w / 20f)
-        textlifePaint.isAntiAlias = true
+        textLifePaint.textSize = screenWidth / 40
+        textLifePaint.isAntiAlias = true
+        textPowerPaint.textSize = screenWidth / 40
+        textPowerPaint.isAntiAlias = true
+        textMessagesPaint.textSize = screenWidth / 40
+        textMessagesPaint.isAntiAlias = true
 
         //On redéfinit les dimensions des éléments par rapport à la taille de l'écran
         //Faire gaffe à définir TOUTES les carac géométriques des objets
@@ -216,5 +229,6 @@ class GameView @JvmOverloads constructor (context: Context,
         thread = Thread(this)
         thread.start()}
     override fun surfaceDestroyed(holder: SurfaceHolder) {
-        thread.join()}
+        thread.join()
+        thread2.join()}
 }

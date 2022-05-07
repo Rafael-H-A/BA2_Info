@@ -1,4 +1,4 @@
-package com.example.ba2_info
+package com.example.ba2_info.gameclasses
 
 import android.content.Context
 import android.content.Intent
@@ -6,6 +6,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
+import com.example.ba2_info.activities.Victory
 
 class Porte(var height : Float = 100f, var length : Float = 50f) {
     var x : Float = 0f

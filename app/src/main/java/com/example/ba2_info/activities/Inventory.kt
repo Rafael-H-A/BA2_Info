@@ -1,9 +1,10 @@
-package com.example.ba2_info
+package com.example.ba2_info.activities
 
 import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
+import com.example.ba2_info.R
 
 class Inventory : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

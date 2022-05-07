@@ -1,13 +1,14 @@
-package com.example.ba2_info
+package com.example.ba2_info.gameclasses.platforms
 
 import android.graphics.Canvas
 import android.graphics.Color
+import com.example.ba2_info.gameclasses.Personnage
 
 // fait perdre une vie au joueur; si life = 0 : game over,
 // couleur rose
 
 class Trap(
-    private val damage: Int, obstacleBeginX: Float, obstacleBeginY: Float, obstacleLength: Float,
+    val damage: Int, obstacleBeginX: Float, obstacleBeginY: Float, obstacleLength: Float,
     obstacleHeigth: Float,
     var traphasbeentouched: Boolean = false, plain: Boolean = true)
     : Obstacle(obstacleBeginX, obstacleBeginY, obstacleLength, obstacleHeigth, plain)
@@ -25,25 +26,23 @@ class Trap(
             obstaclePaint.color = Color.parseColor("#FF8CA7")
             canvas.drawRect(r, obstaclePaint)
     }*/
-
-
-    fun shortenLife(perso: Personnage) { // à mettre avec la fonction intersection !
+    fun shortenLife(perso: Personnage) : Int { // à mettre avec la fonction intersection ! ///// : Boolean
         var lifeCount = perso.life
-        println(perso.life)
-        //if (r.intersect(perso.r)) {
-        if (lifeCount !=0 && lifeCount - damage >= 0) {
+        if (lifeCount !=0 && lifeCount - damage >= 0 ) { //!dejaAffaibli
             lifeCount -= damage
+            println("touché -1")
         }
         else if (lifeCount - damage < 0) {
-            println("coucou")
-            lifeCount = 0}
+            lifeCount = 0
+            println("t'es mort")
+        }
 
         if (lifeCount == 0){
-            perso.paint.color = Color.RED
             println("SI ON EST MORT " + lifeCount)
             //game over
-            }
-        perso.life = lifeCount
-        println(perso.life)
         }
+        println(lifeCount)
+        //return dejaAffaibli
+        return lifeCount
+    }
     }

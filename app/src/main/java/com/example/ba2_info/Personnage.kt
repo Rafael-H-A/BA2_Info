@@ -21,6 +21,7 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
     var equipment = mutableListOf<Accessoires>(GameConstants.accessoireC,
         GameConstants.accessoireB,GameConstants.accessoireA,GameConstants.accessoireD)              //Équipement sur le personnage
     val epsilon = 3f
+    var checkTrap = false
 
     init {                                                                                          /*QUE SE PASSE-T-IL LORS DE LA CREATION D'UN OBJET PERSONNAGE ?*/
         paint.color = Color.BLACK
@@ -82,13 +83,21 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
                     && (r.top >= ob.r.top || r.bottom <= ob.r.bottom)) {                            //On veut pas que ça bloque le personnage
                     res = true
                     playerMoveRight = false
-                    if (ob is Trap) {ob.shortenLife(this)}
+                    if (ob is Trap && !checkTrap) {
+                        ob.shortenLife(this)
+                        checkTrap = true
+                        paint.color = Color.MAGENTA
+                    }
                 }
                 else if (r.intersects(ob.r.right, ob.r.top +epsilon, ob.r.right, ob.r.bottom -epsilon)) {
                     res = true
                     playerMoveLeft = false
-                    if (ob is Trap) {ob.shortenLife(this)}
+                    if (ob is Trap && !checkTrap) {
+                        ob.shortenLife(this)
+                        checkTrap = true
+                    }
                 }
+                else{checkTrap=false}
             }
         }
         return res
@@ -119,8 +128,9 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
             //println("ATTENTION " + (r.left - accessoires[i].rectobjet.right))
             //println("ATTENTION 222 " + equipment[2].name)
             //println(power)
-            if (abs(r.centerX() - accessoires[i].rectobjet.centerX()) < (diametre/2 + accessoires[i].length/2)) {     // prendre le rectangle de chaque objet, a mettre dans le constructeur ?
-                paint.color = Color.YELLOW
+            if (abs(r.centerX() - accessoires[i].rectobjet.centerX()) < (diametre/2 + accessoires[i].length/2)
+                && abs(r.centerY() - accessoires[i].rectobjet.centerY()) < (diametre/2 + accessoires[i].width/2)) {     // prendre le rectangle de chaque objet, a mettre dans le constructeur ?
+                //paint.color = Color.YELLOW
                 //println("Les accessoires en ours : " + equipment[2].name)
                 //println(power)
                 accessoires[i].undress(this)
@@ -133,6 +143,7 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
     private fun updateporte() {
         if (abs(r.centerX() - porte.r.centerX()) < (diametre/2 + porte.length/2)) {
             paint.color = Color.LTGRAY
+
         }
     }
 

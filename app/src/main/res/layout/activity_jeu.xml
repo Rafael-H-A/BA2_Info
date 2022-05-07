@@ -19,34 +19,66 @@
 
     <Button
         android:id="@+id/jumpbutton"
-        android:layout_width="80dp"
+        android:layout_width="100dp"
         android:layout_height="50dp"
-        android:text="Jump"
         android:layout_marginEnd="16dp"
+        android:text="Jump"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/button_gauche"
-        />
+        app:layout_constraintTop_toTopOf="@+id/button_gauche" />
 
     <Button
         android:id="@+id/button_gauche"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:text="Gosh"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="4dp"
+        android:text="Gosh"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button_droite"
         android:layout_width="100dp"
         android:layout_height="50dp"
+        android:layout_marginStart="16dp"
         android:text="Drwat"
-        android:layout_marginStart="20dp"
         app:layout_constraintStart_toEndOf="@+id/button_gauche"
-        app:layout_constraintTop_toTopOf="@+id/button_gauche"
-        />
+        app:layout_constraintTop_toTopOf="@+id/button_gauche" />
+
+
+    <TextView
+        android:id="@+id/lifeCountTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:foregroundGravity="left"
+        android:text="Vies"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/lifeCountTextView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:foregroundGravity="left"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:text="Power"
+        app:layout_constraintEnd_toStartOf="@+id/lifeCountTextView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/lifeCountTextView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="12dp"
+        android:text="Force rouge le chaperon rouge est prêt pour la bataille !"
+        app:layout_constraintEnd_toStartOf="@+id/jumpbutton"
+        app:layout_constraintStart_toEndOf="@+id/button_droite"
+        app:layout_constraintTop_toTopOf="@+id/jumpbutton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

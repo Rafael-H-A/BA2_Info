@@ -5,6 +5,12 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
+import android.widget.Button
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import kotlin.properties.Delegates
+
+
 //import com.example.ba2_info.Trap as Trap1
 
 // fait perdre une vie au joueur; si life = 0 : game over,
@@ -15,7 +21,6 @@ class Trap(
     obstacleHeigth: Float, view: GameView, plain: Boolean = true)
     : Obstacle(obstacleBeginX, obstacleBeginY, obstacleLength, obstacleHeigth, view, plain)
 {
-    var lifehasbeenshorten = false
 
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
@@ -30,14 +35,18 @@ class Trap(
             canvas.drawRect(r, obstaclePaint)
     }*/
 
+
     fun shortenLife(perso: Personnage) { // à mettre avec la fonction intersection !
-        if (r.intersect(perso.r)) {
-            perso.life -= damage
-            if (perso.life == 0) {
-                perso.paint.color = Color.RED
-                println(perso.life)
-                //game over
-                }
+        var lifeCount = perso.life
+        //if (r.intersect(perso.r)) {
+        if (lifeCount > 0) {
+            lifeCount -= damage
+        }
+            //if (lifeCount == 0) {
+        else{
+            perso.paint.color = Color.RED
+            System.out.println("SI ON EST MORT " + lifeCount)
+            //game over
+            }
         }
     }
-}

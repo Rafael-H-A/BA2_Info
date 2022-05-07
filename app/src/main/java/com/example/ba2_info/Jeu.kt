@@ -4,14 +4,12 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.MotionEvent
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import java.util.*
-import kotlin.concurrent.schedule
 
 
 class Jeu : AppCompatActivity() {
-    lateinit var gameView: GameView
-    lateinit var porte : Porte
+    private lateinit var gameView: GameView
     @SuppressLint("ClickableViewAccessibility")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +23,9 @@ class Jeu : AppCompatActivity() {
             }
         val gauchebtn = findViewById<Button>(R.id.button_gauche)
         val droitebtn = findViewById<Button>(R.id.button_droite)
+
+        val lifeCountTextView: TextView = findViewById(R.id.lifeCountTextView)
+        lifeCountTextView.text = gameView.player.life.toString()
 
 
         //Mode EMULATEUR
@@ -45,7 +46,7 @@ class Jeu : AppCompatActivity() {
         //Mode TELEPHONE
         //On détecte qd on commence à appuyer pour désactiver le dx = 0, puis dès qu'on relève
         //on remet à 0
-        gauchebtn.setOnTouchListener{ v, event ->
+        gauchebtn.setOnTouchListener{ _, event ->
         gameView.gauche = true
         if (event.action == MotionEvent.ACTION_DOWN) {
             gameView.buttonpressed = true
@@ -54,7 +55,7 @@ class Jeu : AppCompatActivity() {
         }
         true
         }
-        droitebtn.setOnTouchListener{ v, event ->
+        droitebtn.setOnTouchListener{ _, event ->
             gameView.gauche = false
             if (event.action == MotionEvent.ACTION_DOWN) {
                 gameView.buttonpressed = true

@@ -1,12 +1,12 @@
 package com.example.ba2_info
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
+import androidx.appcompat.app.AppCompatActivity
 
 class Porte(var height : Float = 100f, var length : Float = 50f) {
     var x : Float = 0f
@@ -14,7 +14,7 @@ class Porte(var height : Float = 100f, var length : Float = 50f) {
     val portepaint = Paint()
     val r = RectF(x, y, x + length, y + height)
 
-    fun goToActivity(a : Activity, context : Context) {
+    fun goToActivity(context : Context, a : AppCompatActivity) {
         context.startActivity(Intent(context, a::class.java))
     }
 

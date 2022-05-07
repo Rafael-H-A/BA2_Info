@@ -6,7 +6,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
-import androidx.appcompat.app.AppCompatActivity
 
 class Porte(var height : Float = 100f, var length : Float = 50f) {
     var x : Float = 0f
@@ -14,8 +13,8 @@ class Porte(var height : Float = 100f, var length : Float = 50f) {
     val portepaint = Paint()
     val r = RectF(x, y, x + length, y + height)
 
-    fun goToActivity(context : Context, a : AppCompatActivity) {
-        context.startActivity(Intent(context, a::class.java))
+    fun goToActivity(context : Context, a : Class<Victory>) {
+        context.startActivity(Intent(context, a))
     }
 
     fun setRect() {

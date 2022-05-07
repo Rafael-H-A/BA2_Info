@@ -22,9 +22,16 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
         GameConstants.accessoireB,GameConstants.accessoireA,GameConstants.accessoireD)              //Équipement sur le personnage
     val epsilon = 3f
     var checkTrap = false
+    var hastofall = false
+    val topobstacles = mutableListOf<RectF>()
 
     init {                                                                                          /*QUE SE PASSE-T-IL LORS DE LA CREATION D'UN OBJET PERSONNAGE ?*/
         paint.color = Color.BLACK
+        for (i in 1 until obstacles.size) {
+            val ob = obstacles[i]
+            val top = RectF(ob.r.left, ob.r.top, ob.r.right, ob.r.top)
+            topobstacles.add(top)
+        }
     }
 
     fun draw(canvas: Canvas?) {                                                                     /*DESSIN DU PERSONNAGE SUR LE CANVAS DE LA GAMEVIEW*/
@@ -71,6 +78,7 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
             r.offset(0f, dy)
             Thread.sleep(2)
         }
+        checkTrap = false
     }
 
     private fun blockPersoX() : Boolean {                                                                   /*BLOQUE LES MOUVEMENTS EN X SI NECESSAIRE*/
@@ -85,8 +93,9 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
                     playerMoveRight = false
                     if (ob is Trap && !checkTrap) {
                         ob.shortenLife(this)
-                        checkTrap = true
                         paint.color = Color.MAGENTA
+                        checkTrap = true
+                        ob.traphasbeentouched = true
                     }
                 }
                 else if (r.intersects(ob.r.right, ob.r.top +epsilon, ob.r.right, ob.r.bottom -epsilon)) {
@@ -95,9 +104,12 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
                     if (ob is Trap && !checkTrap) {
                         ob.shortenLife(this)
                         checkTrap = true
+                        ob.traphasbeentouched = true
                     }
                 }
-                else{checkTrap=false}
+                else {
+                    paint.color = Color.RED
+                    checkTrap = false}
             }
         }
         return res
@@ -112,10 +124,18 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
                 if (r.intersects(ob.r.left, ob.r.top, ob.r.right, ob.r.top)) {
                     res = true
                     playerMoveDown = false
+                    if (ob is Trap && !checkTrap) {
+                        ob.shortenLife(this)
+                        checkTrap = true
+                    }
                 }
                 else if (r.intersects(ob.r.left, ob.r.bottom, ob.r.right, ob.r.bottom)) {
                     res = true
                     playerMoveUp = false
+                    if (ob is Trap && !checkTrap) {
+                        ob.shortenLife(this)
+                        checkTrap = true
+                    }
                 }
             }
         }
@@ -129,7 +149,7 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
             //println("ATTENTION 222 " + equipment[2].name)
             //println(power)
             if (abs(r.centerX() - accessoires[i].rectobjet.centerX()) < (diametre/2 + accessoires[i].length/2)
-                && abs(r.centerY() - accessoires[i].rectobjet.centerY()) < (diametre/2 + accessoires[i].width/2)) {     // prendre le rectangle de chaque objet, a mettre dans le constructeur ?
+                && abs(r.centerY() - accessoires[i].rectobjet.centerY()) < (diametre/2 - accessoires[i].width/2)) {     // prendre le rectangle de chaque objet, a mettre dans le constructeur ?
                 //paint.color = Color.YELLOW
                 //println("Les accessoires en ours : " + equipment[2].name)
                 //println(power)
@@ -143,22 +163,9 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
     private fun updateporte() {
         if (abs(r.centerX() - porte.r.centerX()) < (diametre/2 + porte.length/2)) {
             paint.color = Color.LTGRAY
-
         }
     }
 
-
-
     fun fall() {
-        //Qd on arrive au bout d'une plateforme, soit on fait apparaître
-        //un btn pour faire une chute auto vers le bas soit on configure
-        //la fct pour que qd on arrive au bout d'une plateforme et qu'il
-        //n'y a pas d'autre plateforme a côté, on tombe automatiquement
-        //et de tte façon le mvt sera bloqué verticalement avec blockPersoY
-
-        //for avec tous les rectangles "top" des obstacles pour stocker leurs valeurs
-        //et si pas d'intersection avec le personnage, on tombe
-        //appel depuis gameview ds la loop run
-
     }
 }

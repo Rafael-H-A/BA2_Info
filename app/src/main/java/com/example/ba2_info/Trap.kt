@@ -1,25 +1,16 @@
 package com.example.ba2_info
 
-import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.RectF
-import android.widget.Button
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import kotlin.properties.Delegates
-
-
-//import com.example.ba2_info.Trap as Trap1
 
 // fait perdre une vie au joueur; si life = 0 : game over,
 // couleur rose
 
 class Trap(
-    private val damage : Int, obstacleBeginX: Float, obstacleBeginY: Float, obstacleLength: Float,
-    obstacleHeigth: Float, view: GameView, plain: Boolean = true)
-    : Obstacle(obstacleBeginX, obstacleBeginY, obstacleLength, obstacleHeigth, view, plain)
+    private val damage: Int, obstacleBeginX: Float, obstacleBeginY: Float, obstacleLength: Float,
+    obstacleHeigth: Float,
+    var traphasbeentouched: Boolean = false, plain: Boolean = true)
+    : Obstacle(obstacleBeginX, obstacleBeginY, obstacleLength, obstacleHeigth, plain)
 {
 
     override fun draw(canvas: Canvas) {
@@ -38,15 +29,21 @@ class Trap(
 
     fun shortenLife(perso: Personnage) { // à mettre avec la fonction intersection !
         var lifeCount = perso.life
+        println(perso.life)
         //if (r.intersect(perso.r)) {
-        if (lifeCount > 0) {
+        if (lifeCount !=0 && lifeCount - damage >= 0) {
             lifeCount -= damage
         }
-            //if (lifeCount == 0) {
-        else{
+        else if (lifeCount - damage < 0) {
+            println("coucou")
+            lifeCount = 0}
+
+        if (lifeCount == 0){
             perso.paint.color = Color.RED
-            System.out.println("SI ON EST MORT " + lifeCount)
+            println("SI ON EST MORT " + lifeCount)
             //game over
             }
+        perso.life = lifeCount
+        println(perso.life)
         }
     }

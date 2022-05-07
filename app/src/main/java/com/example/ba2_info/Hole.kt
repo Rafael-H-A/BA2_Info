@@ -8,8 +8,8 @@ import android.graphics.RectF
 // la plateforme du bas, couleur vert foncé
 
 class Hole (obstacleBeginX: Float, obstacleBeginY: Float, obstacleLength: Float,
-            obstacleHeigth: Float, view: GameView, plain: Boolean = false) :
-    Obstacle(obstacleBeginX, obstacleBeginY, obstacleLength, obstacleHeigth, view, plain) {
+            obstacleHeigth: Float, plain: Boolean = false) :
+    Obstacle(obstacleBeginX, obstacleBeginY, obstacleLength, obstacleHeigth, plain) {
 
     override fun draw(canvas: Canvas) {
         super.draw(canvas)

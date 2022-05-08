@@ -44,17 +44,16 @@
         app:layout_constraintStart_toEndOf="@+id/button_gauche"
         app:layout_constraintTop_toTopOf="@+id/button_gauche" />
 
-
-    <TextView
-        android:id="@+id/lifeCountTextView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="50dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="12dp"
-        android:text="Force rouge le chaperon rouge est prêt pour la bataille !"
-        app:layout_constraintEnd_toStartOf="@+id/jumpbutton"
-        app:layout_constraintStart_toEndOf="@+id/button_droite"
-        app:layout_constraintTop_toTopOf="@+id/jumpbutton" />
+    <ImageButton
+        android:id="@+id/pausebutton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="4dp"
+        android:backgroundTint="@color/Transparent"
+        app:srcCompat="@drawable/buttonpause" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

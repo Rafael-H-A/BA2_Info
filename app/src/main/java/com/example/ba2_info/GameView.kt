@@ -8,6 +8,7 @@ import android.view.SurfaceView
 import androidx.core.content.ContextCompat
 import com.example.ba2_info.gameclasses.Personnage
 import com.example.ba2_info.gameutilities.GameConstants
+import com.example.ba2_info.gameutilities.GameConstants.gameOver
 
 
 class GameView @JvmOverloads constructor (context: Context,
@@ -19,8 +20,7 @@ class GameView @JvmOverloads constructor (context: Context,
     lateinit var canvas : Canvas
     private val backgroundPaint = Paint()
     lateinit var thread: Thread
-    lateinit var thread2 : Thread
-    private var drawing = true
+    var drawing = true
     var screenWidth = 0f
     var screenHeight = 0f
     var buttonpressed = false
@@ -30,7 +30,8 @@ class GameView @JvmOverloads constructor (context: Context,
     val textLifePaint = Paint()
     val textPowerPaint = Paint()
     val textMessagesPaint = Paint()
-
+    val textTimerPaint = Paint()
+    var timeLeft = GameConstants.timeLeft
     //val bitmap : Bitmap = BitmapFactory.decodeResource(resources, R.drawable.wallpaperorange)
     //val bitmapfinale : Bitmap = Bitmap.createScaledBitmap(bitmap, screenWidth.toInt(), screenHeight.toInt(), true)
 
@@ -42,6 +43,8 @@ class GameView @JvmOverloads constructor (context: Context,
         textPowerPaint.color = Color.BLACK
         textMessagesPaint.textSize = screenWidth/60
         textMessagesPaint.color = Color.BLACK
+        textTimerPaint.textSize = screenWidth/40
+        textTimerPaint.color = Color.BLACK
     }
 
     fun pause() {
@@ -84,11 +87,6 @@ class GameView @JvmOverloads constructor (context: Context,
             canvas.drawRect(0f, 0f, canvas.width.toFloat(), canvas.height.toFloat(), backgroundPaint)
             //canvas.drawBitmap(bitmapfinale, 0f, 0f, backgroundPaint)
 
-            //Affichage life / power / time
-            canvas.drawText("Il reste ${player.life} vies",screenWidth - 350f, 80f, textLifePaint)
-            canvas.drawText("Force ${player.power}",screenWidth - 600f, 80f, textPowerPaint)
-            canvas.drawText("${player.name} est prêt pour la bataille !", 800f, screenHeight - 50f, textMessagesPaint)
-
             //On fait apparaître tous les objets (personnages, plateformes, etc.)
             for (i in 0 until GameConstants.obstacles.size) {
                 GameConstants.obstacles[i].draw(canvas)
@@ -97,7 +95,15 @@ class GameView @JvmOverloads constructor (context: Context,
             GameConstants.accessoire1.draw(canvas)
             GameConstants.accessoire2.draw(canvas)
 
-            player.draw(canvas)
+
+            player.draw(canvas)                                         //Affichage du personnage
+
+            //Affichage des textes
+            canvas.drawText("Il reste ${player.life} vies",screenWidth - 350f, 80f,  textLifePaint)
+            canvas.drawText("Force ${player.power}"       ,screenWidth - 600f, 80f, textPowerPaint)
+            canvas.drawText("${player.name} est prêt pour la bataille !", 660f,screenHeight - 60f, textMessagesPaint)
+            val formatted = String.format("%.2f", timeLeft)
+            canvas.drawText("Temps restant : $formatted", 150f, 80f, textTimerPaint)
 
             holder.unlockCanvasAndPost(canvas)
         }
@@ -118,8 +124,10 @@ class GameView @JvmOverloads constructor (context: Context,
         textLifePaint.isAntiAlias = true
         textPowerPaint.textSize = screenWidth / 40
         textPowerPaint.isAntiAlias = true
-        textMessagesPaint.textSize = screenWidth / 40
+        textMessagesPaint.textSize = screenWidth / 50
         textMessagesPaint.isAntiAlias = true
+        textTimerPaint.textSize = screenWidth / 40
+        textTimerPaint.isAntiAlias = true
 
         //On redéfinit les dimensions des éléments par rapport à la taille de l'écran
         //Faire gaffe à définir TOUTES les carac géométriques des objets
@@ -229,6 +237,19 @@ class GameView @JvmOverloads constructor (context: Context,
         thread = Thread(this)
         thread.start()}
     override fun surfaceDestroyed(holder: SurfaceHolder) {
-        thread.join()
-        thread2.join()}
+        thread.join()}
+
+
+    fun openDefeat() {
+        val message : String = when {
+            gameOver && GameConstants.timeLeft <= 0 -> {"Il ne vous reste plus de temps..."}
+            gameOver && player.life == 0 -> {"Vous êtes mort ! Gare aux pièges la prochaine fois"}
+            else -> {"Coucou !"}
+        }
+        println(message)
+    }
+
+    fun reset() {
+        TODO()
+    }
 }

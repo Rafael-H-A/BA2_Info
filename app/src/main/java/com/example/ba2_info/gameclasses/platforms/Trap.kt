@@ -3,6 +3,7 @@ package com.example.ba2_info.gameclasses.platforms
 import android.graphics.Canvas
 import android.graphics.Color
 import com.example.ba2_info.gameclasses.Personnage
+import com.example.ba2_info.gameutilities.GameConstants
 
 // fait perdre une vie au joueur; si life = 0 : game over,
 // couleur rose
@@ -39,7 +40,7 @@ class Trap(
 
         if (lifeCount == 0){
             println("SI ON EST MORT " + lifeCount)
-            //game over
+            GameConstants.gameOver = true
         }
         println(lifeCount)
         //return dejaAffaibli

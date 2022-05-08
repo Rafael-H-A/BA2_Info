@@ -25,6 +25,7 @@
         <activity
             android:name=".activities.Jeu"
             android:exported="false"
+            android:parentActivityName=".activities.MenuPrincipal"
             android:theme="@style/Theme.BA2_Info.NoActionBar.FullScreen"
             android:screenOrientation="sensorLandscape" />
         <activity

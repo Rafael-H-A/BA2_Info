@@ -7,6 +7,11 @@ import com.example.ba2_info.gameclasses.platforms.Obstacle
 import com.example.ba2_info.gameclasses.platforms.Trap
 
 object GameConstants {
+        //Game over ?
+        var gameOver = false
+        //Time left
+        var timeLeft = 10.0
+
         //Stock de tous les accessoires
         val accessoireA = Accessoires("rien dans le crâne",      0, 0, 0f, 0f, 0f, 0f)
         val accessoireB = Accessoires("tout nu et tout bronzé",  0, 1, 0f, 0f, 0f, 0f)
@@ -56,6 +61,6 @@ object GameConstants {
         var levelSetup = listOf(
                 accessoire1, accessoire2, sol, plateforme2, plateforme3,
                                 plateformeDebut, plateforme4, trap1, trapVerti, trap2,
-                                trap3, hole
-        )
+                                trap3, hole)
+
 }

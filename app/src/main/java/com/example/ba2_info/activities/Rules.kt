@@ -13,7 +13,7 @@ class Rules : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rules)
 
-        // POUR TUTORIEL
+        // TUTORIAL
         val buttonTuto = findViewById<Button>(R.id.button_tutorial)
         val imageTUTO = findViewById<ImageView>(R.id.imgTUTO)
         imageTUTO.visibility = View.INVISIBLE
@@ -22,7 +22,7 @@ class Rules : AppCompatActivity() {
             if (imageTUTO.visibility == View.INVISIBLE) {imageTUTO.visibility = View.VISIBLE }
             else {imageTUTO.visibility = View.INVISIBLE }}
 
-        //POUR BUT DU JEU
+        //GOAL
         val buttonGoal = findViewById<Button>(R.id.button_goal)
         val imageGOAL = findViewById<ImageView>(R.id.imgGOAL)
         imageGOAL.visibility = View.INVISIBLE
@@ -31,7 +31,7 @@ class Rules : AppCompatActivity() {
             if (imageGOAL.visibility == View.INVISIBLE) {imageGOAL.visibility = View.VISIBLE }
             else {imageGOAL.visibility = View.INVISIBLE }}
 
-        //POUR VOCABULAIRE
+        //VOCABULARY
         val buttonVoc = findViewById<Button>(R.id.button_vocabulary)
         val imageVOC = findViewById<ImageView>(R.id.imgVOC)
         imageVOC.visibility = View.INVISIBLE

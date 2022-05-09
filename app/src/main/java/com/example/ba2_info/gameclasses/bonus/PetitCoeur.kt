@@ -16,10 +16,10 @@ class PetitCoeur () : Bonus(){
 
     override fun draw(canvas: Canvas?, resources: Resources) {
         //On dessine les bonus sur l'écran
-        //couleurbonus.color = Color.parseColor("#FF69B4")  // Couleur rose
-        //canvas.drawOval(rectbonus, couleurbonus)
-        val bitmapbonus : Bitmap = BitmapFactory.decodeResource(resources, R.drawable.coeur)
-        canvas?.drawBitmap(bitmapbonus, null, rectbonus, null)
+        couleurbonus.color = Color.parseColor("#f4cccc")  // Couleur rose
+        canvas?.drawOval(rectbonus, couleurbonus)
+        //val bitmapbonus : Bitmap = BitmapFactory.decodeResource(resources, R.drawable.coeur)
+        //canvas?.drawBitmap(bitmapbonus, null, rectbonus, null)
     }
 
     override fun setRect() {

@@ -22,17 +22,8 @@
         android:layout_height="50dp"
         android:layout_marginEnd="16dp"
         android:text="Jump"
+        android:backgroundTint="#ffe0b3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/button_gauche" />
-
-    <Button
-        android:id="@+id/indoorbutton"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:text="Enter"
-        android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@id/jumpbutton"
-        android:layout_marginEnd="100dp"
         app:layout_constraintTop_toTopOf="@+id/button_gauche" />
 
     <Button
@@ -42,6 +33,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginBottom="4dp"
         android:text="Gosh"
+        android:backgroundTint="#ffe0b3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -51,6 +43,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:text="Drwat"
+        android:backgroundTint="#ffe0b3"
         app:layout_constraintStart_toEndOf="@+id/button_gauche"
         app:layout_constraintTop_toTopOf="@+id/button_gauche" />
 

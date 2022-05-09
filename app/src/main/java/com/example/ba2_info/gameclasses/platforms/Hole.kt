@@ -12,7 +12,7 @@ class Hole (obstacleBeginX: Float, obstacleBeginY: Float, obstacleLength: Float,
 
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
-        obstaclePaint.color = Color.parseColor("#454D32")
+        obstaclePaint.color = Color.parseColor("#7fbbf1")
         canvas.drawRect(r, obstaclePaint)
     }
     }

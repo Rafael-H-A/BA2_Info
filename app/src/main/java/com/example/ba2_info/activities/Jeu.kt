@@ -3,6 +3,7 @@ package com.example.ba2_info.activities
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.MotionEvent
+import android.view.SurfaceHolder
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
@@ -15,24 +16,12 @@ import com.example.ba2_info.gameutilities.GameConstants
 import com.example.ba2_info.gameutilities.TimerClass
 
 /*
-1. Problème avec les pièges :
-    - stocker tous les "tops" des pièges pr dire que tant qu'on est sur un piège, alors on ne re diminue pas la vie du joueur
-    - essayer de rendre le offset sur le côté plus smooth
-    - détecter le piège d'en bas
-2. Conditions de victoire :
-    - ouvrir une fenêtre pop-up quand on passe la porte (défaite/victoire)
-    - vérifier le power du joueur
-    - mettre toutes les conditions de défaite possible (plus de vie, plus de temps ou pas assez de pouvoir)
-3. Ajouter les bonus :
-    - ajouter un bonus de chaque type dans le niveau
-    - vérifier les effets de chaque bonus
 4. Ajouter les messages liés à chaque évènement dans le jeu
     - Récolte d'accessoire
     - Récolte de bonus
     - Vie retirée par un piège
     - Passage dans un trou
 5. Ajouter la storyline en nouvelle activity
-6. Changer les règles du jeu
   */
 class Jeu : AppCompatActivity() {
     private lateinit var gameView: GameView

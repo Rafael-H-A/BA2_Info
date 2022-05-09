@@ -13,31 +13,25 @@ class Rules : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rules)
 
-        // TUTORIAL
-        val buttonTuto = findViewById<Button>(R.id.button_tutorial)
-        val imageTUTO = findViewById<ImageView>(R.id.imgTUTO)
-        imageTUTO.visibility = View.INVISIBLE
-
-        buttonTuto.setOnClickListener {
-            if (imageTUTO.visibility == View.INVISIBLE) {imageTUTO.visibility = View.VISIBLE }
-            else {imageTUTO.visibility = View.INVISIBLE }}
-
         //GOAL
         val buttonGoal = findViewById<Button>(R.id.button_goal)
-        val imageGOAL = findViewById<ImageView>(R.id.imgGOAL)
+        val imageGOAL = findViewById<ImageView>(R.id.txtBut)
         imageGOAL.visibility = View.INVISIBLE
-
-        buttonGoal.setOnClickListener {
-            if (imageGOAL.visibility == View.INVISIBLE) {imageGOAL.visibility = View.VISIBLE }
-            else {imageGOAL.visibility = View.INVISIBLE }}
-
         //VOCABULARY
         val buttonVoc = findViewById<Button>(R.id.button_vocabulary)
-        val imageVOC = findViewById<ImageView>(R.id.imgVOC)
+        val imageVOC = findViewById<ImageView>(R.id.txtVoc)
         imageVOC.visibility = View.INVISIBLE
 
+
+        buttonGoal.setOnClickListener {
+            if (imageGOAL.visibility == View.INVISIBLE) {
+                imageGOAL.visibility = View.VISIBLE
+                imageVOC.visibility = View.INVISIBLE}
+            else {imageGOAL.visibility = View.INVISIBLE}}
         buttonVoc.setOnClickListener {
-            if (imageVOC.visibility == View.INVISIBLE) {imageVOC.visibility = View.VISIBLE }
+            if (imageVOC.visibility == View.INVISIBLE) {
+                imageVOC.visibility = View.VISIBLE
+                imageGOAL.visibility = View.INVISIBLE}
             else {imageVOC.visibility = View.INVISIBLE }}
     }
 }

@@ -7,12 +7,14 @@ import android.graphics.Paint
 import android.graphics.RectF
 import com.example.ba2_info.gameclasses.Personnage
 import com.example.ba2_info.gameutilities.Pouf
+import kotlin.math.abs
+
 
 abstract class Bonus : Pouf {
-    var bonusx: Float = 12f
-    var bonusy: Float = 12f
-    var length: Float = 12f
-    var width: Float = 12f
+    var bonusx: Float = 30f
+    var bonusy: Float = 30f
+    var length: Float = 30f
+    var width: Float = 30f
     private var bonus: Int = 0
     val couleurbonus: Paint = Paint()
     var rectbonus: RectF = RectF(bonusx, bonusy, bonusx + length, bonusy + width)
@@ -34,6 +36,14 @@ abstract class Bonus : Pouf {
 
     override fun disappear(rect: RectF, canvas: Canvas) {
         super.disappear(rect, canvas)
+    }
+
+    fun updatebonus(perso:Personnage) {
+        if (abs(perso.r.centerX() - rectbonus.centerX()) < (perso.diametre/2 + length/2)
+            && abs(perso.r.centerY() - rectbonus.centerY()) < (perso.diametre/2 + width/2)) {     // prendre le rectangle de chaque objet, a mettre dans le constructeur ?
+            agir(perso)
+            disappear(rectbonus, perso.view.canvas)          // utiliser l'interface Pouf
+        }
     }
 }
 

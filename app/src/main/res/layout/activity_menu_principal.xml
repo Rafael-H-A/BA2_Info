@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="#FFB342"
         android:text="@string/commencer_partie"
-        app:layout_constraintBottom_toTopOf="@+id/button_inventory"
+        app:layout_constraintBottom_toTopOf="@id/button_story"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -86,13 +86,13 @@
         app:layout_constraintVertical_bias="0.33" />
 
     <Button
-        android:id="@+id/button_inventory"
+        android:id="@+id/button_story"
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_marginStart="45dp"
         android:layout_marginTop="450dp"
         android:backgroundTint="#FFB342"
-        android:text="@string/inventaire"
+        android:text="Histoire"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

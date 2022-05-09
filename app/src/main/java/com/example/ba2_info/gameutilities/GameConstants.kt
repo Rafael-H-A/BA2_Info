@@ -1,5 +1,6 @@
 package com.example.ba2_info.gameutilities
 
+import com.example.ba2_info.GameView
 import com.example.ba2_info.gameclasses.Accessoires
 import com.example.ba2_info.gameclasses.Porte
 import com.example.ba2_info.gameclasses.bonus.*
@@ -9,72 +10,62 @@ import com.example.ba2_info.gameclasses.platforms.Trap
 
 object GameConstants {
         //Power de l'ennemi
-        val enemyPower = 1
+        val enemyPower = 5
         //Game over ?
         var gameOver = false
         var message : String = ""
         //Time left
         var timeLeft = 30.0
 
+        var traphasbeentouched = false
         //Stock de tous les accessoires
         val accessoireA = Accessoires("rien dans le crâne",      0, 0, 0f, 0f, 0f, 0f)
-        val accessoireB = Accessoires("tout nu et tout bronzé",  0, 1, 0f, 0f, 0f, 0f)
-        val accessoireC = Accessoires("rien dans les guiboles",  0, 2, 0f, 0f, 0f, 0f)
-        val accessoireD = Accessoires("Yannick Noah",            0, 3, 0f, 0f, 0f, 0f)
+        val accessoire1 = Accessoires("Chapeau de paille",       2, 0, 0f, 0f, 0f, 0f)
+        val accessoire2 = Accessoires("Chemise de paysan",       40, 0, 0f, 0f, 0f, 0f)
+        val accessoire3 = Accessoires("Pantalon de paysan",      5, 0, 0f, 0f, 0f, 0f)
 
-        val accessoire1 = Accessoires("Chapeau de paille",       1, 0, 0f, 0f, 0f, 0f)
-        val accessoire2 = Accessoires("Chemise de paysan",       1, 1, 0f, 0f, 0f, 0f)
-        val accessoire3 = Accessoires("Pantalon de paysan",      1, 2, 0f, 0f, 0f, 0f)
-        val accessoire4 = Accessoires("Chaussures trouées",      1, 3, 0f, 0f, 0f, 0f)
+        var listeaccess = listOf(accessoireA, accessoire1, accessoire2, accessoire3)
 
-        val accessoire7 = Accessoires("Casque de vélo",          2, 0, 0f, 0f, 0f, 0f)
-        val accessoire6 = Accessoires("Cotte de maille ",        2, 1, 0f, 0f, 0f, 0f)
-        val accessoire5 = Accessoires("Pantalon renforcé ",      2, 2, 0f, 0f, 0f, 0f)
-        val accessoire8 = Accessoires("Nouvelles sandales",      2, 3, 0f, 0f, 0f, 0f)
+        var floor1 =    Obstacle(0f,0f,0f,0f)
+        var floor2 =    Obstacle(0f,0f,0f,0f)
+        var floor3 =    Obstacle(0f,0f,0f,0f)
 
-        val accessoire9 = Accessoires("Grèves en acier",         3, 2, 0f, 0f, 0f, 0f)
-        val accessoire10 = Accessoires("Plastron en acier",      3, 1, 0f, 0f, 0f, 0f)
-        val accessoire11 = Accessoires("Heaume de chevalier",    3, 0, 0f, 0f, 0f, 0f)
-        val accessoire12 = Accessoires("Solerets renforcés",     3, 3, 0f, 0f, 0f, 0f)
+        var pltf11 =    Obstacle(0f,0f,0f,0f)
+        var pltf12 =    Obstacle(0f,0f,0f,0f)
+        var pltf13 =    Obstacle(0f,0f,0f,0f)
+        var pltf21 =    Obstacle(0f,0f,0f,0f)
+        var pltf22 =    Obstacle(0f,0f,0f,0f)
+        var pltf31 =    Obstacle(0f,0f,0f,0f)
+        var pltf32 =    Obstacle(0f,0f,0f,0f)
+        var pltf33 =    Obstacle(0f,0f,0f,0f)
+        var pltf34 =    Obstacle(0f,0f,0f,0f)
 
-        var listeaccess = listOf(
-                accessoireA, accessoireB, accessoireC, accessoireD,
-                accessoire1, accessoire2, accessoire3, accessoire4,
-                accessoire5, accessoire6, accessoire7, accessoire8,
-                accessoire9, accessoire10, accessoire11, accessoire12
-        )
+        var trapverti =       Trap(1,0f, 0f, 0f, 0f)
+        var trap1 =           Trap(1,0f, 0f, 0f, 0f)
+        var trap2 =           Trap(1,0f, 0f, 0f, 0f)
 
-        var sol =               Obstacle(0f,0f,0f,0f)
-        var plateforme2 =       Obstacle(0f,0f,0f,0f)
-        var plateforme3 =       Obstacle(0f,0f,0f,0f)
-        var plateformeDebut =   Obstacle(0f,0f,0f,0f)
-        var plateforme4 =       Obstacle(0f,0f,0f,0f)
+        var hole1 =           Hole(0f, 0f, 0f, 0f)
+        var hole2 =           Hole(0f, 0f, 0f, 0f)
+        var holeup =         Hole(0f, 0f, 0f, 0f)
 
-        var trap1 =             Trap(1,0f, 0f, 0f, 0f)
-        var trapVerti =         Trap(1,0f, 0f, 0f, 0f)
-        var trap2 =             Trap(1,0f, 0f, 0f, 0f)
-        var trap3 =             Trap(1,0f, 0f, 0f, 0f)
-        var hole =              Hole(0f, 0f, 0f, 0f)
 
-        var traprects = listOf(trap1.r, trap2.r, trap3.r, trapVerti.r)
+        var traprects = listOf(trap1, trap2, trapverti)
 
         var obstacles = listOf(
-                sol, plateforme2, plateforme3, plateformeDebut, plateforme4, trap1,
-                               trapVerti, trap2, trap3, hole)
-
-        // Bonuses
-        var petitcoeur1 = PetitCoeur()
-        var sablier1 = Sablier()
-        var potion1 = Potions(2)
-        var peaudebanane1 = Peaudebanane()
-
-        var bonuses = listOf<Bonus>(petitcoeur1, potion1, sablier1)
+                floor1, floor2, floor3,pltf11, pltf12, pltf13, pltf21, pltf22, pltf31, pltf32, pltf33, pltf34, trap1,
+                               trapverti, trap2, hole1, hole2, holeup)
 
         var porte = Porte()
 
-        var levelSetup = listOf(
-                accessoire1, accessoire2, sol, plateforme2, plateforme3,
-                                plateformeDebut, plateforme4, trap1, trapVerti, trap2,
-                                trap3, hole)
+
+        // Bonuses
+        var petitcoeur1 = PetitCoeur()
+        var potion1 = Potions(2)
+
+
+
+        var levelSetup = listOf(trap1, trap2, trapverti,
+                floor1, floor2, floor3,pltf11, pltf12, pltf13, pltf21, pltf22, pltf31, pltf32, pltf33, pltf34, trap1,
+                trapverti, trap2, hole1, hole2, holeup)
 
 }

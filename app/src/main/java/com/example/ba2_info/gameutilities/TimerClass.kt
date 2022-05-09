@@ -2,6 +2,8 @@ package com.example.ba2_info.gameutilities
 
 import android.view.SurfaceHolder
 import com.example.ba2_info.GameView
+import com.example.ba2_info.gameclasses.bonus.Peaudebanane
+import com.example.ba2_info.gameclasses.bonus.Sablier
 import java.lang.Thread.sleep
 
 
@@ -13,7 +15,8 @@ class TimerClass(var timeLeft : Double,var gameView: GameView) : SurfaceHolder.C
     override fun run() {
         while(running) {
             sleep((updateTime * 1000).toLong())
-            timeLeft -= updateTime
+            timeLeft = GameConstants.timeLeft
+            GameConstants.timeLeft -= updateTime
             gameView.timeLeft = timeLeft
             if (timeLeft <= 0.1) {
                 timeLeft = 00.00

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ba2_info" >
+    package="com.example.ba2_info">
 
     <application
         android:allowBackup="true"
@@ -8,17 +8,21 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.BA2_Info.NoActionBar" >
+        android:theme="@style/Theme.BA2_Info.NoActionBar">
+        <activity
+            android:name=".activities.Credits"
+            android:exported="false" />
         <activity
             android:name=".activities.Victory"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".activities.MenuPrincipal" />
         <activity
             android:name=".activities.Rules"
             android:exported="false"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.BA2_Info.NoActionBar" />
         <activity
-            android:name=".activities.Inventory"
+            android:name=".activities.Story"
             android:exported="false"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.BA2_Info.NoActionBar" />
@@ -26,13 +30,13 @@
             android:name=".activities.Jeu"
             android:exported="false"
             android:parentActivityName=".activities.MenuPrincipal"
-            android:theme="@style/Theme.BA2_Info.NoActionBar.FullScreen"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/Theme.BA2_Info.NoActionBar.FullScreen" />
         <activity
             android:name=".activities.MenuPrincipal"
             android:exported="true"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/Theme.BA2_Info.NoActionBar" >
+            android:theme="@style/Theme.BA2_Info.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

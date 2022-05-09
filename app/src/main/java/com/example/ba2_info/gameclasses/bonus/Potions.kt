@@ -16,9 +16,10 @@ class Potions constructor(private var puissance : Int) : Bonus() {
 
     override fun draw(canvas: Canvas?, resources: Resources) {
         //On dessine les bonus sur l'écran
-        val bitmapbonus : Bitmap = BitmapFactory.decodeResource(resources, R.drawable.potion)
-        canvas?.drawBitmap(bitmapbonus, null, rectbonus, null)
-
+        //val bitmapbonus : Bitmap = BitmapFactory.decodeResource(resources, R.drawable.potion)
+        //canvas?.drawBitmap(bitmapbonus, null, rectbonus, null)
+        couleurbonus.color = Color.parseColor("#825fe8")
+        canvas?.drawOval(rectbonus, couleurbonus)
     }
 }
 

@@ -10,14 +10,13 @@ import com.example.ba2_info.gameutilities.GameConstants
 
 class Trap(
     val damage: Int, obstacleBeginX: Float, obstacleBeginY: Float, obstacleLength: Float,
-    obstacleHeigth: Float,
-    var traphasbeentouched: Boolean = false, plain: Boolean = true)
+    obstacleHeigth: Float, plain: Boolean = true)
     : Obstacle(obstacleBeginX, obstacleBeginY, obstacleLength, obstacleHeigth, plain)
 {
 
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
-        obstaclePaint.color = Color.parseColor("#FF8CA7")
+        obstaclePaint.color = Color.parseColor("#d9cff8")
         canvas.drawRect(r, obstaclePaint)
     }
 
@@ -27,23 +26,16 @@ class Trap(
             obstaclePaint.color = Color.parseColor("#FF8CA7")
             canvas.drawRect(r, obstaclePaint)
     }*/
-    fun shortenLife(perso: Personnage) : Int { // à mettre avec la fonction intersection ! ///// : Boolean
-        var lifeCount = perso.life
-        if (lifeCount !=0 && lifeCount - damage >= 0 ) { //!dejaAffaibli
-            lifeCount -= damage
-            println("touché -1")
+    fun shortenLife(perso: Personnage) {
+        if (perso.life !=0 && perso.life - damage >= 0) {
+            perso.life -= damage
+            GameConstants.traphasbeentouched = true
         }
-        else if (lifeCount - damage < 0) {
-            lifeCount = 0
-            println("t'es mort")
+        else if (perso.life - damage < 0) {
+            perso.life = 0
         }
-
-        if (lifeCount == 0){
-            println("SI ON EST MORT " + lifeCount)
+        if (perso.life == 0){
             GameConstants.gameOver = true
         }
-        println(lifeCount)
-        //return dejaAffaibli
-        return lifeCount
     }
-    }
+}

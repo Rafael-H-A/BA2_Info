@@ -24,55 +24,23 @@
         android:layout_marginStart="68dp"
         android:layout_marginTop="68dp"
         android:gravity="center"
-        android:text="Règles du jeu"
+        android:text="Histoire"
+        android:textColor="@color/Black"
         android:textSize="35sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button_goal"
-        android:layout_width="254dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="232dp"
-        android:backgroundTint="#FFB342"
-        android:text="But du jeu"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button_vocabulary"
-        android:layout_width="247dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="316dp"
-        android:backgroundTint="#FFB342"
-        android:text="Vocabulaire"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/txtBut"
-        android:layout_width="334dp"
-        android:layout_height="186dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginBottom="52dp"
-        app:srcCompat="@drawable/gamegoal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
-
-    <ImageView
-        android:id="@+id/txtVoc"
+    <TextView
+        android:id="@+id/txtHistoire"
         android:layout_width="327dp"
         android:layout_height="261dp"
         android:layout_marginStart="40dp"
-        android:layout_marginBottom="36dp"
-        app:srcCompat="@drawable/gamecolors"
+        android:layout_marginBottom="232dp"
+        android:textSize="20sp"
+        android:textColor="@color/Black"
+        android:text="Bienvenue dans le monde des Dots ! "
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

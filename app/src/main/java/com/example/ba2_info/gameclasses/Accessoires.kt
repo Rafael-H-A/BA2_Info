@@ -3,6 +3,7 @@ package com.example.ba2_info.gameclasses
 import android.graphics.*
 import com.example.ba2_info.gameutilities.GameConstants
 import com.example.ba2_info.gameutilities.Pouf
+import kotlin.math.abs
 
 class Accessoires(var name: String="NoName", var power: Int, val endroit: Int = 0,
                     var xpos : Float, var ypos : Float, var length : Float, var width : Float) :
@@ -19,7 +20,7 @@ class Accessoires(var name: String="NoName", var power: Int, val endroit: Int = 
 
     fun draw(canvas: Canvas?) {
         //On dessine le joueur sur l'écran
-        couleuraccess.color = Color.RED
+        couleuraccess.color = Color.parseColor("#c25135")
         canvas?.drawOval(rectobjet, couleuraccess)
     }
 
@@ -41,8 +42,16 @@ class Accessoires(var name: String="NoName", var power: Int, val endroit: Int = 
     override fun disappear(rect: RectF, canvas: Canvas) {
         super.disappear(rect, canvas)
     }
-}
 
+    fun updateaccessoires (perso: Personnage) {
+        if (abs(perso.r.centerX() - rectobjet.centerX()) < (perso.diametre/2 + length/2)
+            && abs(perso.r.centerY() - rectobjet.centerY()) < (perso.diametre/2 - width/2)) {     // prendre le rectangle de chaque objet, a mettre dans le constructeur ?
+            undress(perso)
+            disappear(rectobjet, perso.view.canvas)            // utiliser l'interface Pouf
+            dress(perso)
+        }
+    }
+}
 
 
 /* Légende des endroits :

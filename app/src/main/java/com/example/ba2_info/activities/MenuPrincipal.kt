@@ -11,22 +11,21 @@ class MenuPrincipal : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu_principal)
-
         val buttonBeginPlay = findViewById<Button>(R.id.button_begin_game)
         val buttonRules = findViewById<Button>(R.id.button_rules)
-        val buttonInventory = findViewById<Button>(R.id.button_inventory)
+        val buttonStory = findViewById<Button>(R.id.button_story)
 
-        buttonBeginPlay.setOnClickListener {beginLevel1()}
+        buttonBeginPlay.setOnClickListener {beginPlay()}
         buttonRules.setOnClickListener {openRules()}
-        buttonInventory.setOnClickListener {openInventory()}
+        buttonStory.setOnClickListener {openStory()}
     }
 
-    private fun beginLevel1() {
+    private fun beginPlay() {
         val switchActivityIntent= Intent(this, Jeu::class.java)
         startActivity(switchActivityIntent)}
 
-    private fun openInventory() {
-        val switchActivityIntent= Intent(this, Inventory::class.java)
+    private fun openStory() {
+        val switchActivityIntent= Intent(this, Story::class.java)
         startActivity(switchActivityIntent)}
 
     private fun openRules() {

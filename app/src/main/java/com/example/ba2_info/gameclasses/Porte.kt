@@ -7,6 +7,8 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import com.example.ba2_info.activities.Victory
+import com.example.ba2_info.gameutilities.GameConstants
+import kotlin.math.abs
 
 class Porte(var height : Float = 100f, var length : Float = 50f) {
     var x : Float = 0f
@@ -26,6 +28,14 @@ class Porte(var height : Float = 100f, var length : Float = 50f) {
     fun draw(canvas: Canvas) {
         portepaint.color = Color.BLACK
         canvas.drawRect(r, portepaint)
+    }
+
+    fun updateporte(perso:Personnage) {
+        if (abs(perso.r.centerX() - r.centerX()) < (perso.diametre/2 + length/2)
+            && abs(perso.r.centerY() - r.centerY()) < (perso.diametre/2 + height/2)) {
+            GameConstants.gameOver = perso.power <= GameConstants.enemyPower
+            perso.view.openFight()
+        }
     }
 
 }

@@ -24,13 +24,8 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
     var playerMoveDown = true
     var playerMoveRight = true
     var playerMoveLeft = true
-    var equipment = mutableListOf<Accessoires>(
-        GameConstants.accessoireC,
-        GameConstants.accessoireB, GameConstants.accessoireA, GameConstants.accessoireD
-    )              //Équipement sur le personnage
-    val epsilon = 3f
+    var equipment = mutableListOf(GameConstants.accessoireA)              //Équipement sur le personnage
     var notOnTrap = false
-    var knockback = 80f
 
     init {                                                                                          /*QUE SE PASSE-T-IL LORS DE LA CREATION D'UN OBJET PERSONNAGE ?*/
         paint.color = Color.BLACK
@@ -59,28 +54,33 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
                 !playerMoveLeft -> {if (gauche) {0f} else {1f}}
                 else -> {if (gauche) {-1f} else {1f}}
             }
-            updateaccessoires()
-            updateporte()
-            updatebonus()
+            for (a in accessoires) {a.updateaccessoires(this)}
+            porte.updateporte(this)
+            for (b in view.bonuses) {b.updatebonus(this)}
             val incr = abs(dx)*s
             dx = incr
             x += incr
             r.offset(dx,0f)}
-        }
+    }
 
-    fun jump() {                                                                                    /*GESTION DE TOUS LES MOUVEMENTS EN Y*/
+    fun jump() {
+        /*GESTION DE TOUS LES MOUVEMENTS EN Y*/
         loop@for (i in 1..75) {
             val w = i/150f
             dy = 10*(3*(w.toDouble().pow(2).toFloat()) - 3*w + 0.75f)
-            if (blockPersoY() && !playerMoveUp) {dy = 0f}
+            blockPersoY()
+            if (!playerMoveUp) {dy = 0f}
             r.offset(0f, -dy)
+            y -= dy
             Thread.sleep(2)
         }
-        loop@for (i in 76..200) {                                                                   //On jump plus bas pour retomber au sol
+        loop@for (i in 76..200) { //On jump plus bas pour retomber au sol
             val w = i / 150f                                                                        //Si jamais on a un "falling" mis en place
             dy = 10 * (3 * (w.toDouble().pow(2).toFloat()) - 3 * w + 0.75f)                      //on peut peut-être le retirer ?
-            if (blockPersoY() && !playerMoveDown) {dy = 0f}
+            blockPersoY()
+            if (!playerMoveDown) {dy = 0f}
             r.offset(0f, dy)
+            y += dy
             Thread.sleep(2)
         }
         notOnTrap = false
@@ -90,87 +90,23 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
         playerMoveRight = true
         playerMoveLeft = true
         for (ob in obstacles) {
-            if (ob.plain) {
-                if (r.intersects(ob.r.left, ob.r.top + epsilon, ob.r.left, ob.r.bottom-epsilon)     //Si jms on a plusieurs plateformes collées
-                    && (r.top >= ob.r.top || r.bottom <= ob.r.bottom)) {                            //On veut pas que ça bloque le personnage
-                    playerMoveRight = false
-                    if (ob is Trap) {
-                        life = ob.shortenLife(this)
-                        if(life ==0) {view.openFight()}
-                        r.offset(-knockback, 0f)
-                        x -= knockback
-                    }
-                }
-                else if (r.intersects(ob.r.right, ob.r.top + epsilon, ob.r.right, ob.r.bottom -epsilon)) {
-                    playerMoveLeft = false
-                    if (ob is Trap) {
-                        life = ob.shortenLife(this)
-                        if(life ==0) {view.openFight()}
-                        ob.traphasbeentouched = true
-                        r.offset(knockback, 0f)
-                        x += knockback
-                    }
-                }
-            }
+            if (ob.plain) {ob.updateobstacleX(this)}
         }
     }
 
-    private fun blockPersoY() : Boolean {                                                                   /*BLOQUE LES MOUVEMENTS EN Y SI NECESSAIRE*/
-        var res = false
+    private fun blockPersoY() {                                                                   /*BLOQUE LES MOUVEMENTS EN Y SI NECESSAIRE*/
         playerMoveUp = true
         playerMoveDown = true
         for (ob in obstacles) {
-            if (ob.plain) {
-                if (r.intersects(ob.r.left, ob.r.top, ob.r.right, ob.r.top)) {
-                    res = true
-                    playerMoveDown = false
-                    if (ob is Trap) {ob.shortenLife(this)}
-                }
-                else if (r.intersects(ob.r.left, ob.r.bottom, ob.r.right, ob.r.bottom)) {
-                    res = true
-                    playerMoveUp = false
-                    if (ob is Trap && !notOnTrap) {ob.shortenLife(this)}
-                }
-            }
-        }
-        return res
-    }
-
-    private fun updateaccessoires () {
-        for (i in 1 until (accessoires.size)) { // la len de la liste d'objets pour parourir toute la liste
-            if (abs(r.centerX() - accessoires[i].rectobjet.centerX()) < (diametre/2 + accessoires[i].length/2)
-                && abs(r.centerY() - accessoires[i].rectobjet.centerY()) < (diametre/2 - accessoires[i].width/2)) {     // prendre le rectangle de chaque objet, a mettre dans le constructeur ?
-                accessoires[i].undress(this)
-                accessoires[i].disappear(accessoires[i].rectobjet, view.canvas)            // utiliser l'interface Pouf
-                accessoires[i].dress(this)
-            }
-        }
-    }
-
-    private fun updateporte() {
-        if (abs(r.centerX() - porte.r.centerX()) < (diametre/2 + porte.length/2)
-            && abs(r.centerY() - porte.r.centerY()) < (diametre/2 + porte.height/2)) {
-            GameConstants.gameOver = power <= GameConstants.enemyPower
-            view.openFight()
-        }
-    }
-
-    private fun updatebonus() {
-        for (i in 0 until (GameConstants.bonuses.size)) { // la len de la liste d'objets pour parourir toute la liste
-            println("écart en y : " + abs(r.centerY() - GameConstants.bonuses[i].rectbonus.centerY()).toString())
-            println("condition y : " + (diametre/2 + GameConstants.bonuses[i].width/2).toString())
-            if (abs(r.centerX() - GameConstants.bonuses[i].rectbonus.centerX()) < (diametre/2 + GameConstants.bonuses[i].length/2)
-                && abs(r.centerY() - GameConstants.bonuses[i].rectbonus.centerY()) < (diametre/2 + GameConstants.bonuses[i].width/2)) {     // prendre le rectangle de chaque objet, a mettre dans le constructeur ?
-                println("Je suis dans le if")
-                GameConstants.bonuses[i].agir(this)
-                GameConstants.bonuses[i].disappear(GameConstants.bonuses[i].rectbonus, view.canvas)          // utiliser l'interface Pouf
-            }
+            if (ob.plain) {ob.updateobstacleY(this)}
         }
     }
 
     fun fall() {
-        y = 5f
+        dy = 5f
         blockPersoY()
-        if(playerMoveDown){r.offset(0f, y)}
+        if(playerMoveDown){
+            r.offset(0f, dy)
+            y += dy}
     }
 }

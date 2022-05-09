@@ -4,9 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.ba2_info.R
 
-class Inventory : AppCompatActivity() {
+class Story : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_inventory)
+        setContentView(R.layout.activity_story)
     }
 }

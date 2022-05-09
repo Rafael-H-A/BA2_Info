@@ -8,11 +8,12 @@ import com.example.ba2_info.GameView
 import com.example.ba2_info.R
 import com.example.ba2_info.gameclasses.platforms.Obstacle
 import com.example.ba2_info.gameclasses.platforms.Trap
+import com.example.ba2_info.gameutilities.Pouf
 import kotlin.math.*
 
 class Personnage (var view : GameView, var name : String, var power : Int, var life : Int=1,
                   var obstacles : List<Obstacle>, var accessoires : List<Accessoires>, var porte : Porte
-) {
+) : Pouf {
     var x : Float = 0f                                                                              //Position du personnage et step de déplacement
     var y : Float = 0f
     var dy = 0f
@@ -31,10 +32,8 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
         paint.color = Color.BLACK
     }
 
-    fun draw(canvas: Canvas?) {
+    override fun draw(canvas: Canvas?) {
         canvas?.drawOval(r, paint)
-        //val bitmapaccess : Bitmap = BitmapFactory.decodeResource(resources, R.drawable.smilingsmiley)
-        //canvas?.drawBitmap(bitmapaccess, null, r, null)
     }
 
     fun setRect() {                                                                                 /*CREATION DU RECTANGLE CONTENANT LE PERSONNAGE LORS D'UN CHANGEMENT DE TAILLE D'ECRAN*/
@@ -56,7 +55,7 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
             }
             for (a in accessoires) {a.updateaccessoires(this)}
             porte.updateporte(this)
-            for (b in view.bonuses) {b.updatebonus(this)}
+            for (b in GameConstants.bonuses) {b.updatebonus(this)}
             val incr = abs(dx)*s
             dx = incr
             x += incr

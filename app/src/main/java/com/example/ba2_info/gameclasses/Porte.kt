@@ -1,33 +1,26 @@
 package com.example.ba2_info.gameclasses
 
-import android.content.Context
-import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
-import com.example.ba2_info.activities.Victory
 import com.example.ba2_info.gameutilities.GameConstants
+import com.example.ba2_info.gameutilities.Pouf
 import kotlin.math.abs
 
-class Porte(var height : Float = 100f, var length : Float = 50f) {
+class Porte(var height : Float = 100f, var length : Float = 50f) : Pouf {
     var x : Float = 0f
     var y : Float = 0f
-    val portepaint = Paint()
     val r = RectF(x, y, x + length, y + height)
-
-    fun goToActivity(context : Context, a : Class<Victory>) {
-        context.startActivity(Intent(context, a))
-    }
+    private val portepaint = Paint()
 
     fun setRect() {
-        //Permet de modifier la taille du carré si la taille de l'écran change
         r.set(x,y,x+length,y+height)
     }
 
-    fun draw(canvas: Canvas) {
+    override fun draw(canvas: Canvas?) {
         portepaint.color = Color.BLACK
-        canvas.drawRect(r, portepaint)
+        canvas?.drawRoundRect(r, 5f, 5f, portepaint)
     }
 
     fun updateporte(perso:Personnage) {

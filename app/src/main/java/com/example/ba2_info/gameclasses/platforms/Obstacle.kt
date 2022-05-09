@@ -3,8 +3,10 @@ package com.example.ba2_info.gameclasses.platforms
 import android.graphics.*
 import com.example.ba2_info.gameclasses.Personnage
 import com.example.ba2_info.gameutilities.GameConstants
+import com.example.ba2_info.gameutilities.Pouf
 
-open class Obstacle (var obstacleBeginX: Float, var obstacleBeginY: Float, var obstacleLength: Float, var obstacleHeigth: Float, var plain : Boolean = true) {
+open class Obstacle (var obstacleBeginX: Float, var obstacleBeginY: Float, var obstacleLength: Float, var obstacleHeigth: Float, var plain : Boolean = true) :
+    Pouf {
     val r = RectF(
         obstacleBeginX, obstacleBeginY + obstacleHeigth,
         obstacleBeginX + obstacleLength, obstacleBeginY
@@ -18,9 +20,9 @@ open class Obstacle (var obstacleBeginX: Float, var obstacleBeginY: Float, var o
             obstacleBeginX + obstacleLength, obstacleBeginY + obstacleHeigth)
     }
 
-    open fun draw(canvas: Canvas) {
+    override fun draw(canvas: Canvas?) {
         obstaclePaint.color = Color.parseColor("#ffb342")
-        canvas.drawRect(r, obstaclePaint)
+        canvas?.drawRect(r, obstaclePaint)
     }
 
     fun updateobstacleX(perso: Personnage) {
@@ -39,7 +41,6 @@ open class Obstacle (var obstacleBeginX: Float, var obstacleBeginY: Float, var o
             if (this is Trap) {
                 shortenLife(perso)
                 if(perso.life ==0) {perso.view.openFight()}
-                GameConstants.traphasbeentouched = true
                 perso.r.offset(knockback, 0f)
                 perso.x += knockback
             }

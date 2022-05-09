@@ -1,12 +1,11 @@
 package com.example.ba2_info.gameutilities
 
 import android.graphics.*
-import android.graphics.drawable.BitmapDrawable
 
 interface Pouf {
 
-    fun appear(obj : Any, height : Int , length : Int , sprite : BitmapDrawable){
-
+    fun draw(canvas: Canvas?){
+        canvas?.drawOval(RectF(0f,0f,0f,0f), Paint())
     }
 
     fun disappear(rect: RectF, canvas: Canvas){

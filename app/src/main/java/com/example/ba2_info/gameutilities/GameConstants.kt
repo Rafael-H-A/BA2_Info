@@ -2,15 +2,19 @@ package com.example.ba2_info.gameutilities
 
 import com.example.ba2_info.gameclasses.Accessoires
 import com.example.ba2_info.gameclasses.Porte
+import com.example.ba2_info.gameclasses.bonus.*
 import com.example.ba2_info.gameclasses.platforms.Hole
 import com.example.ba2_info.gameclasses.platforms.Obstacle
 import com.example.ba2_info.gameclasses.platforms.Trap
 
 object GameConstants {
+        //Power de l'ennemi
+        val enemyPower = 1
         //Game over ?
         var gameOver = false
+        var message : String = ""
         //Time left
-        var timeLeft = 10.0
+        var timeLeft = 30.0
 
         //Stock de tous les accessoires
         val accessoireA = Accessoires("rien dans le crâne",      0, 0, 0f, 0f, 0f, 0f)
@@ -52,10 +56,20 @@ object GameConstants {
         var trap3 =             Trap(1,0f, 0f, 0f, 0f)
         var hole =              Hole(0f, 0f, 0f, 0f)
 
+        var traprects = listOf(trap1.r, trap2.r, trap3.r, trapVerti.r)
+
         var obstacles = listOf(
                 sol, plateforme2, plateforme3, plateformeDebut, plateforme4, trap1,
-                               trapVerti, trap2, trap3, hole
-        )
+                               trapVerti, trap2, trap3, hole)
+
+        // Bonuses
+        var petitcoeur1 = PetitCoeur()
+        var sablier1 = Sablier()
+        var potion1 = Potions(2)
+        var peaudebanane1 = Peaudebanane()
+
+        var bonuses = listOf<Bonus>(petitcoeur1, potion1, sablier1)
+
         var porte = Porte()
 
         var levelSetup = listOf(

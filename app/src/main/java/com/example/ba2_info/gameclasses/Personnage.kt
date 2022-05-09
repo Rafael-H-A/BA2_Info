@@ -1,5 +1,6 @@
 package com.example.ba2_info.gameclasses
 
+import android.content.res.Resources
 import android.graphics.*
 import androidx.core.content.ContextCompat
 import com.example.ba2_info.gameutilities.GameConstants
@@ -29,20 +30,16 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
     )              //Équipement sur le personnage
     val epsilon = 3f
     var notOnTrap = false
-    val topobstacles = mutableListOf<RectF>()
-    var knockback = 60f
+    var knockback = 80f
 
     init {                                                                                          /*QUE SE PASSE-T-IL LORS DE LA CREATION D'UN OBJET PERSONNAGE ?*/
         paint.color = Color.BLACK
-        for (i in 1 until obstacles.size) {
-            val ob = obstacles[i]
-            val top = RectF(ob.r.left, ob.r.top, ob.r.right, ob.r.top)
-            topobstacles.add(top)
-        }
     }
 
-    fun draw(canvas: Canvas?) {                                                                     /*DESSIN DU PERSONNAGE SUR LE CANVAS DE LA GAMEVIEW*/
+    fun draw(canvas: Canvas?) {
         canvas?.drawOval(r, paint)
+        //val bitmapaccess : Bitmap = BitmapFactory.decodeResource(resources, R.drawable.smilingsmiley)
+        //canvas?.drawBitmap(bitmapaccess, null, r, null)
     }
 
     fun setRect() {                                                                                 /*CREATION DU RECTANGLE CONTENANT LE PERSONNAGE LORS D'UN CHANGEMENT DE TAILLE D'ECRAN*/
@@ -64,6 +61,7 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
             }
             updateaccessoires()
             updateporte()
+            updatebonus()
             val incr = abs(dx)*s
             dx = incr
             x += incr
@@ -97,19 +95,17 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
                     && (r.top >= ob.r.top || r.bottom <= ob.r.bottom)) {                            //On veut pas que ça bloque le personnage
                     playerMoveRight = false
                     if (ob is Trap) {
-                        println("VIE INIT " + life)
                         life = ob.shortenLife(this)
-                        r.offset(-1*knockback, 0f)
+                        if(life ==0) {view.openFight()}
+                        r.offset(-knockback, 0f)
                         x -= knockback
-                        println("VIE FIN " + life)
                     }
                 }
                 else if (r.intersects(ob.r.right, ob.r.top + epsilon, ob.r.right, ob.r.bottom -epsilon)) {
                     playerMoveLeft = false
                     if (ob is Trap) {
-                        println("VIE INIT " + life)
                         life = ob.shortenLife(this)
-                        println("VIE FIN " + life)
+                        if(life ==0) {view.openFight()}
                         ob.traphasbeentouched = true
                         r.offset(knockback, 0f)
                         x += knockback
@@ -128,18 +124,12 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
                 if (r.intersects(ob.r.left, ob.r.top, ob.r.right, ob.r.top)) {
                     res = true
                     playerMoveDown = false
-                    if (ob is Trap && !notOnTrap) {
-                        life = ob.shortenLife(this)
-                        notOnTrap = true
-                    }
+                    if (ob is Trap) {ob.shortenLife(this)}
                 }
                 else if (r.intersects(ob.r.left, ob.r.bottom, ob.r.right, ob.r.bottom)) {
-                        res = true
-                        playerMoveUp = false
-                        if (ob is Trap && !notOnTrap) {
-                            life = ob.shortenLife(this)
-                            notOnTrap = true
-                        }
+                    res = true
+                    playerMoveUp = false
+                    if (ob is Trap && !notOnTrap) {ob.shortenLife(this)}
                 }
             }
         }
@@ -148,15 +138,8 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
 
     private fun updateaccessoires () {
         for (i in 1 until (accessoires.size)) { // la len de la liste d'objets pour parourir toute la liste
-            //println(" Condition " + RectF.intersects(r, accessoires[i].rectobjet))
-            //println("ATTENTION " + (r.left - accessoires[i].rectobjet.right))
-            //println("ATTENTION 222 " + equipment[2].name)
-            //println(power)
             if (abs(r.centerX() - accessoires[i].rectobjet.centerX()) < (diametre/2 + accessoires[i].length/2)
                 && abs(r.centerY() - accessoires[i].rectobjet.centerY()) < (diametre/2 - accessoires[i].width/2)) {     // prendre le rectangle de chaque objet, a mettre dans le constructeur ?
-                //paint.color = Color.YELLOW
-                //println("Les accessoires en ours : " + equipment[2].name)
-                //println(power)
                 accessoires[i].undress(this)
                 accessoires[i].disappear(accessoires[i].rectobjet, view.canvas)            // utiliser l'interface Pouf
                 accessoires[i].dress(this)
@@ -165,30 +148,29 @@ class Personnage (var view : GameView, var name : String, var power : Int, var l
     }
 
     private fun updateporte() {
-        if (abs(r.centerX() - porte.r.centerX()) < (diametre/2 + porte.length/2)) {
-            paint.color = ContextCompat.getColor(view.context, R.color.IndianRed)
+        if (abs(r.centerX() - porte.r.centerX()) < (diametre/2 + porte.length/2)
+            && abs(r.centerY() - porte.r.centerY()) < (diametre/2 + porte.height/2)) {
+            GameConstants.gameOver = power <= GameConstants.enemyPower
+            view.openFight()
         }
     }
 
-    /*
-    fun shortenLife(trap : Trap) { // à mettre avec la fonction intersection !
-        var lifeCount = life
-        if (lifeCount !=0 && lifeCount - trap.damage >= 0) {
-            lifeCount -= trap.damage
+    private fun updatebonus() {
+        for (i in 0 until (GameConstants.bonuses.size)) { // la len de la liste d'objets pour parourir toute la liste
+            println("écart en y : " + abs(r.centerY() - GameConstants.bonuses[i].rectbonus.centerY()).toString())
+            println("condition y : " + (diametre/2 + GameConstants.bonuses[i].width/2).toString())
+            if (abs(r.centerX() - GameConstants.bonuses[i].rectbonus.centerX()) < (diametre/2 + GameConstants.bonuses[i].length/2)
+                && abs(r.centerY() - GameConstants.bonuses[i].rectbonus.centerY()) < (diametre/2 + GameConstants.bonuses[i].width/2)) {     // prendre le rectangle de chaque objet, a mettre dans le constructeur ?
+                println("Je suis dans le if")
+                GameConstants.bonuses[i].agir(this)
+                GameConstants.bonuses[i].disappear(GameConstants.bonuses[i].rectbonus, view.canvas)          // utiliser l'interface Pouf
+            }
         }
-        else if (lifeCount - trap.damage < 0) {
-            println("coucou")
-            lifeCount = 0}
-
-        if (lifeCount == 0){
-            paint.color = Color.RED
-            println("SI ON EST MORT " + lifeCount)
-            //game over
-        }
-        life = lifeCount
-        println(life)
     }
-    */
+
     fun fall() {
+        y = 5f
+        blockPersoY()
+        if(playerMoveDown){r.offset(0f, y)}
     }
 }

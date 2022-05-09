@@ -1,5 +1,6 @@
 package com.example.ba2_info.gameclasses.bonus
 
+import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -8,18 +9,19 @@ import com.example.ba2_info.gameclasses.Personnage
 import com.example.ba2_info.gameutilities.Pouf
 
 abstract class Bonus : Pouf {
-    private var bonusx : Float = 12f
-    private var bonusy : Float = 12f
-    private var length : Float = 12f
-    private var width : Float = 12f
-    private var bonus : Int =0
-    val couleurbonus : Paint = Paint()
-    var rectbonus : RectF = RectF(bonusx, bonusy,bonusx + length,bonusy + width)
+    var bonusx: Float = 12f
+    var bonusy: Float = 12f
+    var length: Float = 12f
+    var width: Float = 12f
+    private var bonus: Int = 0
+    val couleurbonus: Paint = Paint()
+    var rectbonus: RectF = RectF(bonusx, bonusy, bonusx + length, bonusy + width)
 
-    open fun agir(perso : Personnage){
-            perso.life = bonus
-            }
-    open fun draw(canvas: Canvas?) {
+    open fun agir(perso: Personnage) {
+        perso.life = bonus
+    }
+
+    open fun draw(canvas: Canvas?, resources: Resources) {
         //On dessine les bonus sur l'écran
         couleurbonus.color = Color.TRANSPARENT
         canvas?.drawOval(rectbonus, couleurbonus)
@@ -33,7 +35,6 @@ abstract class Bonus : Pouf {
     override fun disappear(rect: RectF, canvas: Canvas) {
         super.disappear(rect, canvas)
     }
-
 }
 
 

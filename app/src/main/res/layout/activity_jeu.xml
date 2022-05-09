@@ -26,6 +26,16 @@
         app:layout_constraintTop_toTopOf="@+id/button_gauche" />
 
     <Button
+        android:id="@+id/indoorbutton"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:text="Enter"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@id/jumpbutton"
+        android:layout_marginEnd="100dp"
+        app:layout_constraintTop_toTopOf="@+id/button_gauche" />
+
+    <Button
         android:id="@+id/button_gauche"
         android:layout_width="100dp"
         android:layout_height="50dp"

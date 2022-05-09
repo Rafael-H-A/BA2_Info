@@ -4,20 +4,20 @@
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/LightSteelBlue</item>
         <item name="colorPrimaryVariant">@color/SteelBlue</item>
-        <item name="colorOnPrimary">@color/White</item>
+        <item name="colorOnPrimary">@color/Black</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/LightSteelBlue</item>
         <item name="colorSecondaryVariant">@color/SteelBlue</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorOnSecondary">@color/Black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/black</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/Black</item>
         <!-- Customize your theme here. -->
     </style>
-    <style name ="Theme.BA2_Info.NoActionBar">
+    <style name ="Theme.BA2_Info.NoActionBar" parent="Theme.BA2_Info">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-    <style name="Theme.BA2_Info.NoActionBar.FullScreen">
+    <style name="Theme.BA2_Info.NoActionBar.FullScreen" parent="Theme.BA2_Info.NoActionBar">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>

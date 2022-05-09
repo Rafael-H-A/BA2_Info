@@ -19,6 +19,7 @@ class TimerClass(var timeLeft : Double,var gameView: GameView) : SurfaceHolder.C
                 timeLeft = 00.00
                 running = false
                 GameConstants.gameOver = true
+                gameView.openFight()
             }
         }
     }

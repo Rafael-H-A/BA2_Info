@@ -1,11 +1,13 @@
 package com.example.ba2_info
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import androidx.core.content.ContextCompat
+import com.example.ba2_info.activities.Victory
 import com.example.ba2_info.gameclasses.Personnage
 import com.example.ba2_info.gameutilities.GameConstants
 import com.example.ba2_info.gameutilities.GameConstants.gameOver
@@ -25,13 +27,14 @@ class GameView @JvmOverloads constructor (context: Context,
     var screenHeight = 0f
     var buttonpressed = false
     var gauche : Boolean = true
-    var player = Personnage(this,"Force Rouge le Chaperon Rouge", 0,3,
+    var player = Personnage(this,"Force Rouge le Chaperon Rouge", 3,3,
                             GameConstants.obstacles, GameConstants.listeaccess, GameConstants.porte)
     val textLifePaint = Paint()
     val textPowerPaint = Paint()
     val textMessagesPaint = Paint()
     val textTimerPaint = Paint()
     var timeLeft = GameConstants.timeLeft
+
     //val bitmap : Bitmap = BitmapFactory.decodeResource(resources, R.drawable.wallpaperorange)
     //val bitmapfinale : Bitmap = Bitmap.createScaledBitmap(bitmap, screenWidth.toInt(), screenHeight.toInt(), true)
 
@@ -62,15 +65,10 @@ class GameView @JvmOverloads constructor (context: Context,
 
     override fun run() {
         while (drawing) {
-            fall()
             draw()
             updatePositions(gauche)
             sleep()
         }
-    }
-
-    private fun fall() {
-        player.fall()
     }
 
     private fun updatePositions(gauche : Boolean) {
@@ -78,6 +76,7 @@ class GameView @JvmOverloads constructor (context: Context,
         if (buttonpressed) {
         player.update(gauche)
         }
+        player.fall()
     }
 
 
@@ -85,7 +84,12 @@ class GameView @JvmOverloads constructor (context: Context,
         if (holder.surface.isValid) {
             canvas = holder.lockCanvas()
             canvas.drawRect(0f, 0f, canvas.width.toFloat(), canvas.height.toFloat(), backgroundPaint)
-            //canvas.drawBitmap(bitmapfinale, 0f, 0f, backgroundPaint)
+
+            /* // Affichage background
+            val bitmapbackground : Bitmap = BitmapFactory.decodeResource(resources, R.drawable.wallpaperblue2)
+            bitmapbackground.scale(canvas.width, canvas.height)
+            val rectcan  = RectF(0f, 0f, canvas.width.toFloat(), canvas.height.toFloat())
+            canvas.drawBitmap(bitmapbackground, null, rectcan , null ) */
 
             //On fait apparaître tous les objets (personnages, plateformes, etc.)
             for (i in 0 until GameConstants.obstacles.size) {
@@ -94,7 +98,11 @@ class GameView @JvmOverloads constructor (context: Context,
             GameConstants.porte.draw(canvas)
             GameConstants.accessoire1.draw(canvas)
             GameConstants.accessoire2.draw(canvas)
-
+            /*
+            GameConstants.potion1.draw(canvas, resources)
+            GameConstants.petitcoeur1.draw(canvas,resources)
+            GameConstants.sablier1.draw(canvas,resources)
+            */
 
             player.draw(canvas)                                         //Affichage du personnage
 
@@ -224,6 +232,25 @@ class GameView @JvmOverloads constructor (context: Context,
         GameConstants.accessoire2.length = 50f
         GameConstants.accessoire2.width = -50f
         GameConstants.accessoire2.setRect()
+
+        GameConstants.potion1.bonusx = (player.x/4).toFloat()
+        GameConstants.potion1.bonusy = (player.y).toFloat()
+        GameConstants.potion1.length = 45f
+        GameConstants.potion1.width= 45f
+        GameConstants.potion1.setRect()
+
+        GameConstants.petitcoeur1.bonusx = (player.x * 2).toFloat()
+        GameConstants.petitcoeur1.bonusy = (player.y).toFloat()
+        GameConstants.petitcoeur1.length = 50f
+        GameConstants.petitcoeur1.width= 50f
+        GameConstants.petitcoeur1.setRect()
+
+        GameConstants.sablier1.bonusx = (player.x * 3).toFloat()
+        GameConstants.sablier1.bonusy = (player.y).toFloat()
+        GameConstants.sablier1.length = 45f
+        GameConstants.sablier1.width= 45f
+        GameConstants.sablier1.setRect()
+
     }
 
     fun jump() {
@@ -240,13 +267,15 @@ class GameView @JvmOverloads constructor (context: Context,
         thread.join()}
 
 
-    fun openDefeat() {
-        val message : String = when {
-            gameOver && GameConstants.timeLeft <= 0 -> {"Il ne vous reste plus de temps..."}
-            gameOver && player.life == 0 -> {"Vous êtes mort ! Gare aux pièges la prochaine fois"}
-            else -> {"Coucou !"}
-        }
-        println(message)
+    fun openFight() {
+        GameConstants.message = when {
+                                gameOver && timeLeft <= 0.1 -> {"Il ne vous reste plus de temps..."}
+                                gameOver && player.life == 0 -> {"Vous êtes mort ! Gare aux pièges la prochaine fois"}
+                                else -> {"T'as perdu !"}
+                                }
+
+        val i = Intent(context, Victory::class.java)
+        context.startActivity(i)
     }
 
     fun reset() {

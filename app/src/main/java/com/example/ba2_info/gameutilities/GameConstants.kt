@@ -13,10 +13,10 @@ object GameConstants {
         var message : String = ""
         var timeLeft = 30.0
         //Accessories
-        val accessoireA = Accessoires("rien dans le crâne",      0, 0, 0f, 0f, 0f, 0f)
-        val accessoire1 = Accessoires("Chapeau de paille",       2, 0, 0f, 0f, 0f, 0f)
-        val accessoire2 = Accessoires("Chemise de paysan",       40, 0, 0f, 0f, 0f, 0f)
-        val accessoire3 = Accessoires("Pantalon de paysan",      5, 0, 0f, 0f, 0f, 0f)
+        val accessoireA = Accessoires(0, 0, 0f, 0f, 0f, 0f)
+        val accessoire1 = Accessoires(2, 0, 0f, 0f, 0f, 0f)
+        val accessoire2 = Accessoires(40, 0, 0f, 0f, 0f, 0f)
+        val accessoire3 = Accessoires(5, 0, 0f, 0f, 0f, 0f)
         var listeaccess = listOf(accessoire1, accessoire2, accessoire3)
         //Obstacles, traps and holes
         var floor1 =    Obstacle(0f,0f,0f,0f)

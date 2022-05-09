@@ -2,15 +2,13 @@ package com.example.ba2_info.gameutilities
 
 import android.view.SurfaceHolder
 import com.example.ba2_info.GameView
-import com.example.ba2_info.gameclasses.bonus.Peaudebanane
-import com.example.ba2_info.gameclasses.bonus.Sablier
 import java.lang.Thread.sleep
 
 
-class TimerClass(var timeLeft : Double,var gameView: GameView) : SurfaceHolder.Callback, Runnable{
+class TimerClass(private var timeLeft : Double, private var gameView: GameView) : SurfaceHolder.Callback, Runnable{
     private val updateTime = 0.1
-    lateinit var thread: Thread
-    var running = true
+    private lateinit var thread: Thread
+    private var running = true
 
     override fun run() {
         while(running) {
@@ -22,7 +20,7 @@ class TimerClass(var timeLeft : Double,var gameView: GameView) : SurfaceHolder.C
                 timeLeft = 00.00
                 running = false
                 GameConstants.gameOver = true
-                gameView.openFight()
+                gameView.displayEnd()
             }
         }
     }

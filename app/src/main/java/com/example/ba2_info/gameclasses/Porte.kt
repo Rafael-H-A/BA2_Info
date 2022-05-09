@@ -27,7 +27,7 @@ class Porte(var height : Float = 100f, var length : Float = 50f) : Pouf {
         if (abs(perso.r.centerX() - r.centerX()) < (perso.diametre/2 + length/2)
             && abs(perso.r.centerY() - r.centerY()) < (perso.diametre/2 + height/2)) {
             GameConstants.gameOver = perso.power <= GameConstants.enemyPower
-            perso.view.openFight()
+            perso.view.displayEnd()
         }
     }
 

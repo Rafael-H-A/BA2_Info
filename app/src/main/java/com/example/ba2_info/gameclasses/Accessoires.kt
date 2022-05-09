@@ -5,13 +5,15 @@ import com.example.ba2_info.gameutilities.GameConstants
 import com.example.ba2_info.gameutilities.Pouf
 import kotlin.math.abs
 
-class Accessoires(var name: String="NoName", var power: Int, val endroit: Int = 0,
-                    var xpos : Float, var ypos : Float, var length : Float, var width : Float) :
+class Accessoires(
+    private var power: Int, private val endroit: Int = 0, var xpos: Float,
+    var ypos: Float, var length: Float, var width: Float
+) :
     Pouf {
 
-    var couleuraccess : Paint = Paint()
-    var rectobjet: RectF = RectF(xpos, ypos,xpos + length,ypos + width)
-    var objetactuel : Accessoires = GameConstants.accessoire1 // A changer attention
+    private var couleuraccess : Paint = Paint()
+    private var rectobjet: RectF = RectF(xpos, ypos,xpos + length,ypos + width)
+    private var objetactuel : Accessoires = GameConstants.accessoire1 // A changer attention
 
     override fun draw(canvas: Canvas?) {
         couleuraccess.color = Color.parseColor("#c25135")

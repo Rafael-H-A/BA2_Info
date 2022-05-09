@@ -27,19 +27,21 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
             var screenWidth = 0f
             var timeLeft = GameConstants.timeLeft
             var buttonpressed = false
-            var gauche : Boolean = true
-    private var player = Personnage(this,"Force Rouge le Chaperon Rouge", 1,3,
-                            GameConstants.obstacles, GameConstants.listeaccess, GameConstants.porte)
+            var left : Boolean = true
+    private var player = Personnage(
+        this, 1, 3, GameConstants.obstacles,
+        GameConstants.listeaccess, GameConstants.porte
+    )
 
-    init {backgroundPaint.color = ContextCompat.getColor(context, R.color.LightSteelBlue)}
+    init {backgroundPaint.color = ContextCompat.getColor(context, R.color.SteelBlue)}
 
     override fun run() {
         while (drawing) {
             draw()
-            updatePositions(gauche)
+            updatePositions(left)
             sleep()
             testlimits()
-            if (!drawing) {openFight()}
+            if (!drawing) {displayEnd()}
         }
     }
 
@@ -79,10 +81,8 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
         player.fall()
     }
 
-
     private fun sleep() {
         Thread.sleep((1000/120).toLong())
-
     }
 
     fun pause() {
@@ -106,7 +106,7 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
     override fun surfaceCreated(holder: SurfaceHolder) {}
     override fun surfaceDestroyed(holder: SurfaceHolder) {}
 
-    fun openFight() {
+    fun displayEnd() {
         GameConstants.message = when {
             GameConstants.gameOver && timeLeft <= 0.1 -> {"Il ne vous reste plus de temps..."}
             GameConstants.gameOver && player.life == 0 -> {"Vous êtes mort ! Gare aux pièges la prochaine fois"}
@@ -133,17 +133,11 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
         player.diametre = screenHeight / 24f
         player.y = GameConstants.floor1.obstacleBeginY - player.diametre
         player.setRect()
-
         // Caractéristiques des obstacles
         val thickness = 30f
-        val trapLength = screenWidth/13
-        val split = screenHeight/7 // hauteur entre les plateformes et obstacles
-        val margeEasy = 40f
-
         GameConstants.porte.x = screenWidth - 60f
         GameConstants.porte.y = screenHeight - GameConstants.porte.height - GameConstants.floor3.obstacleHeigth
         GameConstants.porte.setRect()
-
         //Caractéristiques du sol
         GameConstants.floor1.obstacleBeginX = 0f
         GameConstants.floor1.obstacleLength = screenWidth / 6

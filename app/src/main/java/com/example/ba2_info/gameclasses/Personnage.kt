@@ -1,32 +1,29 @@
 package com.example.ba2_info.gameclasses
 
-import android.content.res.Resources
 import android.graphics.*
-import androidx.core.content.ContextCompat
 import com.example.ba2_info.gameutilities.GameConstants
 import com.example.ba2_info.GameView
-import com.example.ba2_info.R
 import com.example.ba2_info.gameclasses.platforms.Obstacle
-import com.example.ba2_info.gameclasses.platforms.Trap
 import com.example.ba2_info.gameutilities.Pouf
 import kotlin.math.*
 
-class Personnage (var view : GameView, var name : String, var power : Int, var life : Int=1,
-                  var obstacles : List<Obstacle>, var accessoires : List<Accessoires>, var porte : Porte
+class Personnage(
+    var view: GameView, var power: Int, var life: Int = 1, private var obstacles: List<Obstacle>,
+    private var accessoires: List<Accessoires>, private var porte: Porte
 ) : Pouf {
     var x : Float = 0f                                                                              //Position du personnage et step de déplacement
     var y : Float = 0f
-    var dy = 0f
-    val paint = Paint()                                                                             //Infos graphiques du personnage et contexte
+    private var dy = 0f
+    private val paint = Paint()                                                                             //Infos graphiques du personnage et contexte
     var diametre = 50f                                                                              //Représentation du personnage (A changer par après en Bitmap)
     val r = RectF(x, y, x + diametre, y + diametre)
-    var playerinlimits = true                                                                       //Le joueur est-il sur l'écran ?
+    private var playerinlimits = true                                                                       //Le joueur est-il sur l'écran ?
     var playerMoveUp = true                                                                         //Mouvements possibles
     var playerMoveDown = true
     var playerMoveRight = true
     var playerMoveLeft = true
     var equipment = mutableListOf(GameConstants.accessoireA)              //Équipement sur le personnage
-    var notOnTrap = false
+    private var notOnTrap = false
 
     init {                                                                                          /*QUE SE PASSE-T-IL LORS DE LA CREATION D'UN OBJET PERSONNAGE ?*/
         paint.color = Color.BLACK

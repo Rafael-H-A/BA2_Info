@@ -10,12 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BA2_Info.NoActionBar">
         <activity
-            android:name=".activities.Credits"
-            android:exported="false" />
-        <activity
             android:name=".activities.Victory"
-            android:exported="false"
-            android:parentActivityName=".activities.MenuPrincipal" />
+            android:exported="false" />
         <activity
             android:name=".activities.Rules"
             android:exported="false"

@@ -21,7 +21,7 @@ class Jeu : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_jeu)
         gameView = findViewById(R.id.gameView)
-        timerClass = TimerClass(GameConstants.timeLeft, gameView)
+        timerClass = TimerClass(gameView)
 
         val builder = AlertDialog.Builder(this, R.style.BA2_Info_Alerts)
 

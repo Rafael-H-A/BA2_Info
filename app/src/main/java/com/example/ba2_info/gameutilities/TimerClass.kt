@@ -4,8 +4,7 @@ import android.view.SurfaceHolder
 import com.example.ba2_info.GameView
 import java.lang.Thread.sleep
 
-
-class TimerClass(private var timeLeft : Double, private var gameView: GameView) : SurfaceHolder.Callback, Runnable{
+class TimerClass(private var gameView: GameView) : SurfaceHolder.Callback, Runnable{
     private val updateTime = 0.1
     private lateinit var thread: Thread
     private var running = true
@@ -13,14 +12,12 @@ class TimerClass(private var timeLeft : Double, private var gameView: GameView) 
     override fun run() {
         while(running) {
             sleep((updateTime * 1000).toLong())
-            timeLeft = GameConstants.timeLeft
-            GameConstants.timeLeft -= updateTime
-            gameView.timeLeft = timeLeft
-            if (timeLeft <= 0.1) {
-                timeLeft = 00.00
+            gameView.timeLeft -= updateTime
+            if (gameView.timeLeft <= 0.0) {
+                gameView.timeLeft = 00.00
                 running = false
                 GameConstants.gameOver = true
-                gameView.displayEnd()
+                gameView.drawing = false
             }
         }
     }

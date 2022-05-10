@@ -34,7 +34,6 @@ class Victory : AppCompatActivity() {
             defeatlayout.visibility = View.GONE
         }
         victorybtn.setOnClickListener {
-            onDestroy()
             startActivity(Intent(applicationContext, MenuPrincipal::class.java))
         }
     }

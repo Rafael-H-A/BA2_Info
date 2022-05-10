@@ -9,8 +9,8 @@ import com.example.ba2_info.gameutilities.Pouf
 import kotlin.math.abs
 
 abstract class Bonus : Pouf {
-    var bonusx: Float = 30f
-    var bonusy: Float = 30f
+    private var bonusx: Float = 30f
+    private var bonusy: Float = 30f
     var length: Float = 30f
     private var width: Float = 30f
     private var bonus: Int = 0
@@ -26,7 +26,9 @@ abstract class Bonus : Pouf {
         canvas?.drawOval(rectbonus, couleurbonus)
     }
 
-    open fun setRect() {
+    fun appear(x: Float, y: Float) {
+        bonusx = x
+        bonusy = y
         rectbonus.set(bonusx, bonusy, bonusx + length, bonusy + width)
     }
 

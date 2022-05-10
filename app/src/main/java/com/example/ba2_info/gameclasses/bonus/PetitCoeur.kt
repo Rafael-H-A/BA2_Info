@@ -5,7 +5,7 @@ import android.graphics.Color
 import com.example.ba2_info.gameclasses.Personnage
 
 class PetitCoeur : Bonus(){
-    var puissance : Int = 1
+    private var puissance : Int = 1
 
     override fun agir(perso : Personnage){
         perso.life += puissance

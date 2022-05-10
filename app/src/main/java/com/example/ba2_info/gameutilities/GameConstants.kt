@@ -11,11 +11,11 @@ object GameConstants {
         const val enemyPower = 5
         var gameOver = false
         var message : String = ""
-        var timeLeft = 30.0
+        const val timeLeft = 30.0
         //Accessories
         val accessoireA = Accessoires(0, 0, 0f, 0f, 0f, 0f)
         val accessoire1 = Accessoires(2, 0, 0f, 0f, 0f, 0f)
-        val accessoire2 = Accessoires(40, 0, 0f, 0f, 0f, 0f)
+        val accessoire2 = Accessoires(4, 0, 0f, 0f, 0f, 0f)
         val accessoire3 = Accessoires(5, 0, 0f, 0f, 0f, 0f)
         var listeaccess = listOf(accessoire1, accessoire2, accessoire3)
         //Obstacles, traps and holes
@@ -50,10 +50,8 @@ object GameConstants {
         var bonuses = listOf(petitcoeur1, potion1, sablier1, peaudebanane1)
 
         var levelSetup = listOf(
-                pltf11, pltf12, pltf13,
-                pltf21, pltf22, pltf31,
-                pltf32, pltf33, pltf34,
                 floor1, floor2, floor3,
+                pltf11, pltf12, pltf13, pltf21, pltf22, pltf31, pltf32, pltf33, pltf34,
                 trap1, trapvert, trap2,
                 hole1, hole2, holeup,
                 accessoire1, accessoire2, accessoire3,

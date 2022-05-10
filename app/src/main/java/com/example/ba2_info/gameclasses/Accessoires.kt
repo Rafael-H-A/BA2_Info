@@ -6,8 +6,8 @@ import com.example.ba2_info.gameutilities.Pouf
 import kotlin.math.abs
 
 class Accessoires(
-    private var power: Int, private val endroit: Int = 0, var xpos: Float,
-    var ypos: Float, var length: Float, var width: Float
+    private var power: Int, private val endroit: Int = 0, private var xpos: Float,
+    private var ypos: Float, var length: Float, private var width: Float
 ) :
     Pouf {
 
@@ -20,8 +20,16 @@ class Accessoires(
         canvas?.drawOval(rectobjet, couleuraccess)
     }
 
-    fun setRect() {
+    private fun setRect() {
         rectobjet.set(xpos, ypos, xpos + length, ypos + width)
+    }
+
+    fun appear(x : Float, y : Float, l : Float, w : Float) {
+        xpos = x
+        ypos = y
+        length = l
+        width = w
+        setRect()
     }
 
     private fun dress(perso: Personnage){

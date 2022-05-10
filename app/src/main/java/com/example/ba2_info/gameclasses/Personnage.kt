@@ -11,48 +11,50 @@ class Personnage(
     var view: GameView, var power: Int, var life: Int = 1, private var obstacles: List<Obstacle>,
     private var accessoires: List<Accessoires>, private var porte: Porte
 ) : Pouf {
-    var x : Float = 0f                                                                              //Position du personnage et step de déplacement
-    var y : Float = 0f
+            var x : Float = 0f
+            var y : Float = 0f
+    private var dx = 10f
     private var dy = 0f
-    private val paint = Paint()                                                                             //Infos graphiques du personnage et contexte
-    var diametre = 50f                                                                              //Représentation du personnage (A changer par après en Bitmap)
-    val r = RectF(x, y, x + diametre, y + diametre)
-    private var playerinlimits = true                                                                       //Le joueur est-il sur l'écran ?
-    var playerMoveUp = true                                                                         //Mouvements possibles
-    var playerMoveDown = true
-    var playerMoveRight = true
-    var playerMoveLeft = true
-    var equipment = mutableListOf(GameConstants.accessoireA)              //Équipement sur le personnage
-    private var notOnTrap = false
+            var diametre = 50f
+    private val paint = Paint()
+            val r = RectF(x, y, x + diametre, y + diametre)
+    private var playerinlimits = true
+            var playerMoveUp = true
+            var playerMoveDown = true
+            var playerMoveRight = true
+            var playerMoveLeft = true
+            var equipment = mutableListOf(GameConstants.accessoireA)
 
-    init {                                                                                          /*QUE SE PASSE-T-IL LORS DE LA CREATION D'UN OBJET PERSONNAGE ?*/
-        paint.color = Color.BLACK
-    }
+    init {paint.color = Color.BLACK}
 
     override fun draw(canvas: Canvas?) {
         canvas?.drawOval(r, paint)
     }
 
-    fun setRect() {                                                                                 /*CREATION DU RECTANGLE CONTENANT LE PERSONNAGE LORS D'UN CHANGEMENT DE TAILLE D'ECRAN*/
+    fun appear(xx : Float, yy : Float, diam : Float = diametre) {
+        x = xx
+        y = yy
+        diametre = diam
         r.set(x, y, x + diametre, y + diametre)
     }
 
-    fun update(gauche: Boolean) {                                                                   /*GESTION DE TOUS LES MOUVEMENTS EN X*/
+    fun update(gauche: Boolean) {
         val s : Float
-        var dx = 10f                                                                                //Vérifier la possibilité de Down pour faire
-        //Vérification que le personnage ne dépasse pas les limites du niveau                       //Tomber automatiquement le personnage qd il
-        playerinlimits = !((x < 0 && gauche)||x > view.screenWidth - 3/2*diametre && !gauche)
-        //Vérification de la direction du mouvement (gauche ou droite)
+        //Does the player stay in the level limits ?
+        playerinlimits = !((x < 0 && gauche)||x > view.nw - 3/2*diametre && !gauche)
         blockPersoX()
+        //In which direction does the player is walking ?
         if(playerinlimits) {
             s = when {
                 !playerMoveRight -> {if (gauche) {-1f} else {0f}}
                 !playerMoveLeft -> {if (gauche) {0f} else {1f}}
                 else -> {if (gauche) {-1f} else {1f}}
             }
+            //Is there an intersection with an accessory, a bonus or the door ?
             for (a in accessoires) {a.updateaccessoires(this)}
-            porte.updateporte(this)
             for (b in GameConstants.bonuses) {b.updatebonus(this)}
+            porte.updateporte(this)
+            //Moving the player
             val incr = abs(dx)*s
             dx = incr
             x += incr
@@ -60,45 +62,50 @@ class Personnage(
     }
 
     fun jump() {
-        /*GESTION DE TOUS LES MOUVEMENTS EN Y*/
-        loop@for (i in 1..75) {
+        //Player is going up
+        for (i in 1..75) {
             val w = i/150f
+            //Parabola to simulate a "realistic" jump
             dy = 10*(3*(w.toDouble().pow(2).toFloat()) - 3*w + 0.75f)
             blockPersoY()
+            //If movement possible, moving the player
             if (!playerMoveUp) {dy = 0f}
             r.offset(0f, -dy)
             y -= dy
-            Thread.sleep(2)
-        }
-        loop@for (i in 76..200) { //On jump plus bas pour retomber au sol
-            val w = i / 150f                                                                        //Si jamais on a un "falling" mis en place
-            dy = 10 * (3 * (w.toDouble().pow(2).toFloat()) - 3 * w + 0.75f)                      //on peut peut-être le retirer ?
+            Thread.sleep(2)}
+        //Player is going down
+        for (i in 76..200) {
+            val w = i / 150f
+            //Parabola to simulate a "realistic" jump
+            dy = 10 * (3 * (w.toDouble().pow(2).toFloat()) - 3 * w + 0.75f)
             blockPersoY()
+            //If movement possible, moving the player
             if (!playerMoveDown) {dy = 0f}
             r.offset(0f, dy)
             y += dy
-            Thread.sleep(2)
-        }
-        notOnTrap = false
+            Thread.sleep(2)}
     }
 
-    private fun blockPersoX() {                                                                   /*BLOQUE LES MOUVEMENTS EN X SI NECESSAIRE*/
+    private fun blockPersoX() {
         playerMoveRight = true
         playerMoveLeft = true
+        //Is it necessary to disable a move ?
         for (ob in obstacles) {
             if (ob.plain) {ob.updateobstacleX(this)}
         }
     }
 
-    private fun blockPersoY() {                                                                   /*BLOQUE LES MOUVEMENTS EN Y SI NECESSAIRE*/
+    private fun blockPersoY() {
         playerMoveUp = true
         playerMoveDown = true
+        //Is it necessary to disable a move ?
         for (ob in obstacles) {
             if (ob.plain) {ob.updateobstacleY(this)}
         }
     }
 
     fun fall() {
+        //If the player is not on a platform, falling
         dy = 5f
         blockPersoY()
         if(playerMoveDown){

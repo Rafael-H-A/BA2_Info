@@ -5,17 +5,24 @@ import com.example.ba2_info.gameclasses.Personnage
 import com.example.ba2_info.gameutilities.GameConstants
 import com.example.ba2_info.gameutilities.Pouf
 
-open class Obstacle (var obstacleBeginX: Float, var obstacleBeginY: Float, var obstacleLength: Float, var obstacleHeigth: Float, var plain : Boolean = true) :
+open class Obstacle (var obstacleBeginX: Float, var obstacleBeginY: Float,
+                     var obstacleLength: Float, var obstacleHeigth: Float,
+                     var plain : Boolean = true) :
     Pouf {
     val r = RectF(
         obstacleBeginX, obstacleBeginY + obstacleHeigth,
         obstacleBeginX + obstacleLength, obstacleBeginY
     )
-    val obstaclePaint = Paint()
-    private val epsilon = 3f
-    var knockback = 80f
+            val obstaclePaint = Paint()
+    private val epsilon = 12f
+    private var knockback = 80f
+    private var yknockback = 10f
 
-    fun setRect() { //redimensionne l'animation
+    fun appear(x : Float, y : Float, length : Float, height : Float) {
+        obstacleBeginX = x
+        obstacleBeginY = y
+        obstacleLength = length
+        obstacleHeigth = height
         r.set(obstacleBeginX, obstacleBeginY,
             obstacleBeginX + obstacleLength, obstacleBeginY + obstacleHeigth)
     }
@@ -26,37 +33,53 @@ open class Obstacle (var obstacleBeginX: Float, var obstacleBeginY: Float, var o
     }
 
     fun updateobstacleX(perso: Personnage) {
-        if (perso.r.intersects(r.left, r.top + epsilon, r.left, r.bottom-epsilon)     //Si jms on a plusieurs plateformes collées
-            && (r.top >= r.top || r.bottom <= r.bottom)) {                            //On veut pas que ça bloque le personnage
+        //Taking the intersection between Personnage and Obstacle, with a margin of epsilon
+        //(To make sure the x movement is smooth when to Obstacles are side to side)
+        if (perso.r.intersects(r.left, r.top + epsilon, r.left, r.bottom-epsilon)
+            && (r.top >= r.top || r.bottom <= r.bottom)) {
             perso.playerMoveRight = false
             if (this is Trap) {
                 shortenLife(perso)
-                if(perso.life ==0) {perso.view.openFight()}
+                if(perso.life ==0) {perso.view.drawing = false; GameConstants.gameOver = true}
+                //When the player touches an obstacle, it hurts and there is a knockback effect
                 perso.r.offset(-knockback, 0f)
                 perso.x -= knockback
+                perso.playerMoveRight = true
             }
         }
         else if (perso.r.intersects(r.right, r.top + epsilon, r.right, r.bottom -epsilon)) {
             perso.playerMoveLeft = false
             if (this is Trap) {
                 shortenLife(perso)
-                if(perso.life ==0) {perso.view.openFight()}
+                if(perso.life ==0) {perso.view.drawing = false; GameConstants.gameOver = true}
+                //When the player touches an obstacle, it hurts and there is a knockback effect
                 perso.r.offset(knockback, 0f)
                 perso.x += knockback
+                perso.playerMoveLeft = true
             }
         }
     }
 
     fun updateobstacleY(perso: Personnage) {
         if (perso.r.intersects(r.left, r.top, r.right, r.top)) {
-            if (this is Trap) {shortenLife(perso)}
-            if(perso.life == 0) {perso.view.openFight()}
             perso.playerMoveDown = false
+            if (this is Trap) {
+                shortenLife(perso)
+                if(perso.life == 0) {perso.view.drawing = false; GameConstants.gameOver = true}
+                perso.r.offset(0f, -yknockback)
+                perso.y -= yknockback
+                perso.playerMoveDown = true
+            }
         }
         else if (perso.r.intersects(r.left, r.bottom, r.right, r.bottom)) {
-            if (this is Trap) {shortenLife(perso)}
-            if(perso.life == 0) {perso.view.openFight()}
             perso.playerMoveUp = false
+            if (this is Trap) {
+                shortenLife(perso)
+                if(perso.life == 0) {perso.view.drawing = false; GameConstants.gameOver = true}
+                perso.r.offset(0f, yknockback)
+                perso.y += yknockback
+                perso.playerMoveUp = true
+            }
         }
     }
 }

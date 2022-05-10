@@ -3,13 +3,12 @@ package com.example.ba2_info.gameclasses.bonus
 import android.graphics.Canvas
 import android.graphics.Color
 import com.example.ba2_info.gameclasses.Personnage
-import com.example.ba2_info.gameutilities.GameConstants
 
-class Sablier() : Bonus() {
+class Sablier : Bonus() {
 
     override fun agir(perso : Personnage){
-        perso.view.timeLeft -= 5.0
-        GameConstants.timeLeft += 5.0
+        perso.view.timeLeft += 5.0
+
     }
 
     override fun draw(canvas: Canvas?) {

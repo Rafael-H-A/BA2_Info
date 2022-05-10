@@ -11,7 +11,6 @@ class Peaudebanane : Bonus() {
 
     override fun agir(perso : Personnage){
         perso.view.timeLeft -= 5.0
-        GameConstants.timeLeft -= 5.0
     }
 
     override fun draw(canvas: Canvas?) {

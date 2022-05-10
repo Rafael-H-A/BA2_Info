@@ -21,6 +21,7 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
     private val textLifePaint = Paint()
     private val textPowerPaint = Paint()
     private val textTimerPaint = Paint()
+    private val textObjective = Paint()
             var drawing = true
     private var nh = 0f                                                                //Screen size
             var nw = 0f
@@ -56,6 +57,7 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
             canvas.drawText("Force ${player.power}"       ,nw - 600f, 80f, textPowerPaint)
             val formatted = String.format("%.2f", timeLeft)
             canvas.drawText("Temps restant : $formatted", 150f, 80f, textTimerPaint)
+            canvas.drawText("Force requise ${GameConstants.enemyPower + 1}", 1000f, nh - 60f, textObjective)
             holder.unlockCanvasAndPost(canvas)
         }
     }
@@ -122,6 +124,7 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
         textLifePaint.textSize = nw / 40 ; textLifePaint.isAntiAlias = true
         textPowerPaint.textSize = nw / 40 ; textPowerPaint.isAntiAlias = true
         textTimerPaint.textSize = nw / 40 ; textTimerPaint.isAntiAlias = true
+        textObjective.textSize = nw / 40 ; textObjective.isAntiAlias = true
         /* APPARITION DE TOUS LES OBJETS PAR RAPPORT A LA TAILLE DE L'ECRAN */
         //Caractéristiques du sol
         GameConstants.floor1.appear(0f, nh - fT, nw/6, fT)
@@ -141,14 +144,14 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
         GameConstants.trap1.appear(GameConstants.pltf13.obstacleBeginX, GameConstants.pltf13.obstacleBeginY + t,GameConstants.hole2.obstacleBeginX - GameConstants.pltf13.obstacleBeginX, t)
         //Plateformes du 2e étage
         GameConstants.pltf21.appear(GameConstants.pltf11.obstacleBeginX + GameConstants.pltf11.obstacleLength + t,5 * nh /8, GameConstants.pltf11.obstacleLength, t)
-        GameConstants.pltf22.appear(GameConstants.floor3.obstacleBeginX + t,5 * nh /8, GameConstants.pltf11.obstacleLength - GameConstants.pltf12.obstacleLength, t)
-        GameConstants.trap2.appear(GameConstants.floor3.obstacleBeginX + t,GameConstants.pltf22.obstacleBeginY + GameConstants.pltf22.obstacleHeigth,GameConstants.pltf11.obstacleLength - GameConstants.pltf12.obstacleLength, t)
+        GameConstants.pltf22.appear(GameConstants.floor3.obstacleBeginX - 4*t,5 * nh /8, (GameConstants.pltf11.obstacleLength - GameConstants.pltf12.obstacleLength) + 4*t, t)
+        GameConstants.trap2.appear(GameConstants.floor3.obstacleBeginX - 4*t,GameConstants.pltf22.obstacleBeginY + GameConstants.pltf22.obstacleHeigth,(GameConstants.pltf11.obstacleLength - GameConstants.pltf12.obstacleLength) + 4*t, t)
         //Plateformes du 3e étage
-        GameConstants.pltf32.appear(GameConstants.hole1.obstacleBeginX,  nh /2,GameConstants.pltf22.obstacleLength, t)
+        GameConstants.pltf32.appear(GameConstants.hole1.obstacleBeginX,  nh /2,GameConstants.pltf21.obstacleLength*2/3, t)
         GameConstants.holeup.appear(GameConstants.pltf32.obstacleBeginX - GameConstants.pltf32.obstacleLength, nh /2, GameConstants.pltf32.obstacleLength, t)
         GameConstants.pltf31.appear( GameConstants.holeup.obstacleBeginX - GameConstants.holeup.obstacleLength, nh /2, GameConstants.pltf32.obstacleLength, t)
         GameConstants.pltf33.appear(GameConstants.pltf12.obstacleBeginX + t, nh /2,2* GameConstants.pltf13.obstacleLength / 3, t)
-        GameConstants.pltf34.appear(GameConstants.porte.x - GameConstants.porte.length, nh/2, 2*GameConstants.porte.length, t)
+        GameConstants.pltf34.appear(GameConstants.porte.x - 3*GameConstants.porte.length, nh/2, 2*GameConstants.porte.length, t)
         //Bonus
         GameConstants.petitcoeur1.appear(GameConstants.pltf13.obstacleBeginX   + GameConstants.pltf13.obstacleLength /2, GameConstants.pltf13.obstacleBeginY - GameConstants.petitcoeur1.length)
         GameConstants.sablier1.appear( GameConstants.pltf12.obstacleBeginX + GameConstants.pltf12.obstacleLength/4,  GameConstants.pltf12.obstacleBeginY - GameConstants.sablier1.length)

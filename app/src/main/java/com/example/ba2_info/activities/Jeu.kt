@@ -9,7 +9,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.ba2_info.GameView
 import com.example.ba2_info.R
-import com.example.ba2_info.gameutilities.GameConstants
 import com.example.ba2_info.gameutilities.TimerClass
 
 class Jeu : AppCompatActivity() {

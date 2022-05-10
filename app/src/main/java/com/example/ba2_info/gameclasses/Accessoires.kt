@@ -13,7 +13,7 @@ class Accessoires(
 
     private var couleuraccess : Paint = Paint()
     private var rectobjet: RectF = RectF(xpos, ypos,xpos + length,ypos + width)
-    private var objetactuel : Accessoires = GameConstants.accessoire1 // A changer attention
+    private var objetactuel : Accessoires = GameConstants.accessoireA
 
     override fun draw(canvas: Canvas?) {
         couleuraccess.color = Color.parseColor("#c25135")

@@ -24,6 +24,6 @@
     <style name="BA2_Info_Alerts" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:background">@color/SteelBlue</item>
         <item name="android:textColor">@color/Black</item>
-        <item name="android:textColorPrimary">@color/LightSteelBlue</item>
+        <item name="android:textColorPrimary">@color/SteelBlue</item>
     </style>
 </resources>

@@ -15,7 +15,7 @@ object GameConstants {
         //Accessories
         val accessoireA = Accessoires(0, 0, 0f, 0f, 0f, 0f)
         val accessoire1 = Accessoires(2, 0, 0f, 0f, 0f, 0f)
-        val accessoire2 = Accessoires(4, 0, 0f, 0f, 0f, 0f)
+        val accessoire2 = Accessoires(3, 0, 0f, 0f, 0f, 0f)
         val accessoire3 = Accessoires(5, 0, 0f, 0f, 0f, 0f)
         var listeaccess = listOf(accessoire1, accessoire2, accessoire3)
         //Obstacles, traps and holes

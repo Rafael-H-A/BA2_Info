@@ -4,11 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/White"
     tools:context=".activities.MenuPrincipal">
-    <!--Raf:j'ai test de changer les couleurs de fond etc.
-    si vous voulez mettre des couleurs spécifiques hézitez
-    po à changer :) -->
 
     <ImageView
         android:id="@+id/imageView2"
@@ -25,8 +22,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/Black"
-        android:text="Save the dots !"
+        android:text="@string/app_name"
         android:textSize="35sp"
+        android:fontFamily="@font/savethedotsfontfamily"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -38,8 +36,9 @@
         android:id="@+id/textView_title_app2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="La Team R.A.M. présente"
+        android:text="@string/team_name_presente"
         android:textSize="25sp"
+        android:fontFamily="@font/savethedotsfontfamily"
         android:textColor="@color/Black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
@@ -56,6 +55,7 @@
         android:layout_marginEnd="45dp"
         android:backgroundTint="#FFB342"
         android:text="@string/rules"
+        android:fontFamily="@font/savethedotsfontfamily"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -65,6 +65,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="#FFB342"
         android:text="@string/commencer_partie"
+        android:fontFamily="@font/savethedotsfontfamily"
         app:layout_constraintBottom_toTopOf="@id/button_story"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -79,6 +80,7 @@
         android:text="@string/bienvenue_joueur_se"
         android:textColor="@color/Black"
         android:textSize="25sp"
+        android:fontFamily="@font/savethedotsfontfamily"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -92,7 +94,8 @@
         android:layout_marginStart="45dp"
         android:layout_marginTop="450dp"
         android:backgroundTint="#FFB342"
-        android:text="Histoire"
+        android:text="@string/story"
+        android:fontFamily="@font/savethedotsfontfamily"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

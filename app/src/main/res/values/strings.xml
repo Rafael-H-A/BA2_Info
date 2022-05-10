@@ -1,8 +1,25 @@
 <resources>
-    <string name="app_name">BA2_Info</string>
-    <string name="titre_de_l_application">Titre de l\'application</string>
+    <string name="app_name">Save the dots !</string>
     <string name="rules">Règles</string>
     <string name="commencer_partie">Commencer partie</string>
     <string name="bienvenue_joueur_se">Bienvenue joueur.se !</string>
-    <string name="inventaire">Inventaire</string>
+    <string name="jump">Sauter</string>
+    <string name="gauche">Gauche</string>
+    <string name="droite">Droite</string>
+    <string name="team_name_presente">La Team R.A.M. présente</string>
+    <string name="story">Histoire</string>
+    <string name="r_gles_du_jeu">Règles du jeu</string>
+    <string name="but_du_jeu">But du jeu</string>
+    <string name="vocabulaire">Vocabulaire</string>
+    <string name="victoire">Victoire !</string>
+    <string name="defaite">Défaite !</string>
+    <string name="bravo_vous_avez_sauv_les_dots">Bravo ! Vous avez sauvé les Dots !</string>
+    <string name="oh_non_tous_les_dots_sont_morts">Oh non ! Tous les dots sont morts…</string>
+    <string name="menu_principal">Menu Principal</string>
+    <string name="histoire">Histoire</string>
+    <string name="histoire_du_jeu_1">Il était une fois, une terre merveilleuse et enchantée qui abritait un petit peuple adorablement sphérique : les Dots.</string>
+    <string name="histoire_du_jeu_2">Durant de nombreuses années, les Dots vécurent heureux et en harmonie, jusqu\'au jour où les Squares, un peuple ennemi depuis longtemps chassé et oublié, lancèrent un assaut féroce sur le village. </string>
+    <string name="histoire_du_jeu_3">Incarnant Bob, un.e jeune Dot valeureu.x.se, défendez le village en récoltant les meilleurs accessoires possibles et évitez tous les pièges sur votre chemin ! </string>
+    <string name="histoire_du_jeu_4">Si vous atteignez la porte du village suffisamment équipé, il reste un espoir de sauver le village des Dots.</string>
+    <string name="histoire_du_jeu_5"> A vous de jouer !</string>
 </resources>

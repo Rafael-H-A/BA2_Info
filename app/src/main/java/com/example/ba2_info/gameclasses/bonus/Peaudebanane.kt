@@ -3,7 +3,6 @@ package com.example.ba2_info.gameclasses.bonus
 import android.graphics.Canvas
 import android.graphics.Color
 import com.example.ba2_info.gameclasses.Personnage
-import com.example.ba2_info.gameutilities.GameConstants
 
 class Peaudebanane : Bonus() {
     private var deformationx : Float = 1f

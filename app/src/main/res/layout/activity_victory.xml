@@ -12,16 +12,17 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:orientation="vertical"
-      android:visibility="invisible"
+      android:visibility="visible"
       android:background="@color/Orange">
 
     <TextView
         android:id="@+id/victorytxt"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:text="Victoire !"
+        android:text="@string/victoire"
         android:textSize="30sp"
         android:gravity="center"
+        android:fontFamily="@font/savethedotsfontfamily"
         android:textColor="@color/Black"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,9 +32,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/Black"
-        android:text="Bravo ! Vous avez sauvé les Dots !"
+        android:text="@string/bravo_vous_avez_sauv_les_dots"
         android:gravity="center"
         android:textSize="20sp"
+        android:fontFamily="@font/savethedotsfontfamily"
         app:layout_constraintTop_toBottomOf="@id/victorytxt"
         android:layout_marginTop="60dp"/>
   </LinearLayout>
@@ -42,17 +44,18 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:orientation="vertical"
-      android:visibility="visible"
+      android:visibility="invisible"
       android:id="@+id/linearlayoutdefeat"
-      android:background="@color/LightSteelBlue">
+      android:background="@color/SteelBlue">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:gravity="center"
-        android:text="Défaite !"
+        android:text="@string/defaite"
         android:textColor="@color/Black"
         android:textSize="30sp"
+        android:fontFamily="@font/savethedotsfontfamily"
         android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -64,6 +67,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/Black"
         android:gravity="center"
+        android:fontFamily="@font/savethedotsfontfamily"
         android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@id/victorytxt"
         android:layout_marginTop="60dp"/>
@@ -72,9 +76,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/Black"
-        android:text="Oh non ! Tous les dots sont morts..."
+        android:text="@string/oh_non_tous_les_dots_sont_morts"
         android:gravity="center"
         android:textSize="20sp"
+        android:fontFamily="@font/savethedotsfontfamily"
         app:layout_constraintTop_toBottomOf="@id/victorytxt"
         android:layout_marginTop="60dp"/>
   </LinearLayout>
@@ -83,8 +88,9 @@
       android:id="@+id/menuprincipal"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="Menu Principal"
+      android:text="@string/menu_principal"
       android:backgroundTint="#ffe0b3"
+      android:fontFamily="@font/savethedotsfontfamily"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintBottom_toBottomOf="parent"

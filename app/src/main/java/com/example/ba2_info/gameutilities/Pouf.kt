@@ -9,7 +9,7 @@ interface Pouf {
     }
 
     fun disappear(rect: RectF, canvas: Canvas){
-        rect.set(-6f,-10f,-4f,-8f)
+        rect.set(0f,0f,0f,0f)
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.OVERLAY)
     }
 }
